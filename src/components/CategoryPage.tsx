@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Plus, Minus, Heart, SlidersHorizontal, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { categories } from '../data/products';
+import { categories, SUB_CATEGORIES, SUBCATEGORY_KEYWORDS } from '../data/products';
 
 const CATEGORY_MAP: Record<string, string> = {
   dals:      'Dals & Pulses',
@@ -31,12 +31,14 @@ export const CategoryPage: React.FC = () => {
   const [sortBy, setSortBy] = useState<'popular' | 'price_asc' | 'price_desc' | 'rating'>('popular');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
 
-  // Animate in
+  // Animate in and reset subcategory filter
   useEffect(() => {
     if (activeCategoryPage) {
       requestAnimationFrame(() => setVisible(true));
+      setSelectedSubCategory(null);
     } else {
       setVisible(false);
     }
@@ -50,10 +52,20 @@ export const CategoryPage: React.FC = () => {
   // Unique brands in this category
   const brands = [...new Set(categoryProducts.map(p => p.brand))];
 
-  // Filter
+  // Brand filter
   let filtered = selectedBrand
     ? categoryProducts.filter(p => p.brand === selectedBrand)
     : categoryProducts;
+
+  // Subcategory filter
+  if (selectedSubCategory) {
+    const keywords = SUBCATEGORY_KEYWORDS[selectedSubCategory] || [];
+    filtered = filtered.filter(p => {
+      const nameLower = p.name.toLowerCase();
+      const descLower = (p.description || '').toLowerCase();
+      return keywords.some(kw => nameLower.includes(kw) || descLower.includes(kw));
+    });
+  }
 
   // Sort
   filtered = [...filtered].sort((a, b) => {
@@ -111,6 +123,37 @@ export const CategoryPage: React.FC = () => {
             Filters
           </button>
         </div>
+
+        {/* ── Subcategories Pill Filter Strip ── */}
+        {SUB_CATEGORIES[categoryName] && (
+          <div className="border-t border-gray-100 bg-white">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-3 flex gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+              <button
+                onClick={() => setSelectedSubCategory(null)}
+                className={`px-4 py-1.5 rounded-full text-xs font-extrabold transition-all border shrink-0 cursor-pointer ${
+                  selectedSubCategory === null
+                    ? 'bg-[#7C3AED] text-white border-[#7C3AED] shadow-2xs'
+                    : 'bg-slate-50 text-slate-600 border-slate-200/60 hover:bg-slate-100 hover:border-slate-300'
+                }`}
+              >
+                All
+              </button>
+              {SUB_CATEGORIES[categoryName].map(sub => (
+                <button
+                  key={sub}
+                  onClick={() => setSelectedSubCategory(selectedSubCategory === sub ? null : sub)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-extrabold transition-all border shrink-0 cursor-pointer ${
+                    selectedSubCategory === sub
+                      ? 'bg-[#7C3AED] text-white border-[#7C3AED] shadow-2xs'
+                      : 'bg-white text-slate-600 border-gray-200 hover:border-[#7C3AED] hover:text-[#7C3AED]'
+                  }`}
+                >
+                  {sub}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* ── Filter / Sort Bar ─────────────────────────────────── */}
         {showFilters && (

@@ -40,7 +40,7 @@ export function AppContent() {
     }
 
     return (
-      <>
+      <div className="flex flex-col gap-8 sm:gap-14 pb-8">
         {/* HERO BANNER */}
         <HeroBanner />
 
@@ -61,7 +61,7 @@ export function AppContent() {
 
         {/* BOTTOM FEATURE STRIP (4 boxes) */}
         <BottomFeatureStrip />
-      </>
+      </div>
     );
   };
 

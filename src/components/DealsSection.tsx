@@ -19,7 +19,7 @@ export const DealsSection: React.FC = () => {
   };
 
   return (
-    <div className="w-full my-10 px-4 sm:px-8 relative select-none">
+    <div className="w-full px-4 sm:px-8 relative select-none">
       {/* Banner Badge Header: EPIC DEALS ALL DAY */}
       <div className="flex justify-center mb-6">
         <div className="relative bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#6D28D9] text-white px-8 py-2.5 rounded-2xl shadow-lg border-2 border-purple-400/40 text-center transform hover:scale-105 transition-transform">

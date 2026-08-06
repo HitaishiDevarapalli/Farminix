@@ -7,7 +7,7 @@ export const CategorySection: React.FC = () => {
   const { setActiveCategoryPage } = useApp();
 
   return (
-    <div className="w-full my-8 px-4 sm:px-8">
+    <div className="w-full px-4 sm:px-8">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">

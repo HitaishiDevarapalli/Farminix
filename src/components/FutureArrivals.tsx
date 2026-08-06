@@ -49,7 +49,7 @@ export const FutureArrivals: React.FC = () => {
   const doubledItems = [...futureItems, ...futureItems, ...futureItems];
 
   return (
-    <div className="w-full my-10 px-4 sm:px-8 select-none overflow-hidden">
+    <div className="w-full px-4 sm:px-8 select-none overflow-hidden">
       {/* Heading */}
       <div className="mb-6 text-left">
         <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">

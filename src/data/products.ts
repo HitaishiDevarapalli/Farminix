@@ -372,3 +372,57 @@ export const brandLogosList = [
   { name: 'Tide',      logo: BrandLogos.tide      },
   { name: 'Tata Salt', logo: BrandLogos.tataSalt  },
 ];
+
+export const SUB_CATEGORIES: Record<string, string[]> = {
+  'Dals & Pulses': ['Toor Dal', 'Moong Dal', 'Chana Dal', 'Urad Dal', 'Rajma & Chole', 'Mix Dals'],
+  'Rice & Grains': ['Basmati Rice', 'Sona Masoori Rice', 'Brown & Health Rice', 'Poha, Sabudana & Murmura', 'Millets & Quinoa'],
+  'Atta & Flours': ['Wheat Atta', 'Multigrain Atta', 'Besan, Sooji & Maida', 'Rice & Specialty Flours'],
+  'Oils & Ghee': ['Sunflower & Health Oils', 'Mustard & Groundnut Oil', 'Olive & Canola Oil', 'Pure Ghee', 'Cold Pressed Oils'],
+  'Masala & Spices': ['Whole Spices', 'Powdered Spices', 'Blended Masalas', 'Herbs & Seasonings', 'Pastes & Purees'],
+  'Snacks & Beverages': ['Biscuits & Cookies', 'Namkeen & Snacks', 'Tea & Coffee', 'Health Drinks & Supplements', 'Juices & Soft Drinks'],
+  'Household Essentials': ['Laundry Care', 'Dishwashing Needs', 'Floor & Toilet Cleaners', 'Pooja Needs', 'Repellents & Fresheners'],
+};
+
+export const SUBCATEGORY_KEYWORDS: Record<string, string[]> = {
+  'Toor Dal': ['toor', 'arhar'],
+  'Moong Dal': ['moong'],
+  'Chana Dal': ['chana', 'chickpea', 'kabuli'],
+  'Urad Dal': ['urad'],
+  'Rajma & Chole': ['rajma', 'chole', 'kidney bean'],
+  'Mix Dals': ['mix dal', 'mixed dal'],
+
+  'Basmati Rice': ['basmati'],
+  'Sona Masoori Rice': ['sona', 'masoori'],
+  'Brown & Health Rice': ['brown rice', 'red rice', 'black rice', 'wild rice'],
+  'Poha, Sabudana & Murmura': ['poha', 'sabudana', 'murmura', 'puffed rice', 'flattened rice'],
+  'Millets & Quinoa': ['millet', 'quinoa', 'ragi', 'jowar', 'bajra'],
+
+  'Wheat Atta': ['wheat atta', 'gehun', 'whole wheat'],
+  'Multigrain Atta': ['multigrain'],
+  'Besan, Sooji & Maida': ['besan', 'sooji', 'rava', 'maida', 'semolina', 'gram flour'],
+  'Rice & Specialty Flours': ['rice flour', 'gluten free flour', 'ragi flour'],
+
+  'Sunflower & Health Oils': ['sunflower', 'saffola', 'rice bran'],
+  'Mustard & Groundnut Oil': ['mustard', 'groundnut', 'peanut'],
+  'Olive & Canola Oil': ['olive', 'canola', 'extra virgin'],
+  'Pure Ghee': ['ghee'],
+  'Cold Pressed Oils': ['cold pressed', 'kachi ghani', 'virgin oil'],
+
+  'Whole Spices': ['jeera', 'cumin seed', 'cardamom', 'clove', 'cinnamon', 'pepper corn', 'mustard seed'],
+  'Powdered Spices': ['turmeric powder', 'chilli powder', 'coriander powder', 'haldi', 'mirch'],
+  'Blended Masalas': ['masala', 'garam masala', 'kitchen king', 'chana masala', 'sambhar powder'],
+  'Herbs & Seasonings': ['oregano', 'basil', 'thyme', 'chilli flake'],
+  'Pastes & Purees': ['ginger garlic paste', 'tomato puree', 'paste'],
+
+  'Biscuits & Cookies': ['biscuit', 'cookie', 'cookies', 'parle', 'britannia', 'good day'],
+  'Namkeen & Snacks': ['namkeen', 'chips', 'lays', 'kurkure', 'bhujia', 'snack'],
+  'Tea & Coffee': ['tea', 'coffee', 'nescafe', 'taj mahal', 'bru'],
+  'Health Drinks & Supplements': ['horlicks', 'bournvita', 'pediasure', 'complan', 'supplement'],
+  'Juices & Soft Drinks': ['juice', 'coke', 'pepsi', 'sprite', 'soft drink', 'real juice'],
+
+  'Laundry Care': ['tide', 'surf', 'ariel', 'detergent', 'laundry'],
+  'Dishwashing Needs': ['vim', 'dishwash', 'dish washing', 'pril'],
+  'Floor & Toilet Cleaners': ['harpic', 'lizol', 'phenyl', 'floor cleaner'],
+  'Pooja Needs': ['agarbatti', 'camphor', 'pooja', 'incense'],
+  'Repellents & Fresheners': ['all out', 'good knight', 'odomak', 'air freshener', 'godrej aer'],
+};

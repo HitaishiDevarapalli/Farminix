@@ -45,7 +45,7 @@ export const FeatureStrip: React.FC = () => {
   ];
 
   return (
-    <div className="w-full my-6 px-4 sm:px-8">
+    <div className="w-full px-4 sm:px-8">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {features.map((item) => (
           <div

@@ -38,7 +38,7 @@ export const BottomFeatureStrip: React.FC = () => {
   ];
 
   return (
-    <div className="w-full my-8 px-4 sm:px-8">
+    <div className="w-full px-4 sm:px-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {boxes.map((b) => (
           <div

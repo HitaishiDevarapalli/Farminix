@@ -32,7 +32,7 @@ export const PopularProducts: React.FC = () => {
     : products;
 
   return (
-    <div className="w-full my-8 px-4 sm:px-8">
+    <div className="w-full px-4 sm:px-8">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
