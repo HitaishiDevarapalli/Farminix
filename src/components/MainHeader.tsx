@@ -145,14 +145,12 @@ export const MainHeader: React.FC = () => {
       {/* Left: Farminix Logo & Location Selector */}
       <div className="flex items-center gap-6 shrink-0">
         {/* Logo */}
-        <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer shrink-0">
-          <span className="text-2xl font-black text-[#7C3AED] flex items-center gap-0.5">
-            <span className="relative">
-              f
-              <span className="absolute -top-2.5 -left-0.5 text-emerald-500 text-sm rotate-12">🍃</span>
-            </span>
-            arminix
-          </span>
+        <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer shrink-0 group">
+          <img
+            src="/farminix_logo.png"
+            alt="Farminix Logo"
+            className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+          />
         </div>
 
         {/* Location Selector */}

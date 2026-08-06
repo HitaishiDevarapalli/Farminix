@@ -15,13 +15,11 @@ export const Footer: React.FC = () => {
           {/* Col 1: Brand & Socials (2 cols on lg) */}
           <div className="lg:col-span-2 text-left">
             <a href="/" className="inline-block mb-3 group select-none">
-              <span className="text-2xl font-black text-[#7C3AED] flex items-center gap-0.5">
-                <span className="relative">
-                  f
-                  <span className="absolute -top-2.5 -left-0.5 text-emerald-500 text-sm rotate-12">🍃</span>
-                </span>
-                arminix
-              </span>
+              <img
+                src="/farminix_logo.png"
+                alt="Farminix Logo"
+                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              />
             </a>
             <p className="text-xs text-gray-500 font-normal max-w-sm mb-5 leading-relaxed">
               Your trusted partner for quality groceries. Fresh produce, authentic staples, and instant 10-minute home delivery.

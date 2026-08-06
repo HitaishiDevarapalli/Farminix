@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ArrowRight, UserCheck } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const AuthModal: React.FC = () => {
@@ -56,8 +56,9 @@ export const AuthModal: React.FC = () => {
 
       <div className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl z-10 animate-in zoom-in-95 duration-200 border border-gray-100 text-left">
         <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <UserCheck className="w-6 h-6 text-[#15803D]" />
+          <div className="flex items-center gap-2.5">
+            <img src="/farminix_logo.png" alt="Farminix Logo" className="h-8 w-auto object-contain" />
+            <span className="h-4 w-px bg-gray-200" />
             <h2 className="text-base font-bold text-gray-900">
               {user ? 'My Account Profile' : 'Login / Register'}
             </h2>

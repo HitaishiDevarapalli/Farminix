@@ -38,11 +38,10 @@ export const LocationModal: React.FC = () => {
 
       <div className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl z-10 animate-in zoom-in-95 duration-200 border border-gray-100">
         <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-[#5B21B6]">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <h2 className="text-base font-bold text-gray-900">Select Delivery Location</h2>
+          <div className="flex items-center gap-3">
+            <img src="/farminix_logo.png" alt="Farminix Logo" className="h-8 w-auto object-contain" />
+            <span className="h-4 w-px bg-gray-200" />
+            <h2 className="text-base font-bold text-gray-900">Select Location</h2>
           </div>
           <button
             onClick={() => setIsLocationOpen(false)}

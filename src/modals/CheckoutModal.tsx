@@ -61,9 +61,13 @@ export const CheckoutModal: React.FC = () => {
         
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-6 h-6 text-[#7C3AED]" />
-            <h2 className="text-lg font-bold text-gray-900">Secure Checkout</h2>
+          <div className="flex items-center gap-3">
+            <img src="/farminix_logo.png" alt="Farminix Logo" className="h-8 w-auto object-contain" />
+            <span className="h-4 w-px bg-gray-200" />
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="w-5 h-5 text-[#7C3AED]" />
+              <h2 className="text-lg font-bold text-gray-900">Secure Checkout</h2>
+            </div>
           </div>
           <button
             onClick={() => setIsCheckoutOpen(false)}

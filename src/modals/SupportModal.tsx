@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Headset, MessageSquare, Phone, Send } from 'lucide-react';
+import { X, MessageSquare, Phone, Send } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const SupportModal: React.FC = () => {
@@ -40,12 +40,11 @@ export const SupportModal: React.FC = () => {
       <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl z-10 animate-in zoom-in-95 duration-200 border border-gray-100 text-left">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center">
-              <Headset className="w-5 h-5" />
-            </div>
+          <div className="flex items-center gap-3">
+            <img src="/farminix_logo.png" alt="Farminix Logo" className="h-8 w-auto object-contain" />
+            <span className="h-4 w-px bg-gray-200" />
             <div>
-              <h2 className="text-base font-bold text-gray-900">Farminix Support (24/7)</h2>
+              <h2 className="text-base font-bold text-gray-900">24/7 Live Support</h2>
               <div className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 Live Agent Connected

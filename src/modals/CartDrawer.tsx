@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Trash2, Plus, Minus, Tag, ArrowRight, ShoppingBag, ShieldCheck } from 'lucide-react';
+import { X, Trash2, Plus, Minus, Tag, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const CartDrawer: React.FC = () => {
@@ -47,8 +47,9 @@ export const CartDrawer: React.FC = () => {
           
           {/* Drawer Header */}
           <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-slate-50">
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-[#15803D]" />
+            <div className="flex items-center gap-2.5">
+              <img src="/farminix_logo.png" alt="Farminix Logo" className="h-7 w-auto object-contain" />
+              <span className="h-4 w-px bg-gray-300" />
               <h2 className="text-base font-bold text-gray-900">Your Cart</h2>
               <span className="bg-emerald-100 text-[#15803D] text-xs font-bold px-2 py-0.5 rounded-full">
                 {cart.reduce((sum, i) => sum + i.quantity, 0)} Items
@@ -66,8 +67,8 @@ export const CartDrawer: React.FC = () => {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {cart.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6">
-                <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center text-[#15803D] mb-4">
-                  <ShoppingBag className="w-10 h-10" />
+                <div className="w-24 h-24 rounded-3xl bg-purple-50 flex items-center justify-center p-4 mb-4 border border-purple-100 shadow-xs">
+                  <img src="/farminix_logo.png" alt="Farminix" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-base font-bold text-gray-900">Your cart is empty</h3>
                 <p className="text-xs text-gray-500 mt-1 max-w-xs">
