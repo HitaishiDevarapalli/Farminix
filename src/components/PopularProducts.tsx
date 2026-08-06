@@ -10,10 +10,10 @@ export const PopularProducts: React.FC = () => {
     updateQuantity,
     setSelectedProduct,
     selectedCategory,
-    setSelectedCategory,
     wishlist,
     toggleWishlist,
     setIsCheckoutOpen,
+    navigate,
   } = useApp();
 
   // Filter products if a category is selected
@@ -42,7 +42,7 @@ export const PopularProducts: React.FC = () => {
           <Zap className="w-5 h-5 text-amber-500 fill-amber-400 animate-bounce" />
         </div>
         <button
-          onClick={() => setSelectedCategory(null)}
+          onClick={() => navigate('/products')}
           className="text-xs sm:text-sm font-semibold text-[#7C3AED] hover:text-purple-800 flex items-center gap-1 transition-colors cursor-pointer group"
         >
           <span>View All</span>

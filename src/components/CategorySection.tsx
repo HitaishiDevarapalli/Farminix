@@ -4,7 +4,7 @@ import { categories } from '../data/products';
 import { useApp } from '../context/AppContext';
 
 export const CategorySection: React.FC = () => {
-  const { setActiveCategoryPage } = useApp();
+  const { navigate } = useApp();
 
   return (
     <div className="w-full px-4 sm:px-8">
@@ -14,7 +14,7 @@ export const CategorySection: React.FC = () => {
           Shop by Category
         </h2>
         <button
-          onClick={() => setActiveCategoryPage('rice')}
+          onClick={() => navigate('/products')}
           className="text-xs sm:text-sm font-semibold text-[#7C3AED] hover:text-purple-800 flex items-center gap-1 transition-colors cursor-pointer group"
         >
           <span>See All</span>
@@ -27,7 +27,7 @@ export const CategorySection: React.FC = () => {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            onClick={() => setActiveCategoryPage(cat.id)}
+            onClick={() => navigate('/products', `category=${encodeURIComponent(cat.name)}`)}
             className="group bg-white rounded-[16px] p-3 text-center custom-card-shadow border border-gray-100/90 flex flex-col items-center gap-2.5 cursor-pointer transform hover:-translate-y-1.5 transition-all duration-200"
           >
             {/* Square Image */}

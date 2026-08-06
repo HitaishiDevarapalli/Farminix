@@ -4,7 +4,7 @@ import { epicDeals } from '../data/products';
 import { useApp } from '../context/AppContext';
 
 export const DealsSection: React.FC = () => {
-  const { setActiveCategoryPage } = useApp();
+  const { navigate } = useApp();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -58,7 +58,23 @@ export const DealsSection: React.FC = () => {
           {epicDeals.map((deal) => (
             <div
               key={deal.id}
-              onClick={() => setActiveCategoryPage(deal.id)}
+            onClick={() => {
+              // Map deal id to category name for product listing
+              const dealCategoryMap: Record<string, string> = {
+                d1: 'Rice & Grains',
+                d2: 'Oils & Ghee',
+                d3: 'Dals & Pulses',
+                d4: 'Masala & Spices',
+                d5: 'Snacks & Beverages',
+                d6: 'Household Essentials',
+              };
+              const catName = dealCategoryMap[deal.id];
+              if (catName) {
+                navigate('/products', `category=${encodeURIComponent(catName)}`);
+              } else {
+                navigate('/products');
+              }
+            }}
               className="min-w-[200px] sm:min-w-[215px] max-w-[220px] bg-white rounded-[16px] overflow-hidden custom-card-shadow border border-gray-200/90 flex-shrink-0 cursor-pointer transform hover:-translate-y-1.5 transition-all duration-200 flex flex-col justify-between"
             >
               {/* Category Image Banner Area */}

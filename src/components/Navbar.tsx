@@ -4,18 +4,18 @@ import { useApp } from '../context/AppContext';
 import { categories } from '../data/products';
 
 export const Navbar: React.FC = () => {
-  const { selectedCategory, setSelectedCategory } = useApp();
+  const { selectedCategory, navigate } = useApp();
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
 
   const navItems = [
     { label: 'Home', catId: null },
-    { label: 'Dals & Pulses', catId: 'dals' },
-    { label: 'Rice & Grains', catId: 'rice' },
-    { label: 'Atta & Flours', catId: 'atta' },
-    { label: 'Oils & Ghee', catId: 'oils' },
-    { label: 'Masala & Spices', catId: 'masala' },
-    { label: 'Snacks & Beverages', catId: 'snacks' },
-    { label: 'Household', catId: 'household' },
+    { label: 'Dals & Pulses', catId: 'dals', catName: 'Dals & Pulses' },
+    { label: 'Rice & Grains', catId: 'rice', catName: 'Rice & Grains' },
+    { label: 'Atta & Flours', catId: 'atta', catName: 'Atta & Flours' },
+    { label: 'Oils & Ghee', catId: 'oils', catName: 'Oils & Ghee' },
+    { label: 'Masala & Spices', catId: 'masala', catName: 'Masala & Spices' },
+    { label: 'Snacks & Beverages', catId: 'snacks', catName: 'Snacks & Beverages' },
+    { label: 'Household', catId: 'household', catName: 'Household Essentials' },
     { label: 'Offers', catId: 'offers', badge: 'HOT' },
   ];
 
@@ -40,7 +40,7 @@ export const Navbar: React.FC = () => {
               <button
                 key={cat.id}
                 onClick={() => {
-                  setSelectedCategory(cat.id);
+                  navigate('/products', `category=${encodeURIComponent(cat.name)}`);
                   setIsCategoryMenuOpen(false);
                 }}
                 className={`w-full flex items-center justify-between px-4 py-2.5 text-xs font-medium transition-colors text-left ${
@@ -65,7 +65,24 @@ export const Navbar: React.FC = () => {
           return (
             <button
               key={item.label}
-              onClick={() => setSelectedCategory(item.catId)}
+              onClick={() => {
+              if (item.catId === null) {
+                navigate('/');
+              } else if (item.catId === 'offers') {
+                navigate('/products');
+              } else {
+                const catNameMap: Record<string, string> = {
+                  dals: 'Dals & Pulses',
+                  rice: 'Rice & Grains',
+                  atta: 'Atta & Flours',
+                  oils: 'Oils & Ghee',
+                  masala: 'Masala & Spices',
+                  snacks: 'Snacks & Beverages',
+                  household: 'Household Essentials',
+                };
+                navigate('/products', `category=${encodeURIComponent(catNameMap[item.catId] || item.catId)}`);
+              }
+            }}
               className={`relative px-3.5 py-4 text-xs font-extrabold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                 isActive ? 'text-[#6D28D9]' : 'text-purple-800/80 hover:text-[#6D28D9]'
               }`}

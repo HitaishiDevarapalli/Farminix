@@ -57,11 +57,21 @@
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 25s linear infinite;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-paused:hover .animate-marquee {
   animation-play-state: paused;
+}
+
+.brand-card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.brand-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 @keyframes float-slow {
@@ -88,4 +98,15 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Animated cycling placeholder for search input */
+.placeholder-transition::placeholder {
+  transition: opacity 0.3s ease;
+}
+.placeholder-visible::placeholder {
+  opacity: 1;
+}
+.placeholder-hidden::placeholder {
+  opacity: 0;
 }

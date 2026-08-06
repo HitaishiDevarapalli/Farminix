@@ -29,6 +29,33 @@ export const MainHeader: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const debounceTimer = useRef<number | null>(null);
 
+  // Cycling animated placeholder
+  const placeholderSuggestions = [
+    'Search for rice, atta, oil, dal...',
+    'Try "Daawat Basmati Rice"...',
+    'Search for masala, spices...',
+    'Try "Amul Butter"...',
+    'Search for dals & pulses...',
+    'Try "Aashirvaad Atta 5kg"...',
+    'Search for snacks & beverages...',
+    'Try "Fortune Sunflower Oil"...',
+    'Search for household essentials...',
+    'Try "Tata Salt 1kg"...',
+  ];
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [placeholderVisible, setPlaceholderVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderVisible(false);
+      setTimeout(() => {
+        setPlaceholderIndex((prev) => (prev + 1) % placeholderSuggestions.length);
+        setPlaceholderVisible(true);
+      }, 300);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Sync input value with URL search parameter
   const urlSearchQuery = currentRoute.searchParams.get('search') || '';
   useEffect(() => {
@@ -149,7 +176,7 @@ export const MainHeader: React.FC = () => {
           <img
             src="/farminix_logo.png"
             alt="Farminix Logo"
-            className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+            className="h-16 sm:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
           />
         </div>
 
@@ -186,8 +213,8 @@ export const MainHeader: React.FC = () => {
             }}
             onKeyDown={handleKeyDown}
             onFocus={() => setShowDropdown(true)}
-            placeholder="Search for rice, atta, oil, dal, masala..."
-            className="w-full h-11 pl-10 pr-24 text-xs font-semibold text-gray-900 bg-white border border-gray-200 rounded-[12px] focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-purple-50 transition-all"
+            placeholder={placeholderSuggestions[placeholderIndex]}
+            className={`w-full h-11 pl-10 pr-24 text-xs font-semibold text-gray-900 bg-white border border-gray-200 rounded-[12px] focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-purple-50 transition-all placeholder-transition ${placeholderVisible ? 'placeholder-visible' : 'placeholder-hidden'}`}
           />
 
           {/* Indicators: Loading / Clear */}
