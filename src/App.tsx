@@ -14,6 +14,8 @@ import { Footer } from './components/Footer';
 import { useApp } from './context/AppContext';
 import { ProductListingPage } from './components/ProductListingPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
+import { OffersPage } from './components/OffersPage';
+import { AccountDashboard } from './components/AccountDashboard';
 
 // Modals
 import { CartDrawer } from './modals/CartDrawer';
@@ -30,6 +32,16 @@ export function AppContent() {
   const renderMainContent = () => {
     const isSearchPage = currentRoute.pathname === '/products' || currentRoute.searchParams.has('search') || currentRoute.searchParams.has('category');
     const isDetailPage = currentRoute.pathname.startsWith('/product/');
+    const isOffersPage = currentRoute.pathname === '/offers';
+    const isAccountPage = currentRoute.pathname === '/account';
+
+    if (isAccountPage) {
+      return <AccountDashboard />;
+    }
+
+    if (isOffersPage) {
+      return <OffersPage />;
+    }
 
     if (isSearchPage) {
       return <ProductListingPage />;

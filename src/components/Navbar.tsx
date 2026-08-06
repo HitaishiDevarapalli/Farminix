@@ -69,7 +69,7 @@ export const Navbar: React.FC = () => {
               if (item.catId === null) {
                 navigate('/');
               } else if (item.catId === 'offers') {
-                navigate('/products');
+                navigate('/offers');
               } else {
                 const catNameMap: Record<string, string> = {
                   dals: 'Dals & Pulses',

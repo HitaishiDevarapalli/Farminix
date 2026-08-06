@@ -13,7 +13,7 @@ export const ProductDetailPage: React.FC = () => {
     updateQuantity,
     wishlist,
     toggleWishlist,
-    setIsCheckoutOpen,
+    setIsCartOpen,
   } = useApp();
 
   const [selectedWeight, setSelectedWeight] = useState<string>('');
@@ -166,7 +166,7 @@ export const ProductDetailPage: React.FC = () => {
                   <button
                     onClick={() => {
                       addToCart(product, currentWeight);
-                      setIsCheckoutOpen(true);
+                      setIsCartOpen(true);
                     }}
                     className="w-full h-12 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-98 text-white text-sm font-extrabold rounded-[12px] flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-md shadow-purple-600/10"
                   >

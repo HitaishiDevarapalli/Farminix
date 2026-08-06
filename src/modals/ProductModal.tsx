@@ -3,7 +3,7 @@ import { X, Star, Plus, Minus } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const ProductModal: React.FC = () => {
-  const { selectedProduct, setSelectedProduct, addToCart, cart, updateQuantity, setIsCheckoutOpen } = useApp();
+  const { selectedProduct, setSelectedProduct, addToCart, cart, updateQuantity, setIsCartOpen } = useApp();
   const [selectedWeight, setSelectedWeight] = useState<string>('');
 
   if (!selectedProduct) return null;
@@ -109,7 +109,7 @@ export const ProductModal: React.FC = () => {
                   onClick={() => {
                     addToCart(selectedProduct, currentWeight);
                     setSelectedProduct(null);
-                    setIsCheckoutOpen(true);
+                    setIsCartOpen(true);
                   }}
                   className="w-full h-12 bg-[#7C3AED] hover:bg-purple-800 text-white text-xs font-bold rounded-2xl flex items-center justify-center gap-2 shadow-md transition-colors cursor-pointer"
                 >

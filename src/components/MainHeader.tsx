@@ -297,7 +297,13 @@ export const MainHeader: React.FC = () => {
       <div className="flex items-center gap-3 shrink-0">
         {/* User Login/Account */}
         <button
-          onClick={() => setIsAuthOpen(true)}
+          onClick={() => {
+            if (user) {
+              navigate('/account');
+            } else {
+              setIsAuthOpen(true);
+            }
+          }}
           className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] border border-transparent rounded-[10px] transition-all shadow-2xs cursor-pointer"
         >
           <UserIcon className="w-4 h-4 text-white" />

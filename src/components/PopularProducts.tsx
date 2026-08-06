@@ -12,7 +12,7 @@ export const PopularProducts: React.FC = () => {
     selectedCategory,
     wishlist,
     toggleWishlist,
-    setIsCheckoutOpen,
+    setIsCartOpen,
     navigate,
   } = useApp();
 
@@ -123,7 +123,7 @@ export const PopularProducts: React.FC = () => {
                     <button
                       onClick={() => {
                         addToCart(product);
-                        setIsCheckoutOpen(true);
+                        setIsCartOpen(true);
                       }}
                       className="w-full h-9 bg-[#7C3AED] hover:bg-[#6D28D9] active:scale-95 text-white text-xs font-bold rounded-[10px] flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer"
                     >

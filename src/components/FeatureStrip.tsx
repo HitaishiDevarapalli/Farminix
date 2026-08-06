@@ -11,59 +11,62 @@ export const FeatureStrip: React.FC = () => {
       icon: <Zap className="w-5 h-5 text-[#5B21B6] fill-purple-100" />,
       title: '10 Min Delivery',
       subtitle: 'Super Fast',
-      bgColor: 'bg-purple-50',
+      bgColor: 'bg-purple-100',
     },
     {
       id: 2,
-      icon: <ShieldCheck className="w-5 h-5 text-[#15803D]" />,
+      icon: <ShieldCheck className="w-5 h-5 text-emerald-700" />,
       title: 'Quality Assured',
       subtitle: '100% Genuine',
-      bgColor: 'bg-emerald-50',
+      bgColor: 'bg-emerald-100',
     },
     {
       id: 3,
       icon: <IndianRupee className="w-5 h-5 text-[#5B21B6]" />,
       title: 'Best Prices',
       subtitle: 'Direct from Brands',
-      bgColor: 'bg-purple-50',
+      bgColor: 'bg-purple-100',
     },
     {
       id: 4,
-      icon: <Lock className="w-5 h-5 text-[#15803D]" />,
+      icon: <Lock className="w-5 h-5 text-emerald-700" />,
       title: 'Safe & Secure',
       subtitle: 'Secure Packaging',
-      bgColor: 'bg-emerald-50',
+      bgColor: 'bg-emerald-100',
     },
     {
       id: 5,
-      icon: <Headset className="w-5 h-5 text-amber-600" />,
+      icon: <Headset className="w-5 h-5 text-amber-700" />,
       title: '24/7 Support',
       subtitle: 'We are here for you',
-      bgColor: 'bg-amber-50',
+      bgColor: 'bg-amber-100',
       action: () => setIsSupportOpen(true),
     },
   ];
 
   return (
     <div className="w-full px-4 sm:px-8">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        {features.map((item) => (
-          <div
-            key={item.id}
-            onClick={item.action}
-            className={`bg-white rounded-[16px] p-4 custom-card-shadow border border-gray-100/80 flex items-center gap-3.5 hover:-translate-y-1 transition-all duration-200 ${
-              item.action ? 'cursor-pointer hover:border-amber-200' : ''
-            }`}
-          >
-            <div className={`w-10 h-10 rounded-full ${item.bgColor} flex items-center justify-center shrink-0`}>
-              {item.icon}
+      {/* Light Purple Section Wrapper */}
+      <div className="bg-gradient-to-r from-purple-100/80 via-purple-50 to-indigo-100/80 p-4 sm:p-5 rounded-[24px] border border-purple-200/70 shadow-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          {features.map((item) => (
+            <div
+              key={item.id}
+              onClick={item.action}
+              className={`bg-white/90 backdrop-blur-xs rounded-[18px] p-3.5 border border-purple-100 shadow-xs flex items-center gap-3 hover:-translate-y-1 hover:shadow-md transition-all duration-200 ${
+                item.action ? 'cursor-pointer hover:border-purple-300' : ''
+              }`}
+            >
+              <div className={`w-10 h-10 rounded-full ${item.bgColor} flex items-center justify-center shrink-0`}>
+                {item.icon}
+              </div>
+              <div className="min-w-0 text-left">
+                <div className="text-xs font-extrabold text-slate-900 truncate">{item.title}</div>
+                <div className="text-[11px] font-semibold text-purple-700/80 truncate">{item.subtitle}</div>
+              </div>
             </div>
-            <div className="min-w-0">
-              <div className="text-xs font-bold text-gray-900 truncate">{item.title}</div>
-              <div className="text-[11px] font-medium text-gray-500 truncate">{item.subtitle}</div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

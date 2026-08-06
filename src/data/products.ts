@@ -353,12 +353,12 @@ export const popularProducts: Product[] = [
 ];
 
 export const epicDeals: DealCard[] = [
-  { id: 'd1', categoryName: 'Rice & Grains',          discountBadge: 'MIN. 50% OFF', image: ExactCategoryImages.rice,      brands: [{ name: 'Daawat',      logo: BrandLogos.daawat     }, { name: 'India Gate',  logo: BrandLogos.indiaGate  }] },
-  { id: 'd2', categoryName: 'Oils & Ghee',            discountBadge: 'MIN. 40% OFF', image: ExactCategoryImages.oils,      brands: [{ name: 'Fortune',     logo: BrandLogos.fortune    }, { name: 'Sunpure',    logo: BrandLogos.sunpure    }] },
-  { id: 'd3', categoryName: 'Dals & Pulses',          discountBadge: 'MIN. 45% OFF', image: ExactCategoryImages.dals,      brands: [{ name: 'Tata Sampann',logo: BrandLogos.tataSampann}, { name: 'Pro Nature', logo: BrandLogos.proNature  }] },
-  { id: 'd4', categoryName: 'Masala & Spices',        discountBadge: 'MIN. 50% OFF', image: ExactCategoryImages.masala,    brands: [{ name: 'MDH',         logo: BrandLogos.mdh        }, { name: 'Everest',    logo: BrandLogos.everest    }] },
-  { id: 'd5', categoryName: 'Snacks & Beverages',     discountBadge: 'MIN. 40% OFF', image: ExactCategoryImages.snacks,    brands: [{ name: "Lay's",       logo: BrandLogos.lays       }, { name: 'Coca-Cola',  logo: BrandLogos.cocaCola   }] },
-  { id: 'd6', categoryName: 'Household Essentials',   discountBadge: 'MIN. 35% OFF', image: ExactCategoryImages.household, brands: [{ name: 'Surf Excel',  logo: BrandLogos.surfExcel  }, { name: 'Dettol',    logo: BrandLogos.dettol     }] },
+  { id: 'd1', categoryName: 'Rice & Grains',          discountBadge: 'MIN. 50% OFF', image: '/deals/epic_deal_rice.jpg',      brands: [{ name: 'Daawat',      logo: BrandLogos.daawat     }, { name: 'India Gate',  logo: BrandLogos.indiaGate  }] },
+  { id: 'd2', categoryName: 'Oils & Ghee',            discountBadge: 'MIN. 40% OFF', image: '/deals/epic_deal_oils.jpg',      brands: [{ name: 'Fortune',     logo: BrandLogos.fortune    }, { name: 'Sunpure',    logo: BrandLogos.sunpure    }] },
+  { id: 'd3', categoryName: 'Dals & Pulses',          discountBadge: 'MIN. 45% OFF', image: '/deals/epic_deal_dals.jpg',      brands: [{ name: 'Tata Sampann',logo: BrandLogos.tataSampann}, { name: 'Pro Nature', logo: BrandLogos.proNature  }] },
+  { id: 'd4', categoryName: 'Masala & Spices',        discountBadge: 'MIN. 50% OFF', image: '/deals/epic_deal_masala.jpg',    brands: [{ name: 'MDH',         logo: BrandLogos.mdh        }, { name: 'Everest',    logo: BrandLogos.everest    }] },
+  { id: 'd5', categoryName: 'Snacks & Beverages',     discountBadge: 'MIN. 40% OFF', image: '/deals/epic_deal_snacks.jpg',    brands: [{ name: "Lay's",       logo: BrandLogos.lays       }, { name: 'Coca-Cola',  logo: BrandLogos.cocaCola   }] },
+  { id: 'd6', categoryName: 'Household Essentials',   discountBadge: 'MIN. 35% OFF', image: '/deals/epic_deal_household.jpg', brands: [{ name: 'Surf Excel',  logo: BrandLogos.surfExcel  }, { name: 'Dettol',    logo: BrandLogos.dettol     }] },
 ];
 
 export const brandLogosList = [
