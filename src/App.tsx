@@ -2,6 +2,7 @@ import { AppProvider } from './context/AppContext';
 import { MainHeader } from './components/MainHeader';
 import { Navbar } from './components/Navbar';
 import { HeroBanner } from './components/HeroBanner';
+import { BrandMarquee } from './components/BrandMarquee';
 import { FeatureStrip } from './components/FeatureStrip';
 import { CategorySection } from './components/CategorySection';
 import { CategoryPage } from './components/CategoryPage';
@@ -55,6 +56,9 @@ export function AppContent() {
       <div className="flex flex-col gap-0 pb-8">
         {/* HERO BANNER */}
         <HeroBanner />
+
+        {/* TRUSTED BRANDS MARQUEE */}
+        <BrandMarquee />
 
         {/* FEATURE STRIP (5 cards) */}
         <FeatureStrip />
