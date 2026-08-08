@@ -45,19 +45,18 @@ export const FeatureStrip: React.FC = () => {
   ];
 
   return (
-    <div className="w-full px-4 sm:px-8">
-      {/* Light Purple Section Wrapper */}
-      <div className="bg-gradient-to-r from-purple-100/80 via-purple-50 to-indigo-100/80 p-4 sm:p-5 rounded-[24px] border border-purple-200/70 shadow-xs">
+    <section className="w-full bg-gradient-to-r from-purple-50/80 via-indigo-50/40 to-purple-50/80 border-b border-purple-100/60 py-5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
           {features.map((item) => (
             <div
               key={item.id}
               onClick={item.action}
-              className={`bg-white/90 backdrop-blur-xs rounded-[18px] p-3.5 border border-purple-100 shadow-xs flex items-center gap-3 hover:-translate-y-1 hover:shadow-md transition-all duration-200 ${
+              className={`bg-white rounded-xl p-3.5 border border-purple-100/80 shadow-2xs flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-xs transition-all duration-200 ${
                 item.action ? 'cursor-pointer hover:border-purple-300' : ''
               }`}
             >
-              <div className={`w-10 h-10 rounded-full ${item.bgColor} flex items-center justify-center shrink-0`}>
+              <div className={`w-9 h-9 rounded-full ${item.bgColor} flex items-center justify-center shrink-0`}>
                 {item.icon}
               </div>
               <div className="min-w-0 text-left">
@@ -68,6 +67,6 @@ export const FeatureStrip: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

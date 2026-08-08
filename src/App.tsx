@@ -52,7 +52,7 @@ export function AppContent() {
     }
 
     return (
-      <div className="flex flex-col gap-8 sm:gap-14 pb-8">
+      <div className="flex flex-col gap-0 pb-8">
         {/* HERO BANNER */}
         <HeroBanner />
 
@@ -78,24 +78,20 @@ export function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-gray-900 font-sans flex flex-col items-center">
-      {/* Maximum Width Center Aligned Container */}
-      <div className="w-full max-w-[1440px] bg-white shadow-xl min-h-screen flex flex-col my-0 sm:my-2 sm:rounded-[24px] overflow-hidden border border-gray-100/60">
-        
-        {/* MAIN HEADER (80px) */}
-        <MainHeader />
+    <div className="w-full min-h-screen bg-white text-slate-900 font-sans flex flex-col">
+      {/* MAIN HEADER */}
+      <MainHeader />
 
-        {/* NAVIGATION (60px) */}
-        <Navbar />
+      {/* NAVIGATION */}
+      <Navbar />
 
-        {/* MAIN CONTENT BODY */}
-        <main className="flex-1">
-          {renderMainContent()}
-        </main>
+      {/* MAIN CONTENT BODY */}
+      <main className="flex-1 w-full">
+        {renderMainContent()}
+      </main>
 
-        {/* FOOTER */}
-        <Footer />
-      </div>
+      {/* FOOTER */}
+      <Footer />
 
       {/* MODALS & DRAWERS */}
       <CartDrawer />

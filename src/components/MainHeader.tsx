@@ -168,8 +168,9 @@ export const MainHeader: React.FC = () => {
   };
 
   return (
-    <header className="w-full h-20 bg-white border-b border-gray-100 px-4 sm:px-8 flex items-center justify-between gap-4 select-none sticky top-0 z-30 shadow-xs">
-      {/* Left: Farminix Logo & Location Selector */}
+    <header className="w-full h-20 bg-white border-b border-slate-100 sticky top-0 z-30 select-none shadow-xs">
+      <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 w-full">
+        {/* Left: Farminix Logo & Location Selector */}
       <div className="flex items-center gap-6 shrink-0">
         {/* Logo */}
         <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer shrink-0 group">
@@ -326,6 +327,7 @@ export const MainHeader: React.FC = () => {
           )}
         </button>
       </div>
-    </header>
+    </div>
+  </header>
   );
 };

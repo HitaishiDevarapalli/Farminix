@@ -20,9 +20,10 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="w-full h-[60px] bg-[#EDE9FE] px-4 sm:px-8 flex items-center gap-6 select-none relative z-20 shadow-xs border-b border-[#DDD6FE]/60">
-      {/* Yellow Categories Dropdown Button */}
-      <div className="relative">
+    <nav className="w-full h-[60px] bg-[#EDE9FE] border-b border-[#DDD6FE]/60 select-none relative z-20 shadow-xs">
+      <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center gap-6 w-full">
+        {/* Categories Dropdown Button */}
+        <div className="relative">
         <button
           onClick={() => setIsCategoryMenuOpen(!isCategoryMenuOpen)}
           className="flex items-center gap-2.5 px-4 py-2.5 bg-[#DCFCE7] hover:bg-[#BBF7D0] text-[#15803D] text-xs font-extrabold rounded-[10px] transition-all shadow-2xs cursor-pointer"
@@ -102,6 +103,7 @@ export const Navbar: React.FC = () => {
           );
         })}
       </div>
-    </nav>
+    </div>
+  </nav>
   );
 };

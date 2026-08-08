@@ -174,9 +174,9 @@ export const ProductListingPage: React.FC = () => {
   const isPriceEmptyState = hasBaseProducts && filteredProducts.length === 0 && isPriceFiltered;
 
   return (
-    <div className="w-full bg-slate-50 min-h-[60vh] py-8 px-4 sm:px-8">
-      {/* ── Breadcrumb & Back navigation ── */}
-      <div className="max-w-[1440px] mx-auto flex items-center justify-between mb-6">
+    <div className="w-full bg-white min-h-[60vh] py-8">
+      {/* Breadcrumb & Back navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/')}
@@ -203,7 +203,7 @@ export const ProductListingPage: React.FC = () => {
         </button>
       </div>
 
-      <div className="max-w-[1440px] mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Case 1: No Search Results Found (not price-filtered) ── */}
         {!hasBaseProducts ? (
           <div className="w-full bg-white rounded-[24px] border border-slate-100 p-8 sm:p-12 shadow-sm text-center flex flex-col items-center justify-center">

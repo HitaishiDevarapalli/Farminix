@@ -257,7 +257,7 @@ export const AccountDashboard: React.FC = () => {
   };
 
   return (
-    <div className={`w-full min-h-screen bg-slate-50 py-6 px-3 sm:px-8 font-sans ${settings.darkMode ? 'dark bg-slate-950 text-white' : ''}`}>
+    <div className={`w-full min-h-screen bg-white py-6 font-sans ${settings.darkMode ? 'dark bg-slate-950 text-white' : ''}`}>
       
       {/* Toast Notification Container */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
@@ -278,7 +278,7 @@ export const AccountDashboard: React.FC = () => {
         ))}
       </div>
 
-      <div className="max-w-[1440px] mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Top Header Mobile Toggle */}
         <div className="md:hidden mb-4 flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">

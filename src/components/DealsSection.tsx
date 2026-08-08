@@ -19,7 +19,8 @@ export const DealsSection: React.FC = () => {
   };
 
   return (
-    <div className="w-full px-4 sm:px-8 relative select-none overflow-hidden py-4">
+    <section className="w-full bg-gradient-to-r from-[#4C1D95] via-[#5B21B6] to-[#3B0764] py-10 text-white relative select-none overflow-hidden border-y border-purple-800/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
       {/* Banner Badge Header: EPIC DEALS ALL DAY (3D Neon Floating Pill) */}
       <div className="flex flex-col items-center justify-center mb-7 relative z-10">
@@ -129,5 +130,6 @@ export const DealsSection: React.FC = () => {
         </div>
       </div>
     </div>
+  </section>
   );
 };

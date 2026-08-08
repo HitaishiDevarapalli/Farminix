@@ -372,11 +372,9 @@ export const OffersPage: React.FC = () => {
 
   // ─────────────────────────────────────────────────────────────────────────
   return (
-    <div className="w-full bg-slate-50">
+    <div className="w-full bg-white">
 
-      {/* ════════════════════════════════════════════════════════════════════
-          HERO
-          ════════════════════════════════════════════════════════════════════ */}
+      {/* HERO */}
       <div className="offers-hero w-full px-4 sm:px-8 pt-16 pb-10 sm:pt-24 sm:pb-16 flex flex-col items-center text-center relative">
         {/* Confetti */}
         {CONFETTI.map(p => (

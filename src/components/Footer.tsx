@@ -6,8 +6,8 @@ export const Footer: React.FC = () => {
   const { setIsSupportOpen } = useApp();
 
   return (
-    <footer className="w-full bg-white border-t border-gray-100 pt-12 pb-8 px-4 sm:px-8 mt-12 select-none">
-      <div className="max-w-[1440px] mx-auto">
+    <footer className="w-full bg-slate-900 text-slate-400 border-t border-slate-800 pt-12 pb-8 select-none">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
@@ -129,15 +129,15 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div className="flex items-center gap-4 flex-wrap justify-center">
-            <a href="#" className="hover:text-gray-900">Privacy Policy</a>
+            <a href="#" className="hover:text-white">Privacy Policy</a>
             <span>•</span>
-            <a href="#" className="hover:text-gray-900">Cancellation Policy</a>
+            <a href="#" className="hover:text-white">Cancellation Policy</a>
             <span>•</span>
-            <a href="#" className="hover:text-gray-900">Refund Policy</a>
+            <a href="#" className="hover:text-white">Refund Policy</a>
             <span>•</span>
-            <a href="#" className="hover:text-gray-900">Disclaimer</a>
+            <a href="#" className="hover:text-white">Disclaimer</a>
           </div>
 
           <div className="text-center sm:text-right font-medium">

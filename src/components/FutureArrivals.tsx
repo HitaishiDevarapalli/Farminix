@@ -45,53 +45,53 @@ const futureItems: FutureItem[] = [
 ];
 
 export const FutureArrivals: React.FC = () => {
-  // Duplicate list to achieve infinite marquee scroll illusion
   const doubledItems = [...futureItems, ...futureItems, ...futureItems];
 
   return (
-    <div className="w-full px-4 sm:px-8 select-none overflow-hidden">
-      {/* Heading */}
-      <div className="mb-6 text-left">
-        <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
-          Future Arrivals
-        </h2>
-        <p className="text-xs text-gray-400 font-semibold mt-1">
-          Premium choices coming soon to Farminix
-        </p>
-      </div>
+    <section className="w-full py-8 border-b border-slate-100 select-none overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="mb-6 text-left">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            Future Arrivals
+          </h2>
+          <p className="text-xs text-slate-500 font-semibold mt-1">
+            Premium choices coming soon to Farminix
+          </p>
+        </div>
 
-      {/* Marquee Outer Container */}
-      <div className="relative w-full overflow-hidden py-4 bg-slate-50/40 rounded-[24px] border border-slate-100/60 flex items-center animate-marquee-paused">
-        {/* Infinite moving track */}
-        <div className="animate-marquee flex gap-5">
-          {doubledItems.map((item, idx) => (
-            <div
-              key={`${item.id}-${idx}`}
-              className="w-[180px] sm:w-[200px] bg-white rounded-[20px] p-4 border border-slate-100 custom-card-shadow flex flex-col items-center gap-3 relative flex-shrink-0"
-            >
-              {/* Coming Soon Badge (top-right corner) */}
-              <span className="absolute top-3 right-3 bg-purple-50 border border-purple-100 text-[#7C3AED] text-[8px] font-extrabold px-2 py-0.5 rounded-full select-none uppercase tracking-wider">
-                Coming Soon
-              </span>
+        {/* Marquee Track */}
+        <div className="relative w-full overflow-hidden py-2 flex items-center animate-marquee-paused">
+          <div className="animate-marquee flex gap-4">
+            {doubledItems.map((item, idx) => (
+              <div
+                key={`${item.id}-${idx}`}
+                className="w-[170px] sm:w-[190px] bg-white rounded-2xl p-3.5 border border-slate-150 flex flex-col items-center gap-2.5 relative flex-shrink-0 shadow-2xs"
+              >
+                {/* Coming Soon Badge */}
+                <span className="absolute top-2.5 right-2.5 bg-purple-50 border border-purple-100 text-[#7C3AED] text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Coming Soon
+                </span>
 
-              {/* Square Image container */}
-              <div className="w-full aspect-square bg-slate-50/50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-50/50">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-[85%] h-[85%] object-cover rounded-lg mix-blend-multiply"
-                  draggable="false"
-                />
+                {/* Square Image container */}
+                <div className="w-full aspect-square bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                    draggable="false"
+                  />
+                </div>
+
+                {/* Name */}
+                <div className="text-xs font-bold text-slate-800 tracking-tight leading-snug text-center">
+                  {item.name}
+                </div>
               </div>
-
-              {/* Name only */}
-              <div className="text-xs font-extrabold text-slate-800 tracking-tight leading-snug text-center">
-                {item.name}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

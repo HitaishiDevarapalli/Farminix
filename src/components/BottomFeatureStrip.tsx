@@ -38,18 +38,18 @@ export const BottomFeatureStrip: React.FC = () => {
   ];
 
   return (
-    <div className="w-full px-4 sm:px-8">
-      <div className="bg-gradient-to-r from-purple-100/80 via-purple-50 to-indigo-100/80 p-4 sm:p-5 rounded-[24px] border border-purple-200/70 shadow-xs">
+    <section className="w-full bg-gradient-to-r from-purple-50/60 via-indigo-50/30 to-purple-50/60 border-b border-purple-100/50 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {boxes.map((b) => (
             <div
               key={b.id}
               onClick={b.action}
-              className={`bg-white/90 backdrop-blur-xs rounded-[18px] p-4 border border-purple-100 shadow-xs flex items-center gap-4 hover:-translate-y-1 hover:shadow-md transition-all ${
+              className={`bg-white rounded-xl p-4 border border-purple-100/80 shadow-2xs flex items-center gap-4 hover:-translate-y-0.5 hover:shadow-xs transition-all ${
                 b.action ? 'cursor-pointer hover:border-purple-300' : ''
               }`}
             >
-              <div className={`w-11 h-11 rounded-2xl ${b.bgColor} flex items-center justify-center shrink-0`}>
+              <div className={`w-10 h-10 rounded-xl ${b.bgColor} flex items-center justify-center shrink-0`}>
                 {b.icon}
               </div>
               <div className="text-left">
@@ -60,6 +60,6 @@ export const BottomFeatureStrip: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
