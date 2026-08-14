@@ -17,6 +17,7 @@ import { ProductListingPage } from './components/ProductListingPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { OffersPage } from './components/OffersPage';
 import { AccountDashboard } from './components/AccountDashboard';
+import { CheckoutPage } from './components/CheckoutPage';
 
 // Modals
 import { CartDrawer } from './modals/CartDrawer';
@@ -35,6 +36,11 @@ export function AppContent() {
     const isDetailPage = currentRoute.pathname.startsWith('/product/');
     const isOffersPage = currentRoute.pathname === '/offers';
     const isAccountPage = currentRoute.pathname === '/account';
+    const isCheckoutPage = currentRoute.pathname === '/checkout';
+
+    if (isCheckoutPage) {
+      return <CheckoutPage />;
+    }
 
     if (isAccountPage) {
       return <AccountDashboard />;

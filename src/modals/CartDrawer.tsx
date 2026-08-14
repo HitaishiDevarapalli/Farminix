@@ -13,7 +13,7 @@ export const CartDrawer: React.FC = () => {
     cartDiscount,
     appliedCoupon,
     applyCoupon,
-    setIsCheckoutOpen,
+    navigate,
   } = useApp();
 
   const [couponInput, setCouponInput] = useState('');
@@ -207,7 +207,7 @@ export const CartDrawer: React.FC = () => {
               <button
                 onClick={() => {
                   setIsCartOpen(false);
-                  setIsCheckoutOpen(true);
+                  navigate('/checkout');
                 }}
                 className="w-full h-12 bg-[#7C3AED] hover:bg-purple-800 text-white text-sm font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-colors cursor-pointer"
               >

@@ -19,7 +19,6 @@ export const ProductDetailPage: React.FC = () => {
     wishlist,
     toggleWishlist,
     setIsCartOpen,
-    setIsCheckoutOpen,
   } = useApp();
 
   const [selectedWeight, setSelectedWeight] = useState<string>('');
@@ -290,7 +289,7 @@ export const ProductDetailPage: React.FC = () => {
 
   const handleBuyNow = () => {
     addToCart(product, currentWeight);
-    setIsCheckoutOpen(true);
+    navigate('/checkout');
   };
 
   const handleReviewSubmit = (e: React.FormEvent) => {
