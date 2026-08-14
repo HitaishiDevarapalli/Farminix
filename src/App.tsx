@@ -34,8 +34,6 @@ import { ProductModal } from './modals/ProductModal';
 import { TrackOrderModal } from './modals/TrackOrderModal';
 import { SupportModal } from './modals/SupportModal';
 
-import { Shield } from 'lucide-react';
-
 export function AppContent() {
   const { currentRoute, navigate } = useApp();
   const { config, isAdminLoggedIn } = useAdminConfig();
@@ -126,21 +124,6 @@ export function AppContent() {
       <TrackOrderModal />
       <SupportModal />
       <CategoryPage />
-
-      {/* Floating Admin CRM Access Pill */}
-      <div className="fixed bottom-4 right-4 z-40">
-        <button
-          onClick={() => navigate('/admin')}
-          className="group flex items-center gap-2 bg-slate-950/90 hover:bg-slate-900 text-white px-3.5 py-2 rounded-full shadow-lg border border-slate-700/80 backdrop-blur-md text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
-          title="Open Farminix Admin CRM"
-        >
-          <div className="w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center text-white">
-            <Shield className="w-3 h-3" />
-          </div>
-          <span className="tracking-wide">Admin CRM</span>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        </button>
-      </div>
     </div>
   );
 }
