@@ -38,7 +38,6 @@ export const ProductListingPage: React.FC = () => {
     updateQuantity,
     wishlist,
     toggleWishlist,
-    setSelectedProduct,
     setIsCartOpen,
   } = useApp();
 
@@ -252,7 +251,7 @@ export const ProductListingPage: React.FC = () => {
                       {/* Product Image and Overlay Badges */}
                       <div
                         className="relative w-full aspect-square bg-slate-50 cursor-pointer overflow-hidden shrink-0"
-                        onClick={() => setSelectedProduct(product)}
+                        onClick={() => navigate('/product/' + getProductSlug(product.name))}
                       >
                         <img
                           src={product.image}
@@ -280,7 +279,7 @@ export const ProductListingPage: React.FC = () => {
                         <div>
                           {/* Product Name */}
                           <h3
-                            onClick={() => setSelectedProduct(product)}
+                            onClick={() => navigate('/product/' + getProductSlug(product.name))}
                             className="text-xs font-bold text-slate-800 leading-snug line-clamp-2 h-8 cursor-pointer hover:text-[#7C3AED] transition-colors mb-1.5"
                           >
                             {product.name}
@@ -413,7 +412,7 @@ export const ProductListingPage: React.FC = () => {
                         {/* Product Image */}
                         <div
                           className="relative w-full aspect-square bg-slate-50 cursor-pointer overflow-hidden shrink-0"
-                          onClick={() => setSelectedProduct(product)}
+                          onClick={() => navigate('/product/' + getProductSlug(product.name))}
                         >
                           <img
                             src={product.image}
@@ -444,7 +443,7 @@ export const ProductListingPage: React.FC = () => {
                         <div className="p-3.5 flex flex-col flex-grow text-left justify-between">
                           <div>
                             <h3
-                              onClick={() => setSelectedProduct(product)}
+                              onClick={() => navigate('/product/' + getProductSlug(product.name))}
                               className="text-xs font-bold text-slate-800 leading-snug line-clamp-2 h-8 cursor-pointer hover:text-[#7C3AED] transition-colors mb-1.5"
                             >
                               {highlightMatch(product.name, searchQuery)}

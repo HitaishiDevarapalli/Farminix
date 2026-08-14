@@ -12,6 +12,7 @@ import {
   clearSavedPriceRange,
 } from './PriceRangeFilter';
 import type { PriceRange } from './PriceRangeFilter';
+import { getProductSlug } from './ProductListingPage';
 
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -728,10 +729,10 @@ export const OffersPage: React.FC = () => {
                         <div className="offers-quick-view">
                           <button
                             className="w-full flex items-center justify-center gap-1.5 text-white text-[11px] font-bold cursor-pointer"
-                            onClick={e => { e.stopPropagation(); setSelectedProduct(product); }}
+                            onClick={e => { e.stopPropagation(); navigate('/product/' + getProductSlug(product.name)); }}
                           >
                             <Eye className="w-3.5 h-3.5" />
-                            Quick View
+                            View Details
                           </button>
                         </div>
                       </div>
@@ -739,7 +740,7 @@ export const OffersPage: React.FC = () => {
                       {/* Details */}
                       <div className="p-3.5 flex flex-col flex-grow">
                         <h3
-                          onClick={() => setSelectedProduct(product)}
+                          onClick={() => navigate('/product/' + getProductSlug(product.name))}
                           className="text-xs font-bold text-slate-800 line-clamp-2 h-8 cursor-pointer hover:text-purple-700 transition-colors mb-1 leading-snug"
                         >
                           {product.name}

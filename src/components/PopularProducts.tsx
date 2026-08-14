@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Zap, Plus, Minus, Heart } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { getProductSlug } from './ProductListingPage';
 
 export const PopularProducts: React.FC = () => {
   const {
@@ -8,7 +9,6 @@ export const PopularProducts: React.FC = () => {
     cart,
     addToCart,
     updateQuantity,
-    setSelectedProduct,
     selectedCategory,
     wishlist,
     toggleWishlist,
@@ -65,7 +65,7 @@ export const PopularProducts: React.FC = () => {
             >
               {/* Product Image and Overlay Badges */}
               <div
-                onClick={() => setSelectedProduct(product)}
+                onClick={() => navigate('/product/' + getProductSlug(product.name))}
                 className="relative w-full aspect-square bg-slate-50 cursor-pointer overflow-hidden shrink-0"
               >
                 <img
@@ -94,7 +94,7 @@ export const PopularProducts: React.FC = () => {
                 <div>
                   {/* Product Name */}
                   <h3
-                    onClick={() => setSelectedProduct(product)}
+                    onClick={() => navigate('/product/' + getProductSlug(product.name))}
                     className="text-xs font-bold text-slate-800 leading-snug line-clamp-2 h-8 cursor-pointer hover:text-[#7C3AED] transition-colors mb-1.5"
                   >
                     {product.name}

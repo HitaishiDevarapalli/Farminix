@@ -19,8 +19,45 @@ export const allProducts: Product[] = [
     price: 209, oldPrice: 260, weight: '1 kg', weightOptions: ['1 kg', '5 kg', '10 kg'],
     image: ExactProductImages.daawatRice, deliveryTime: '10 Mins', rating: 4.8, reviewsCount: 1420,
     inStock: true, stockCount: 45, brand: 'Daawat',
-    description: 'Extra-long grain aged basmati rice perfect for biryani, pulao, and everyday meals. Rich aroma and authentic texture.',
-    ingredients: ['100% Aged Basmati Rice'], nutritionalInfo: { energy: '350 kcal', protein: '8.5 g', carbs: '78 g', fat: '0.6 g' },
+    description: 'Extra-long grain aged basmati rice perfect for biryani, pulao, and everyday meals. Rich aroma and authentic fluffy texture.',
+    ingredients: ['100% Aged Basmati Rice'], nutritionalInfo: { energy: '350 kcal', protein: '8.5 g', carbs: '78 g', fat: '0.6 g', fiber: '2.1 g', sugar: '0 g', sodium: '5 mg' },
+    badges: ['Bestseller', '20% OFF', 'Aged Basmati'],
+    highlights: [
+      { icon: '🌾', title: 'Extra-Long Grains', desc: 'Elongates to twice its size when cooked without breaking.' },
+      { icon: '✨', title: 'Naturally Aromatic', desc: 'Distinctive sweet aroma characteristic of authentic aged Himalayan basmati.' },
+      { icon: '⏳', title: 'Aged for Perfection', desc: 'Aged for 24 months to yield non-sticky, fluffy separate grains.' },
+      { icon: '🍲', title: 'Ideal for Biryani & Pulao', desc: 'The gold standard rice choice for festive feasts and royal biryanis.' },
+    ],
+    benefits: [
+      'Versatile everyday staple pairing excellently with curries, gravies, and dals.',
+      'Low glycemic index rice offering sustained energy release and light digestion.',
+      '100% pure, unadulterated Himalayan basmati grains with zero artificial fragrance.',
+    ],
+    specifications: [
+      { label: 'Brand', value: 'Daawat' },
+      { label: 'Grain Type', value: 'Extra-Long Basmati' },
+      { label: 'Aging', value: '2 Years Aged' },
+      { label: 'Dietary Type', value: 'Vegetarian 🟢' },
+      { label: 'Country of Origin', value: 'India' },
+      { label: 'Shelf Life', value: '24 Months' },
+      { label: 'Storage', value: 'Store in a cool, dry place in an airtight container.' },
+    ],
+    howToUse: [
+      'Rinse 1 cup of rice 2-3 times in cold water until water runs clear.',
+      'Soak in lukewarm water for 30 minutes for maximum grain expansion.',
+      'Add 2 cups of water per 1 cup of rice. Boil, cover, and simmer for 12-15 minutes.',
+    ],
+    storageInstructions: 'Store in a cool, dry, and hygienic place. Once opened, transfer to a sealed airtight glass or stainless steel container.',
+    faqs: [
+      { question: 'What makes Daawat Super Basmati Rice special?', answer: 'Daawat Super is aged for 2 years in climate-controlled granaries, which enhances its aroma and ensures every grain remains separate and fluffy when cooked.' },
+      { question: 'How much water is needed to cook 1 cup of rice?', answer: 'Use 2 cups of water for every 1 cup of soaked Daawat Super Basmati rice for optimal fluffy results.' },
+      { question: 'Is this rice suitable for daily consumption?', answer: 'Yes, it is easy to digest and perfect for both daily lunch/dinner and special occasion biryanis.' },
+    ],
+    reviewsList: [
+      { id: 'r-rev-1', userName: 'Sanjay Reddy', rating: 5, date: '3 days ago', verified: true, comment: 'Hands down the best basmati rice for biryani! The grain length is long and aroma is amazing. Quick 12 min delivery by Farminix!', helpfulCount: 18 },
+      { id: 'r-rev-2', userName: 'Priya Sharma', rating: 5, date: '1 week ago', verified: true, comment: 'Packaging was neat and fresh stock. Rice cooked perfectly fluffy.', helpfulCount: 11 },
+      { id: 'r-rev-3', userName: 'Karthik N', rating: 5, date: '2 weeks ago', verified: true, comment: 'Good discount on 5kg pack. Farminix delivery is super convenient.', helpfulCount: 7 },
+    ]
   },
   {
     id: 'r2', name: 'India Gate Classic Basmati Rice', category: 'Rice & Grains',

@@ -1,3 +1,29 @@
+export interface Review {
+  id: string;
+  userName: string;
+  rating: number;
+  date: string;
+  verified: boolean;
+  comment: string;
+  helpfulCount: number;
+}
+
+export interface ProductHighlight {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface ProductSpecification {
+  label: string;
+  value: string;
+}
+
+export interface ProductFAQ {
+  question: string;
+  answer: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -7,6 +33,7 @@ export interface Product {
   weight: string;
   weightOptions?: string[];
   image: string;
+  galleryImages?: string[];
   deliveryTime: string;
   rating: number;
   reviewsCount: number;
@@ -20,7 +47,22 @@ export interface Product {
     protein: string;
     carbs: string;
     fat: string;
+    fiber?: string;
+    sugar?: string;
+    sodium?: string;
   };
+  badges?: string[];
+  highlights?: ProductHighlight[];
+  benefits?: string[];
+  specifications?: ProductSpecification[];
+  howToUse?: string[];
+  storageInstructions?: string;
+  origin?: string;
+  shelfLife?: string;
+  dietaryType?: 'veg' | 'non-veg' | 'vegan';
+  faqs?: ProductFAQ[];
+  reviewsList?: Review[];
+  frequentlyBoughtTogetherIds?: string[];
 }
 
 export interface CartItem {
