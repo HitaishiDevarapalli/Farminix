@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { AdminConfigProvider, useAdminConfig } from './admin/context/AdminConfigContext';
-import { TopOfferBar } from './components/TopOfferBar';
 import { MainHeader } from './components/MainHeader';
 import { Navbar } from './components/Navbar';
 import { HeroBanner } from './components/HeroBanner';
@@ -104,9 +103,6 @@ export function AppContent() {
 
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans flex flex-col relative">
-      {/* TOP OFFER BAR */}
-      <TopOfferBar />
-
       {/* MAIN HEADER */}
       <MainHeader />
 

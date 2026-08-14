@@ -73,7 +73,7 @@ export const defaultSiteConfig: AdminSiteConfig = {
     { id: 'bottomFeatureStrip', name: 'Bottom Benefits Strip', enabled: true, order: 8 },
   ],
   topOfferBar: {
-    enabled: true,
+    enabled: false,
     leftTextPrefix: '10% OFF on your first order | Use code: ',
     discountHighlight: '10% OFF',
     leftTextSuffix: ' on your first order | Use code:',
