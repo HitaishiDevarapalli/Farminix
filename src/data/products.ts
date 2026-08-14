@@ -52,11 +52,6 @@ export const allProducts: Product[] = [
       { question: 'What makes Daawat Super Basmati Rice special?', answer: 'Daawat Super is aged for 2 years in climate-controlled granaries, which enhances its aroma and ensures every grain remains separate and fluffy when cooked.' },
       { question: 'How much water is needed to cook 1 cup of rice?', answer: 'Use 2 cups of water for every 1 cup of soaked Daawat Super Basmati rice for optimal fluffy results.' },
       { question: 'Is this rice suitable for daily consumption?', answer: 'Yes, it is easy to digest and perfect for both daily lunch/dinner and special occasion biryanis.' },
-    ],
-    reviewsList: [
-      { id: 'r-rev-1', userName: 'Sanjay Reddy', rating: 5, date: '3 days ago', verified: true, comment: 'Hands down the best basmati rice for biryani! The grain length is long and aroma is amazing. Quick 12 min delivery by Farminix!', helpfulCount: 18 },
-      { id: 'r-rev-2', userName: 'Priya Sharma', rating: 5, date: '1 week ago', verified: true, comment: 'Packaging was neat and fresh stock. Rice cooked perfectly fluffy.', helpfulCount: 11 },
-      { id: 'r-rev-3', userName: 'Karthik N', rating: 5, date: '2 weeks ago', verified: true, comment: 'Good discount on 5kg pack. Farminix delivery is super convenient.', helpfulCount: 7 },
     ]
   },
   {
