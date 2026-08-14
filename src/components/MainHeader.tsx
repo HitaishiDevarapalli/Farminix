@@ -184,7 +184,7 @@ export const MainHeader: React.FC = () => {
         {/* Location Selector */}
         <button
           onClick={() => setIsLocationOpen(true)}
-          className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-gray-200 transition-all text-left cursor-pointer"
+          className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-gray-200 transition-all text-left cursor-pointer shrink-0"
         >
           <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center shrink-0 text-[#5B21B6]">
             <MapPin className="w-5 h-5 fill-purple-100" />

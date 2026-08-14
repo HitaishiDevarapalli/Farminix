@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { Product, CartItem, UserAddress, User, Order } from '../types';
 import { popularProducts, allProducts } from '../data/products';
+import { detectUserLocation } from '../utils/location';
 
 interface AppContextType {
   // Products & Search
@@ -33,6 +34,7 @@ interface AppContextType {
   // Location
   location: string;
   setLocation: (loc: string) => void;
+  detectAndSetLocation: () => Promise<boolean>;
 
   // Auth User
   user: User | null;
@@ -99,7 +101,44 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>('FARM10');
 
   const [wishlist, setWishlist] = useState<string[]>([]);
-  const [location, setLocation] = useState('Guntur, Andhra Pradesh - 522034');
+  const [location, setLocationState] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('farminix_user_location');
+      return saved || 'Guntur, Andhra Pradesh - 522034';
+    } catch {
+      return 'Guntur, Andhra Pradesh - 522034';
+    }
+  });
+
+  const setLocation = (loc: string) => {
+    setLocationState(loc);
+    try {
+      localStorage.setItem('farminix_user_location', loc);
+    } catch {
+      // Ignore localStorage errors
+    }
+  };
+
+  const detectAndSetLocation = async (): Promise<boolean> => {
+    const res = await detectUserLocation();
+    if (res.success && res.locationString) {
+      setLocation(res.locationString);
+      return true;
+    }
+    return false;
+  };
+
+  // Attempt automatic location detection on initial app load if no saved location
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('farminix_user_location');
+      if (!saved && navigator.geolocation) {
+        detectAndSetLocation();
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
 
   const [user, setUser] = useState<User | null>({
     id: 'usr-1',
@@ -260,6 +299,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         toggleWishlist,
         location,
         setLocation,
+        detectAndSetLocation,
         user,
         setUser,
         orders,
