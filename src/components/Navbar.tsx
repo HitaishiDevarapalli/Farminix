@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 import { Menu, ChevronDown } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { categories } from '../data/products';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const Navbar: React.FC = () => {
   const { selectedCategory, navigate } = useApp();
+  const { config } = useAdminConfig();
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
 
-  const navItems = [
-    { label: 'Home', catId: null },
-    { label: 'Dals & Pulses', catId: 'dals', catName: 'Dals & Pulses' },
-    { label: 'Rice & Grains', catId: 'rice', catName: 'Rice & Grains' },
-    { label: 'Atta & Flours', catId: 'atta', catName: 'Atta & Flours' },
-    { label: 'Oils & Ghee', catId: 'oils', catName: 'Oils & Ghee' },
-    { label: 'Masala & Spices', catId: 'masala', catName: 'Masala & Spices' },
-    { label: 'Snacks & Beverages', catId: 'snacks', catName: 'Snacks & Beverages' },
-    { label: 'Household', catId: 'household', catName: 'Household Essentials' },
-    { label: 'Offers', catId: 'offers', badge: 'HOT' },
-  ];
+  const activeNavItems = config.navItems.filter((i) => i.enabled);
+  const activeCategories = config.categories;
 
   return (
     <nav className="w-full h-[60px] bg-[#EDE9FE] border-b border-[#DDD6FE]/60 select-none relative z-20 shadow-xs">
@@ -37,7 +29,7 @@ export const Navbar: React.FC = () => {
         {isCategoryMenuOpen && (
           <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
             <div className="px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">All Categories</div>
-            {categories.map((cat) => (
+            {activeCategories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => {
@@ -61,27 +53,19 @@ export const Navbar: React.FC = () => {
 
       {/* Nav Menu Items */}
       <div className="flex-1 flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth">
-        {navItems.map((item) => {
+        {activeNavItems.map((item) => {
           const isActive = selectedCategory === item.catId || (item.catId === null && selectedCategory === null);
           return (
             <button
-              key={item.label}
+              key={item.id}
               onClick={() => {
               if (item.catId === null) {
                 navigate('/');
               } else if (item.catId === 'offers') {
                 navigate('/offers');
               } else {
-                const catNameMap: Record<string, string> = {
-                  dals: 'Dals & Pulses',
-                  rice: 'Rice & Grains',
-                  atta: 'Atta & Flours',
-                  oils: 'Oils & Ghee',
-                  masala: 'Masala & Spices',
-                  snacks: 'Snacks & Beverages',
-                  household: 'Household Essentials',
-                };
-                navigate('/products', `category=${encodeURIComponent(catNameMap[item.catId] || item.catId)}`);
+                const catMatch = activeCategories.find((c) => c.id === item.catId || c.name.toLowerCase() === item.label.toLowerCase());
+                navigate('/products', `category=${encodeURIComponent(catMatch ? catMatch.name : item.label)}`);
               }
             }}
               className={`relative px-3.5 py-4 text-xs font-extrabold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
@@ -107,3 +91,4 @@ export const Navbar: React.FC = () => {
   </nav>
   );
 };
+

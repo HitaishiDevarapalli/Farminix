@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Zap, Plus, Minus, Heart } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 import { getProductSlug } from './ProductListingPage';
 
 export const PopularProducts: React.FC = () => {
@@ -15,10 +16,20 @@ export const PopularProducts: React.FC = () => {
     setIsCartOpen,
     navigate,
   } = useApp();
+  const { config } = useAdminConfig();
+  const popularConfig = config.popularProducts;
 
-  // Filter products if a category is selected
+  if (!popularConfig.enabled) return null;
+
+  // Filter products if a category is selected or use featured IDs
+  const featuredList = popularConfig.featuredProductIds
+    .map((id) => config.products.find((p) => p.id === id))
+    .filter(Boolean) as typeof config.products;
+
+  const baseList = featuredList.length > 0 ? featuredList : products;
+
   const displayedProducts = selectedCategory
-    ? products.filter((p) => {
+    ? config.products.filter((p) => {
         if (selectedCategory === 'dals') return p.category === 'Dals & Pulses';
         if (selectedCategory === 'rice') return p.category === 'Rice & Grains';
         if (selectedCategory === 'atta') return p.category === 'Atta & Flours';
@@ -29,7 +40,7 @@ export const PopularProducts: React.FC = () => {
         if (selectedCategory === 'sugarSalt') return p.category === 'Sugar & Salt';
         return true;
       })
-    : products;
+    : baseList;
 
   return (
     <section className="w-full py-8 border-b border-slate-100">
@@ -38,15 +49,15 @@ export const PopularProducts: React.FC = () => {
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
-            Popular Today
+            {popularConfig.title || 'Popular Today'}
           </h2>
           <Zap className="w-5 h-5 text-amber-500 fill-amber-400 animate-bounce" />
         </div>
         <button
-          onClick={() => navigate('/products')}
+          onClick={() => navigate(popularConfig.viewAllUrl || '/products')}
           className="text-xs sm:text-sm font-semibold text-[#7C3AED] hover:text-purple-800 flex items-center gap-1 transition-colors cursor-pointer group"
         >
-          <span>View All</span>
+          <span>{popularConfig.viewAllText || 'View All'}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
@@ -57,6 +68,7 @@ export const PopularProducts: React.FC = () => {
           const cartItem = cart.find((item) => item.product.id === product.id);
           const quantity = cartItem ? cartItem.quantity : 0;
           const isWishlisted = wishlist.includes(product.id);
+
 
           return (
             <div

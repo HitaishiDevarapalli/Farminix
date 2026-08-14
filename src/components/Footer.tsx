@@ -1,9 +1,14 @@
 import React from 'react';
 import { Play, Apple } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const Footer: React.FC = () => {
   const { setIsSupportOpen } = useApp();
+  const { config } = useAdminConfig();
+  const footerConfig = config.footer;
+
+  if (!footerConfig.enabled) return null;
 
   return (
     <footer className="w-full bg-slate-900 text-slate-300 border-t border-slate-800 pt-12 pb-8 select-none">
@@ -16,20 +21,20 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 text-left">
             <a href="/" className="inline-block mb-3 group select-none">
               <img
-                src="/farminix_logo.png"
+                src={footerConfig.logoUrl || '/farminix_logo.png'}
                 alt="Farminix Logo"
                 className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105 brightness-110"
               />
             </a>
             <p className="text-xs text-slate-400 font-normal max-w-sm mb-5 leading-relaxed">
-              Your trusted partner for quality groceries. Fresh produce, authentic staples, and instant 10-minute home delivery.
+              {footerConfig.bioText}
             </p>
 
             {/* Social Icons */}
             <div className="flex items-center gap-3">
               {/* Instagram */}
               <a
-                href="#"
+                href={footerConfig.socialLinks.instagram || '#'}
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-300 hover:text-white flex items-center justify-center transition-all"
                 aria-label="Instagram"
               >
@@ -37,7 +42,7 @@ export const Footer: React.FC = () => {
               </a>
               {/* Facebook */}
               <a
-                href="#"
+                href={footerConfig.socialLinks.facebook || '#'}
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-300 hover:text-white flex items-center justify-center transition-all"
                 aria-label="Facebook"
               >
@@ -45,7 +50,7 @@ export const Footer: React.FC = () => {
               </a>
               {/* Twitter */}
               <a
-                href="#"
+                href={footerConfig.socialLinks.twitter || '#'}
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-300 hover:text-white flex items-center justify-center transition-all"
                 aria-label="Twitter"
               >
@@ -53,7 +58,7 @@ export const Footer: React.FC = () => {
               </a>
               {/* YouTube */}
               <a
-                href="#"
+                href={footerConfig.socialLinks.youtube || '#'}
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-300 hover:text-white flex items-center justify-center transition-all"
                 aria-label="YouTube"
               >
@@ -68,14 +73,19 @@ export const Footer: React.FC = () => {
               Company
             </h3>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
-              <li><a href="#" className="hover:text-purple-300 transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-purple-300 transition-colors">Career</a></li>
-              <li><a href="#" className="hover:text-purple-300 transition-colors">Blog</a></li>
-              <li>
-                <button onClick={() => setIsSupportOpen(true)} className="hover:text-purple-300 transition-colors cursor-pointer">
-                  Contact Us
-                </button>
-              </li>
+              {footerConfig.companyLinks.map((link) => (
+                <li key={link.id}>
+                  {link.actionType === 'support' ? (
+                    <button onClick={() => setIsSupportOpen(true)} className="hover:text-purple-300 transition-colors cursor-pointer">
+                      {link.label}
+                    </button>
+                  ) : (
+                    <a href={link.url} className="hover:text-purple-300 transition-colors">
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -85,14 +95,19 @@ export const Footer: React.FC = () => {
               Help
             </h3>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
-              <li>
-                <button onClick={() => setIsSupportOpen(true)} className="hover:text-purple-300 transition-colors cursor-pointer">
-                  FAQs
-                </button>
-              </li>
-              <li><a href="#" className="hover:text-purple-300 transition-colors">Shipping &amp; Delivery</a></li>
-              <li><a href="#" className="hover:text-purple-300 transition-colors">Returns &amp; Refunds</a></li>
-              <li><a href="#" className="hover:text-purple-300 transition-colors">Terms &amp; Conditions</a></li>
+              {footerConfig.helpLinks.map((link) => (
+                <li key={link.id}>
+                  {link.actionType === 'support' ? (
+                    <button onClick={() => setIsSupportOpen(true)} className="hover:text-purple-300 transition-colors cursor-pointer">
+                      {link.label}
+                    </button>
+                  ) : (
+                    <a href={link.url} className="hover:text-purple-300 transition-colors">
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -131,17 +146,18 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div className="flex items-center gap-4 flex-wrap justify-center">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <span>•</span>
-            <a href="#" className="hover:text-white transition-colors">Cancellation Policy</a>
-            <span>•</span>
-            <a href="#" className="hover:text-white transition-colors">Refund Policy</a>
-            <span>•</span>
-            <a href="#" className="hover:text-white transition-colors">Disclaimer</a>
+            {footerConfig.legalLinks.map((l, i) => (
+              <React.Fragment key={l.id}>
+                <a href={l.url} className="hover:text-white transition-colors">
+                  {l.label}
+                </a>
+                {i < footerConfig.legalLinks.length - 1 && <span>•</span>}
+              </React.Fragment>
+            ))}
           </div>
 
           <div className="text-center sm:text-right font-medium">
-            © 2025 Farminix. All rights reserved.
+            {footerConfig.copyrightText}
           </div>
         </div>
 
@@ -149,3 +165,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+

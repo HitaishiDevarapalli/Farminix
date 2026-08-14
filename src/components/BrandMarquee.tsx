@@ -1,33 +1,5 @@
 import React from 'react';
-import { BrandLogos } from '../assets/graphics';
-
-// Each brand as an individual logo card
-const brands: { name: string; logo: string }[] = [
-  { name: 'Daawat',      logo: BrandLogos.daawat      },
-  { name: 'Aashirvaad',  logo: BrandLogos.aashirvaad  },
-  { name: 'Fortune',     logo: BrandLogos.fortune      },
-  { name: 'Tata',        logo: BrandLogos.tata         },
-  { name: 'Amul',        logo: BrandLogos.amul         },
-  { name: 'Maggi',       logo: BrandLogos.maggi        },
-  { name: 'Nescafé',     logo: BrandLogos.nescafe      },
-  { name: 'Tide',        logo: BrandLogos.tide         },
-  { name: 'Tata Salt',   logo: BrandLogos.tataSalt     },
-  { name: 'India Gate',  logo: BrandLogos.indiaGate    },
-  { name: 'Sunpure',     logo: BrandLogos.sunpure      },
-  { name: 'MDH',         logo: BrandLogos.mdh          },
-  { name: 'Everest',     logo: BrandLogos.everest      },
-  { name: "Lay's",       logo: BrandLogos.lays         },
-  { name: 'Coca-Cola',   logo: BrandLogos.cocaCola     },
-  { name: 'Surf Excel',  logo: BrandLogos.surfExcel    },
-  { name: 'Dettol',      logo: BrandLogos.dettol       },
-  { name: 'Parle-G',     logo: BrandLogos.parleG       },
-  { name: 'Britannia',   logo: BrandLogos.britannia    },
-  { name: 'Dabur',       logo: BrandLogos.dabur        },
-  { name: 'Patanjali',   logo: BrandLogos.patanjali    },
-  { name: 'Colgate',     logo: BrandLogos.colgate      },
-  { name: 'Tata Sampann',logo: BrandLogos.tataSampann  },
-  { name: 'Pro Nature',  logo: BrandLogos.proNature    },
-];
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 const LogoCard: React.FC<{ brand: { name: string; logo: string } }> = ({ brand }) => (
   <div
@@ -49,7 +21,13 @@ const LogoCard: React.FC<{ brand: { name: string; logo: string } }> = ({ brand }
 );
 
 export const BrandMarquee: React.FC = () => {
-  const doubled = [...brands, ...brands];
+  const { config } = useAdminConfig();
+  const marquee = config.brandMarquee;
+
+  if (!marquee.enabled) return null;
+
+  const activeBrands = marquee.brands.filter((b) => b.enabled);
+  const doubled = [...activeBrands, ...activeBrands];
 
   return (
     <section className="w-full bg-slate-50/80 border-b border-slate-100 py-8 select-none overflow-hidden" aria-label="Trusted Brands">
@@ -57,10 +35,10 @@ export const BrandMarquee: React.FC = () => {
         
         {/* Section heading */}
         <div className="mb-6 text-center">
-          <p className="text-[11px] font-extrabold text-[#7C3AED] uppercase tracking-[3px] mb-1">Our Partners</p>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900">Trusted Brands We Carry</h2>
+          <p className="text-[11px] font-extrabold text-[#7C3AED] uppercase tracking-[3px] mb-1">{marquee.badgeText}</p>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900">{marquee.title}</h2>
           <p className="text-xs font-semibold text-slate-500 mt-1">
-            Authentic products from India's most loved brands — straight to your door.
+            {marquee.description}
           </p>
         </div>
 
@@ -94,3 +72,4 @@ export const BrandMarquee: React.FC = () => {
     </section>
   );
 };
+

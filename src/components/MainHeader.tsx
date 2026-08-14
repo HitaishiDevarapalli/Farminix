@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, ChevronDown, Search, ShoppingCart, User as UserIcon, Loader2, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 import { normalizeSearchText, getProductSlug } from './ProductListingPage';
 import type { Product } from '../types';
 
@@ -16,6 +17,8 @@ export const MainHeader: React.FC = () => {
     navigate,
     allProducts,
   } = useApp();
+  const { config } = useAdminConfig();
+  const headerCfg = config.header;
 
   const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -29,19 +32,15 @@ export const MainHeader: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const debounceTimer = useRef<number | null>(null);
 
-  // Cycling animated placeholder
-  const placeholderSuggestions = [
-    'Search for rice, atta, oil, dal...',
-    'Try "Daawat Basmati Rice"...',
-    'Search for masala, spices...',
-    'Try "Amul Butter"...',
-    'Search for dals & pulses...',
-    'Try "Aashirvaad Atta 5kg"...',
-    'Search for snacks & beverages...',
-    'Try "Fortune Sunflower Oil"...',
-    'Search for household essentials...',
-    'Try "Tata Salt 1kg"...',
-  ];
+  // Cycling animated placeholder from config
+  const placeholderSuggestions = headerCfg.searchPlaceholders && headerCfg.searchPlaceholders.length > 0
+    ? headerCfg.searchPlaceholders
+    : [
+        'Search for rice, atta, oil, dal...',
+        'Try "Daawat Basmati Rice"...',
+        'Search for masala, spices...',
+        'Try "Amul Butter"...',
+      ];
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [placeholderVisible, setPlaceholderVisible] = useState(true);
 
@@ -54,7 +53,8 @@ export const MainHeader: React.FC = () => {
       }, 300);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [placeholderSuggestions.length]);
+
 
   // Sync input value with URL search parameter
   const urlSearchQuery = currentRoute.searchParams.get('search') || '';
@@ -175,8 +175,8 @@ export const MainHeader: React.FC = () => {
         {/* Logo */}
         <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer shrink-0 group">
           <img
-            src="/farminix_logo.png"
-            alt="Farminix Logo"
+            src={headerCfg.logoUrl || '/farminix_logo.png'}
+            alt={headerCfg.logoAlt || 'Farminix Logo'}
             className="h-16 sm:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
           />
         </div>
@@ -190,7 +190,7 @@ export const MainHeader: React.FC = () => {
             <MapPin className="w-5 h-5 fill-purple-100" />
           </div>
           <div>
-            <div className="text-[10px] text-gray-500 font-medium leading-none mb-0.5">Deliver to</div>
+            <div className="text-[10px] text-gray-500 font-medium leading-none mb-0.5">{headerCfg.deliveryLabel || 'Deliver to'}</div>
             <div className="text-xs font-bold text-gray-900 flex items-center gap-1 max-w-[200px] truncate">
               {location}
               <ChevronDown className="w-3.5 h-3.5 text-gray-500 shrink-0" />
@@ -309,7 +309,7 @@ export const MainHeader: React.FC = () => {
         >
           <UserIcon className="w-4 h-4 text-white" />
           <span className="hidden sm:inline">
-            {user ? `Hi, ${user.name.split(' ')[0]}` : 'Login / Sign up'}
+            {user ? `Hi, ${user.name.split(' ')[0]}` : (headerCfg.loginButtonText || 'Login / Sign up')}
           </span>
         </button>
 
@@ -319,7 +319,7 @@ export const MainHeader: React.FC = () => {
           className="relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] border border-transparent rounded-[10px] transition-all shadow-2xs cursor-pointer"
         >
           <ShoppingCart className="w-4 h-4 text-white" />
-          <span>Cart ({totalCartItems})</span>
+          <span>{headerCfg.cartButtonText || 'Cart'} ({totalCartItems})</span>
           {totalCartItems > 0 && (
             <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#EA580C] text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-xs">
               {totalCartItems}

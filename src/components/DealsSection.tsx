@@ -1,11 +1,15 @@
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight, Sparkles, Zap } from 'lucide-react';
-import { epicDeals } from '../data/products';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const DealsSection: React.FC = () => {
   const { navigate } = useApp();
+  const { config } = useAdminConfig();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const epicDealsConfig = config.epicDeals;
+
+  if (!epicDealsConfig.enabled) return null;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -26,16 +30,16 @@ export const DealsSection: React.FC = () => {
       <div className="flex flex-col items-center justify-center mb-7 relative z-10">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-[11px] font-extrabold tracking-widest uppercase mb-2 border border-purple-200 shadow-xs">
           <Zap className="w-3.5 h-3.5 fill-purple-600 text-purple-600" />
-          <span>ZERO GRAVITY SAVINGS</span>
+          <span>{epicDealsConfig.topPillText || 'ZERO GRAVITY SAVINGS'}</span>
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
         </div>
 
         <div className="relative bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#5B21B6] text-white px-9 py-3 rounded-2xl shadow-[0_10px_30px_rgba(124,58,237,0.35)] border-2 border-purple-300/40 text-center transform hover:scale-105 transition-all duration-300">
           <div className="text-xl sm:text-2xl font-black tracking-wider uppercase drop-shadow-md">
-            EPIC DEALS
+            {epicDealsConfig.mainTitle || 'EPIC DEALS'}
           </div>
           <div className="text-xs sm:text-sm font-extrabold text-yellow-300 tracking-widest uppercase mt-0.5">
-            ALL DAY
+            {epicDealsConfig.subTitle || 'ALL DAY'}
           </div>
         </div>
       </div>
@@ -65,7 +69,7 @@ export const DealsSection: React.FC = () => {
           ref={scrollRef}
           className="flex items-center gap-5 overflow-x-auto no-scrollbar scroll-smooth py-3 px-1"
         >
-          {epicDeals.map((deal) => (
+          {epicDealsConfig.deals.map((deal) => (
             <div
               key={deal.id}
               onClick={() => {
@@ -77,7 +81,7 @@ export const DealsSection: React.FC = () => {
                   d5: 'Snacks & Beverages',
                   d6: 'Household Essentials',
                 };
-                const catName = dealCategoryMap[deal.id];
+                const catName = dealCategoryMap[deal.id] || deal.categoryName;
                 if (catName) {
                   navigate('/products', `category=${encodeURIComponent(catName)}`);
                 } else {
@@ -133,3 +137,4 @@ export const DealsSection: React.FC = () => {
   </section>
   );
 };
+

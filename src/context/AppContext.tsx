@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { Product, CartItem, UserAddress, User, Order } from '../types';
-import { popularProducts, allProducts } from '../data/products';
+import { popularProducts, allProducts as defaultAllProducts } from '../data/products';
 import { detectUserLocation } from '../utils/location';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 interface AppContextType {
   // Products & Search
@@ -64,7 +65,10 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products] = useState<Product[]>(popularProducts);
+  const { config, updateOrders } = useAdminConfig();
+  const allProducts = config.products && config.products.length > 0 ? config.products : defaultAllProducts;
+  const products = allProducts;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [activeCategoryPage, setActiveCategoryPage] = useState<string | null>(null);
@@ -96,9 +100,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [cart, setCart] = useState<CartItem[]>([
     // Default sample item in cart for demonstration
-    { product: popularProducts[0], quantity: 1, selectedWeight: popularProducts[0].weight }
+    { product: allProducts[0] || popularProducts[0], quantity: 1, selectedWeight: (allProducts[0] || popularProducts[0]).weight }
   ]);
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>('FARM10');
+
 
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [location, setLocationState] = useState<string>(() => {
@@ -234,15 +239,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const applyCoupon = (code: string) => {
-    if (code.toUpperCase() === 'FARM10') {
-      setAppliedCoupon('FARM10');
+    const validCodes = [
+      'FARM10',
+      (config.topOfferBar?.promoCode || '').toUpperCase(),
+      (config.offersPage?.promoCode || '').toUpperCase(),
+    ].filter(Boolean);
+
+    if (validCodes.includes(code.toUpperCase())) {
+      setAppliedCoupon(code.toUpperCase());
       return true;
     }
     return false;
   };
 
   const rawTotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const cartDiscount = appliedCoupon === 'FARM10' ? Math.round(rawTotal * 0.10) : 0;
+  const isCouponApplied = Boolean(appliedCoupon);
+  const cartDiscount = isCouponApplied ? Math.round(rawTotal * 0.10) : 0;
   const cartTotal = Math.max(0, rawTotal - cartDiscount);
 
   // Wishlist toggle
@@ -269,6 +281,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     setOrders(prev => [newOrder, ...prev]);
+    updateOrders([newOrder, ...config.orders]);
     clearCart();
     return newOrder;
   };

@@ -1,10 +1,15 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { categories } from '../data/products';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const CategorySection: React.FC = () => {
   const { navigate } = useApp();
+  const { config } = useAdminConfig();
+  const catSection = config.categorySection;
+  const categoriesList = config.categories;
+
+  if (!catSection.enabled) return null;
 
   return (
     <section className="w-full py-8 border-b border-slate-100">
@@ -12,20 +17,20 @@ export const CategorySection: React.FC = () => {
         {/* Section Header */}
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-            Shop by Category
+            {catSection.title}
           </h2>
           <button
-            onClick={() => navigate('/products')}
+            onClick={() => navigate(catSection.seeAllUrl || '/products')}
             className="text-xs sm:text-sm font-bold text-[#7C3AED] hover:text-purple-800 flex items-center gap-1 transition-colors cursor-pointer group"
           >
-            <span>See All</span>
+            <span>{catSection.seeAllText || 'See All'}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
-        {/* Grid of 8 Category Cards */}
+        {/* Grid of Category Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3.5">
-          {categories.map((cat) => (
+          {categoriesList.map((cat) => (
             <div
               key={cat.id}
               onClick={() => navigate('/products', `category=${encodeURIComponent(cat.name)}`)}
@@ -54,3 +59,4 @@ export const CategorySection: React.FC = () => {
     </section>
   );
 };
+
