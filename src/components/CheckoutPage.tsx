@@ -683,7 +683,34 @@ export const CheckoutPage: React.FC = () => {
 
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl z-10 animate-in zoom-in-95 duration-200 border border-slate-100 text-left">
             <h3 className="text-lg font-black text-slate-900 mb-1">Add New Delivery Address</h3>
-            <p className="text-xs text-slate-500 mb-4">Enter details or use GPS location auto-fill.</p>
+            <p className="text-xs text-slate-500 mb-4">Enter details or click below to auto-detect your current GPS location.</p>
+
+            {/* GPS Location Auto-Fill Button */}
+            <button
+              type="button"
+              onClick={handleDetectGpsForAddress}
+              disabled={isDetectingGps}
+              className="w-full mb-4 py-3 px-4 bg-purple-50 hover:bg-purple-100 border border-purple-200 text-[#7C3AED] rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs active:scale-98"
+            >
+              {isDetectingGps ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#7C3AED]" />
+                  <span>Detecting current GPS location...</span>
+                </>
+              ) : (
+                <>
+                  <Navigation className="w-4 h-4 fill-[#7C3AED] text-[#7C3AED]" />
+                  <span>🎯 Use GPS Location to Auto-Fill Address</span>
+                </>
+              )}
+            </button>
+
+            {gpsStatus && (
+              <div className="mb-4 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl flex items-center gap-1.5 animate-in fade-in">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{gpsStatus}</span>
+              </div>
+            )}
 
             <form onSubmit={handleSaveAddress} className="space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-3">
