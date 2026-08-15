@@ -33,6 +33,7 @@ import { AuthModal } from './modals/AuthModal';
 import { ProductModal } from './modals/ProductModal';
 import { TrackOrderModal } from './modals/TrackOrderModal';
 import { SupportModal } from './modals/SupportModal';
+import { IntroVideoOverlay } from './components/IntroVideoOverlay';
 
 export function AppContent() {
   const { currentRoute, navigate } = useApp();
@@ -146,6 +147,9 @@ export function AppContent() {
       <TrackOrderModal />
       <SupportModal />
       <CategoryPage />
+
+      {/* INTRO VIDEO OVERLAY ON SITE OPEN */}
+      {currentRoute.pathname === '/' && <IntroVideoOverlay />}
     </div>
   );
 }
