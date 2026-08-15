@@ -83,9 +83,9 @@ export const OffersManager: React.FC = () => {
             <div className="relative">
               <Clock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
-                type="number"
+                type="text"
                 value={formData.countdownHours}
-                onChange={(e) => handleUpdateField('countdownHours', Number(e.target.value))}
+                onChange={(e) => handleUpdateField('countdownHours', Number(e.target.value.replace(/\D/g, '')) || 0)}
                 className="w-full h-10 pl-10 pr-3.5 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl"
               />
             </div>

@@ -18,7 +18,7 @@ import type {
   SectionOrderItem,
   MediaItem,
 } from '../types';
-import type { Product, Category, Order } from '../../types';
+import type { Product, Category, Order, User } from '../../types';
 import { defaultSiteConfig, defaultThemeTokens } from '../defaultConfig';
 
 interface AdminContextType {
@@ -53,6 +53,7 @@ interface AdminContextType {
   deleteProduct: (id: string) => void;
   updateOrders: (orders: Order[]) => void;
   updateOrderStatus: (orderId: string, status: Order['status']) => void;
+  updateUsers: (users: User[]) => void;
   addMedia: (item: MediaItem) => void;
   deleteMedia: (id: string) => void;
   resetToDefaults: () => void;
@@ -325,6 +326,10 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
     saveConfig({ ...config, orders: updated });
   };
 
+  const updateUsers = (users: User[]) => {
+    saveConfig({ ...config, users });
+  };
+
   const addMedia = (item: MediaItem) => {
     saveConfig({ ...config, mediaLibrary: [item, ...config.mediaLibrary] });
   };
@@ -371,6 +376,7 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
         deleteProduct,
         updateOrders,
         updateOrderStatus,
+        updateUsers,
         addMedia,
         deleteMedia,
         resetToDefaults,

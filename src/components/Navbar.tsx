@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext';
 import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const Navbar: React.FC = () => {
-  const { categories, selectedCategory, navigate } = useApp();
+  const { categories, selectedCategory, navigate, currentRoute } = useApp();
   const { publishedConfig } = useAdminConfig();
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
 
@@ -54,7 +54,11 @@ export const Navbar: React.FC = () => {
       {/* Nav Menu Items */}
       <div className="flex-1 flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth">
         {activeNavItems.map((item) => {
-          const isActive = selectedCategory === item.catId || (item.catId === null && selectedCategory === null);
+          const isHomeRoute = currentRoute.pathname === '/' || currentRoute.pathname === '';
+          const isActive = 
+            (item.catId === null && isHomeRoute && selectedCategory === null) || 
+            (item.catId === 'offers' && currentRoute.pathname === '/offers') ||
+            (item.catId !== null && item.catId !== 'offers' && selectedCategory === item.catId);
           return (
             <button
               key={item.id}

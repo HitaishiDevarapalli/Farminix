@@ -106,6 +106,7 @@ export const detectUserLocation = (): Promise<DetectedLocationResult> => {
             }
 
             if (locationString) {
+              locationString = locationString.trim().replace(/\s*-\s*$/, '');
               resolve({
                 success: true,
                 locationString,

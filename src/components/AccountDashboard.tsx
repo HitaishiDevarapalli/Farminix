@@ -95,6 +95,20 @@ export const AccountDashboard: React.FC = () => {
   // Wallet & Rewards
   const [walletBalance, setWalletBalance] = useState<number>(user?.walletBalance || 250);
   const [rewardPoints, setRewardPoints] = useState<number>(user?.rewardPoints || 350);
+
+  useEffect(() => {
+    if (user) {
+      setWalletBalance(user.walletBalance);
+      setRewardPoints(user.rewardPoints);
+      setUserProfile({
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        memberSince: 'August 2024',
+        isGoldMember: true,
+      });
+    }
+  }, [user]);
   const [transactions] = useState([
     { id: 'txn-1', title: 'Cashback Received (Order #89241)', amount: '+ ₹50', date: '04 Aug 2026', type: 'credit' },
     { id: 'txn-2', title: 'Paid for Grocery Order #89110', amount: '- ₹188', date: '01 Aug 2026', type: 'debit' },

@@ -125,9 +125,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const setLocation = (loc: string) => {
-    setLocationState(loc);
+    const cleanedLoc = loc.trim().replace(/\s*-\s*$/, '').replace(/,\s*$/, '');
+    setLocationState(cleanedLoc);
     try {
-      localStorage.setItem('farminix_user_location', loc);
+      localStorage.setItem('farminix_user_location', cleanedLoc);
     } catch {
       // Ignore localStorage errors
     }
@@ -154,26 +155,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
-  const [user, setUser] = useState<User | null>({
-    id: 'usr-1',
-    name: 'Hitaishi Devarapalli',
-    phone: '+91 98765 43210',
-    email: 'hitaishi@example.com',
-    rewardPoints: 350,
-    walletBalance: 250,
-    addresses: [
-      {
-        id: 'addr-1',
-        name: 'Hitaishi Devarapalli',
-        street: 'Plot No. 42, Brodipet 4th Line',
-        city: 'Guntur',
-        state: 'Andhra Pradesh',
-        pincode: '522034',
-        phone: '+91 98765 43210',
-        isDefault: true
-      }
-    ]
+  const [user, setUser] = useState<User | null>(() => {
+    const defaultUser = (publishedConfig.users || []).find((u) => u.id === 'usr-1');
+    if (defaultUser) return defaultUser;
+
+    return {
+      id: 'usr-1',
+      name: 'Hitaishi Devarapalli',
+      phone: '+91 98765 43210',
+      email: 'hitaishi@example.com',
+      rewardPoints: 350,
+      walletBalance: 250,
+      addresses: [
+        {
+          id: 'addr-1',
+          name: 'Hitaishi Devarapalli',
+          street: 'Plot No. 42, Brodipet 4th Line',
+          city: 'Guntur',
+          state: 'Andhra Pradesh',
+          pincode: '522034',
+          phone: '+91 98765 43210',
+          isDefault: true
+        }
+      ]
+    };
   });
+
+  useEffect(() => {
+    const updatedUser = (publishedConfig.users || []).find((u) => u.id === 'usr-1');
+    if (updatedUser) {
+      setUser(updatedUser);
+    }
+  }, [publishedConfig.users]);
 
   const [orders, setOrders] = useState<Order[]>([
     {

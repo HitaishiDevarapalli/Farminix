@@ -3,10 +3,15 @@ import { Users, Search, Award, Wallet, MapPin } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
 
 export const CustomerManager: React.FC = () => {
-  const { config } = useAdminConfig();
+  const { config, updateUsers } = useAdminConfig();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredUsers = config.users.filter(
+  const handleUpdateCustomer = (userId: string, key: 'rewardPoints' | 'walletBalance', val: number) => {
+    const updated = (config.users || []).map((u) => (u.id === userId ? { ...u, [key]: val } : u));
+    updateUsers(updated);
+  };
+
+  const filteredUsers = (config.users || []).filter(
     (u) =>
       u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -63,24 +68,36 @@ export const CustomerManager: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-2xl bg-amber-50/60 border border-amber-200/80 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-                  <Award className="w-4 h-4" />
+              <div className="p-3.5 rounded-2xl bg-amber-50/65 border border-amber-200/85 space-y-2 flex flex-col justify-between">
+                <div className="flex items-center gap-2">
+                  <Award className="w-4 h-4 text-amber-700" />
+                  <span className="text-[10px] uppercase font-extrabold text-amber-800">Reward Points</span>
                 </div>
-                <div>
-                  <div className="text-[10px] uppercase font-bold text-amber-700">Reward Points</div>
-                  <div className="text-sm font-black text-slate-900">{user.rewardPoints} pts</div>
-                </div>
+                <input
+                  type="text"
+                  value={user.rewardPoints}
+                  onChange={(e) => {
+                    const val = Number(e.target.value.replace(/\D/g, '')) || 0;
+                    handleUpdateCustomer(user.id, 'rewardPoints', val);
+                  }}
+                  className="w-full h-8 px-2.5 text-xs font-black text-slate-900 bg-white border border-amber-250 rounded-lg focus:outline-none focus:border-amber-500"
+                />
               </div>
 
-              <div className="p-3 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-                  <Wallet className="w-4 h-4" />
+              <div className="p-3.5 rounded-2xl bg-emerald-50/65 border border-emerald-200/85 space-y-2 flex flex-col justify-between">
+                <div className="flex items-center gap-2">
+                  <Wallet className="w-4 h-4 text-emerald-700" />
+                  <span className="text-[10px] uppercase font-extrabold text-emerald-800">Wallet Balance (₹)</span>
                 </div>
-                <div>
-                  <div className="text-[10px] uppercase font-bold text-emerald-700">Farminix Wallet</div>
-                  <div className="text-sm font-black text-slate-900">₹{user.walletBalance}</div>
-                </div>
+                <input
+                  type="text"
+                  value={user.walletBalance}
+                  onChange={(e) => {
+                    const val = Number(e.target.value.replace(/[^0-9.]/g, '')) || 0;
+                    handleUpdateCustomer(user.id, 'walletBalance', val);
+                  }}
+                  className="w-full h-8 px-2.5 text-xs font-black text-emerald-700 bg-white border border-emerald-250 rounded-lg focus:outline-none focus:border-emerald-500"
+                />
               </div>
             </div>
 

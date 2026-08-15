@@ -379,10 +379,10 @@ export const ProductManager: React.FC = () => {
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">Selling Price (₹) *</label>
                       <input
-                        type="number"
+                        type="text"
                         required
                         value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                        onChange={(e) => setFormData({ ...formData, price: Number(e.target.value.replace(/[^0-9.]/g, '')) || 0 })}
                         className="w-full h-10 px-3 text-xs font-extrabold text-purple-700 bg-slate-50 border border-slate-200 rounded-xl"
                       />
                     </div>
@@ -390,9 +390,9 @@ export const ProductManager: React.FC = () => {
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">Original Price (₹)</label>
                       <input
-                        type="number"
+                        type="text"
                         value={formData.oldPrice || 0}
-                        onChange={(e) => setFormData({ ...formData, oldPrice: Number(e.target.value) })}
+                        onChange={(e) => setFormData({ ...formData, oldPrice: Number(e.target.value.replace(/[^0-9.]/g, '')) || 0 })}
                         className="w-full h-10 px-3 text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl"
                       />
                     </div>
@@ -400,10 +400,30 @@ export const ProductManager: React.FC = () => {
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">Stock Count</label>
                       <input
-                        type="number"
+                        type="text"
                         value={formData.stockCount || 50}
-                        onChange={(e) => setFormData({ ...formData, stockCount: Number(e.target.value) })}
+                        onChange={(e) => setFormData({ ...formData, stockCount: Number(e.target.value.replace(/\D/g, '')) || 0 })}
                         className="w-full h-10 px-3 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Product Rating (0 - 5)</label>
+                      <input
+                        type="text"
+                        value={formData.rating || 4.8}
+                        onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value.replace(/[^0-9.]/g, '')) || 0 })}
+                        className="w-full h-10 px-3 text-xs font-semibold text-slate-850 bg-slate-50 border border-slate-200 rounded-xl"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Total Ratings Count</label>
+                      <input
+                        type="text"
+                        value={formData.reviewsCount || 100}
+                        onChange={(e) => setFormData({ ...formData, reviewsCount: Number(e.target.value.replace(/\D/g, '')) || 0 })}
+                        className="w-full h-10 px-3 text-xs font-semibold text-slate-850 bg-slate-50 border border-slate-200 rounded-xl"
                       />
                     </div>
 

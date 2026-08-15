@@ -167,9 +167,9 @@ export const CategoryManager: React.FC = () => {
             <label className="block text-xs font-bold text-slate-700 mb-1.5">Estimated Item Count</label>
             <div className="flex items-center gap-2">
               <input
-                type="number"
+                type="text"
                 value={newCatItemCount}
-                onChange={(e) => setNewCatItemCount(Number(e.target.value))}
+                onChange={(e) => setNewCatItemCount(Number(e.target.value.replace(/\D/g, '')) || 0)}
                 className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
               />
               <button
@@ -221,9 +221,9 @@ export const CategoryManager: React.FC = () => {
                   <div>
                     <label className="block text-[10px] font-bold text-slate-400 uppercase">Estimated Item Count</label>
                     <input
-                      type="number"
+                      type="text"
                       value={cat.itemCount}
-                      onChange={(e) => handleEditCategory(cat.id, 'itemCount', Number(e.target.value))}
+                      onChange={(e) => handleEditCategory(cat.id, 'itemCount', Number(e.target.value.replace(/\D/g, '')) || 0)}
                       className="w-full h-9 px-3 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
                     />
                   </div>

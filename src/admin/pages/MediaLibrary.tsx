@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Upload, Trash2, Copy, Check, Search } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { MediaItem } from '../types';
 
 export const MediaLibrary: React.FC = () => {
@@ -22,7 +23,10 @@ export const MediaLibrary: React.FC = () => {
 
   const handleAddMedia = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMediaName.trim() || !newMediaUrl.trim()) return;
+    if (!newMediaName.trim() || !newMediaUrl.trim()) {
+      alert('Please upload an asset image and specify a label!');
+      return;
+    }
 
     const item: MediaItem = {
       id: `med-${Date.now()}`,
@@ -68,38 +72,26 @@ export const MediaLibrary: React.FC = () => {
           Upload / Register New Asset
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Asset Label</label>
-            <input
-              type="text"
-              required
-              value={newMediaName}
-              onChange={(e) => setNewMediaName(e.target.value)}
-              placeholder="E.g., Daawat Rice 5kg Banner"
-              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-1 space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">Asset Label</label>
+              <input
+                type="text"
+                required
+                value={newMediaName}
+                onChange={(e) => setNewMediaName(e.target.value)}
+                placeholder="E.g., Daawat Rice 5kg Banner"
+                className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+              />
+            </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Image URL / Local Path</label>
-            <input
-              type="text"
-              required
-              value={newMediaUrl}
-              onChange={(e) => setNewMediaUrl(e.target.value)}
-              placeholder="/prod_daawat_rice.jpg or https://..."
-              className="w-full h-10 px-3.5 text-xs font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-xl"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Asset Type</label>
-            <div className="flex items-center gap-2">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">Asset Type</label>
               <select
                 value={newMediaCategory}
                 onChange={(e) => setNewMediaCategory(e.target.value as any)}
-                className="flex-1 h-10 px-3 text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl"
+                className="w-full h-10 px-3 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500 mb-3"
               >
                 <option value="product">Product Photo</option>
                 <option value="category">Category Thumbnail</option>
@@ -107,14 +99,24 @@ export const MediaLibrary: React.FC = () => {
                 <option value="brand">Brand Partner Logo</option>
                 <option value="other">Other Asset</option>
               </select>
-              <button
-                type="submit"
-                className="h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
-              >
-                <Upload className="w-4 h-4" />
-                <span>Save Asset</span>
-              </button>
             </div>
+
+            <button
+              type="submit"
+              className="w-full h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Upload className="w-4 h-4" />
+              <span>Save Asset</span>
+            </button>
+          </div>
+
+          <div className="md:col-span-2">
+            <AdminImageUpload
+              value={newMediaUrl}
+              onChange={setNewMediaUrl}
+              label="Asset Image (Drag & Drop or Click)"
+              aspectRatio="video"
+            />
           </div>
         </div>
       </form>
