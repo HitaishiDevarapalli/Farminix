@@ -38,6 +38,21 @@ export function AppContent() {
   const { currentRoute, navigate } = useApp();
   const { config, isAdminLoggedIn } = useAdminConfig();
 
+  // Detect OS: zoom 125% for Windows, 100% for Mac
+  React.useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isWindows = userAgent.indexOf('windows') !== -1;
+    const isMac = userAgent.indexOf('macintosh') !== -1 || userAgent.indexOf('mac os') !== -1;
+    
+    if (isWindows) {
+      document.documentElement.style.zoom = '1.25';
+    } else if (isMac) {
+      document.documentElement.style.zoom = '1.0';
+    } else {
+      document.documentElement.style.zoom = '1.0';
+    }
+  }, []);
+
   // Handle Admin CRM Route
   if (currentRoute.pathname === '/admin') {
     if (!isAdminLoggedIn) {

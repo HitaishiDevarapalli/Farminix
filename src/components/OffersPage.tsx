@@ -5,6 +5,7 @@ import {
   Eye, RotateCcw, ChevronDown, ChevronUp, Clock, Zap, Gift,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 import {
   PriceRangeFilter,
   loadSavedPriceRange,
@@ -248,6 +249,7 @@ export const OffersPage: React.FC = () => {
     wishlist, toggleWishlist,
     setSelectedProduct, setIsCartOpen,
   } = useApp();
+  const { publishedConfig } = useAdminConfig();
 
   // ── Discounted products pool ──────────────────────────────────────────────
   const discountedProducts = useMemo(
@@ -283,7 +285,7 @@ export const OffersPage: React.FC = () => {
   const [heartAnimIds,        setHeartAnimIds]        = useState<Set<string>>(new Set());
 
   // Mega deals carousel (stationary grid — no ref needed)
-  const endDateRef = useRef<Date>(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+  const endDateRef = useRef<Date>(new Date(Date.now() + (publishedConfig.offersPage?.countdownHours || 18) * 60 * 60 * 1000));
   const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDateRef.current));
 
   useEffect(() => {
@@ -407,30 +409,28 @@ export const OffersPage: React.FC = () => {
           {/* Eyebrow */}
           <div className="offers-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-yellow-300 text-xs font-bold mb-6 tracking-widest">
             <Zap className="w-3.5 h-3.5" />
-            EXCLUSIVE DEALS · LIMITED TIME ONLY
+            {publishedConfig.offersPage?.heroBadge || 'EXCLUSIVE DEALS · LIMITED TIME ONLY'}
             <Zap className="w-3.5 h-3.5" />
           </div>
 
           {/* Headline */}
           <h1 className="offers-gradient-text offers-fade-up offers-delay-1 text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-4">
-            🔥 Best Deals<br className="hidden sm:block" /> You Can't Miss!
+            {publishedConfig.offersPage?.heroTitle || '🔥 Best Deals You Can\'t Miss!'}
           </h1>
 
           {/* Subtitle */}
           <p className="offers-fade-up offers-delay-2 text-white/75 text-sm sm:text-lg font-medium mb-10 max-w-xl mx-auto leading-relaxed">
-            Exclusive savings on groceries, oils, dals, spices & more.
-            <br className="hidden sm:block" />
-            Shop smarter — save bigger every single day!
+            {publishedConfig.offersPage?.heroSubtitle || 'Exclusive savings on groceries, oils, dals, spices & more. Shop smarter — save bigger every single day!'}
           </p>
 
           {/* 3D Badge */}
           <div className="offers-fade-up offers-delay-3 inline-block">
             <div className="offers-badge-3d rounded-2xl px-10 py-5 inline-flex flex-col items-center gap-1">
-              <div className="text-xs font-extrabold text-amber-900 uppercase tracking-widest">Save up to</div>
-              <div className="text-5xl sm:text-6xl font-black text-white leading-none" style={{textShadow:'0 3px 6px rgba(0,0,0,0.4)'}}>
-                50% OFF
+              <div className="text-xs font-extrabold text-amber-900 uppercase tracking-widest">Promo Code</div>
+              <div className="text-3xl sm:text-4xl font-black text-white leading-none" style={{textShadow:'0 3px 6px rgba(0,0,0,0.4)'}}>
+                {publishedConfig.offersPage?.promoCode || 'FARM10'}
               </div>
-              <div className="text-xs font-extrabold text-amber-900 uppercase tracking-widest mt-0.5">on top brands today</div>
+              <div className="text-xs font-extrabold text-amber-900 uppercase tracking-widest mt-1.5">Use at checkout for discount</div>
             </div>
           </div>
 
