@@ -19,27 +19,30 @@ export const BrandMarqueeManager: React.FC = () => {
   };
 
   const handleToggleBrand = (id: string) => {
-    const updatedBrands = formData.brands.map((b) => (b.id === id ? { ...b, enabled: !b.enabled } : b));
+    const currentBrands = formData.brands || [];
+    const updatedBrands = currentBrands.map((b) => (b.id === id ? { ...b, enabled: !b.enabled } : b));
     handleUpdateField('brands', updatedBrands);
   };
 
   const handleDeleteBrand = (id: string, name: string) => {
     if (confirm(`Are you sure you want to delete brand partner "${name}"?`)) {
-      const updatedBrands = formData.brands.filter((b) => b.id !== id);
+      const currentBrands = formData.brands || [];
+      const updatedBrands = currentBrands.filter((b) => b.id !== id);
       handleUpdateField('brands', updatedBrands);
     }
   };
 
   const handleAddBrand = () => {
-    const finalName = newBrandName.trim() || `New Brand Partner ${formData.brands.length + 1}`;
+    const currentBrands = formData.brands || [];
+    const finalName = newBrandName.trim() || `New Brand Partner ${currentBrands.length + 1}`;
     const newBrand: PartnerBrand = {
       id: `b-${Date.now()}`,
       name: finalName,
       logo: newBrandLogo.trim() || '/farminix_logo.png',
       enabled: true,
-      order: formData.brands.length + 1,
+      order: currentBrands.length + 1,
     };
-    const updatedBrands = [...formData.brands, newBrand];
+    const updatedBrands = [...currentBrands, newBrand];
     handleUpdateField('brands', updatedBrands);
     setNewBrandName('');
     setNewBrandLogo('');
@@ -166,11 +169,11 @@ export const BrandMarqueeManager: React.FC = () => {
       {/* Existing Brands Grid */}
       <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs space-y-4">
         <h2 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">
-          3. Existing Brands in Marquee ({formData.brands.length})
+          3. Existing Brands in Marquee ({(formData.brands || []).length})
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in duration-200">
-          {formData.brands.map((brand) => (
+          {(formData.brands || []).map((brand) => (
             <div
               key={brand.id}
               className={`p-4 rounded-2xl border flex flex-col justify-between gap-3 transition-all ${

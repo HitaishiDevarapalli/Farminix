@@ -20,28 +20,31 @@ export const FutureArrivalsManager: React.FC = () => {
   };
 
   const handleToggleItem = (id: number) => {
-    const updatedItems = formData.items.map((it) => (it.id === id ? { ...it, enabled: !it.enabled } : it));
+    const currentItems = formData.items || [];
+    const updatedItems = currentItems.map((it) => (it.id === id ? { ...it, enabled: !it.enabled } : it));
     handleUpdateField('items', updatedItems);
   };
 
   const handleDeleteItem = (id: number, name: string) => {
     if (confirm(`Are you sure you want to delete upcoming item "${name}"?`)) {
-      const updatedItems = formData.items.filter((it) => it.id !== id);
+      const currentItems = formData.items || [];
+      const updatedItems = currentItems.filter((it) => it.id !== id);
       handleUpdateField('items', updatedItems);
     }
   };
 
   const handleAddItem = () => {
-    const finalName = newItemName.trim() || `New Upcoming Item ${formData.items.length + 1}`;
+    const currentItems = formData.items || [];
+    const finalName = newItemName.trim() || `New Upcoming Item ${currentItems.length + 1}`;
     const newItem: FutureItemConfig = {
       id: Date.now(),
       name: finalName,
       image: newItemImage.trim() || 'https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?auto=format&fit=crop&q=80&w=300',
       badgeText: newItemBadge.trim() || 'Coming Soon',
       enabled: true,
-      order: formData.items.length + 1,
+      order: currentItems.length + 1,
     };
-    const updatedItems = [...formData.items, newItem];
+    const updatedItems = [...currentItems, newItem];
     handleUpdateField('items', updatedItems);
     setNewItemName('');
     setNewItemImage('');
@@ -173,11 +176,11 @@ export const FutureArrivalsManager: React.FC = () => {
       {/* Items List */}
       <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs space-y-4">
         <h2 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">
-          3. Upcoming Items in Carousel ({formData.items.length})
+          3. Upcoming Items in Carousel ({(formData.items || []).length})
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {formData.items.map((item) => (
+          {(formData.items || []).map((item) => (
             <div
               key={item.id}
               className={`p-4 rounded-2xl border flex flex-col justify-between gap-3 transition-all ${
