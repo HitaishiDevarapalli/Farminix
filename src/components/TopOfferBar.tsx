@@ -5,8 +5,8 @@ import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const TopOfferBar: React.FC = () => {
   const { setIsTrackOrderOpen, setIsSupportOpen } = useApp();
-  const { config } = useAdminConfig();
-  const bar = config.topOfferBar;
+  const { publishedConfig } = useAdminConfig();
+  const bar = publishedConfig.topOfferBar;
 
   if (!bar.enabled) return null;
 

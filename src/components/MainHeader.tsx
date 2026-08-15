@@ -17,8 +17,8 @@ export const MainHeader: React.FC = () => {
     navigate,
     allProducts,
   } = useApp();
-  const { config } = useAdminConfig();
-  const headerCfg = config.header;
+  const { publishedConfig } = useAdminConfig();
+  const headerCfg = publishedConfig.header;
 
   const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 

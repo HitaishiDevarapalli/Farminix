@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Check, Plus, Trash2 } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { HeaderConfig } from '../types';
 
 export const HeaderManager: React.FC = () => {
@@ -61,19 +62,13 @@ export const HeaderManager: React.FC = () => {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Logo Image Asset URL</label>
-            <div className="flex items-center gap-3">
-              <input
-                type="text"
-                value={formData.logoUrl}
-                onChange={(e) => handleChange('logoUrl', e.target.value)}
-                className="flex-1 h-10 px-3.5 text-xs font-medium text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
-              />
-              <div className="w-16 h-10 bg-slate-100 rounded-xl border border-slate-200 p-1 flex items-center justify-center shrink-0">
-                <img src={formData.logoUrl} alt="Preview" className="max-h-full object-contain" />
-              </div>
-            </div>
+          <div className="md:col-span-2">
+            <AdminImageUpload
+              value={formData.logoUrl}
+              onChange={(val) => handleChange('logoUrl', val)}
+              label="Header Logo Image"
+              aspectRatio="auto"
+            />
           </div>
 
           <div>

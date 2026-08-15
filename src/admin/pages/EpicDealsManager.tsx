@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Sparkles, Check, Eye, EyeOff } from 'lucide-react';
+import { Sparkles, Check, Eye, EyeOff, Plus, Trash2 } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { DealCard } from '../../types';
 
 export const EpicDealsManager: React.FC = () => {
@@ -18,6 +19,29 @@ export const EpicDealsManager: React.FC = () => {
   const handleUpdateDeal = (id: string, field: keyof DealCard, value: any) => {
     const updatedDeals = formData.deals.map((d) => (d.id === id ? { ...d, [field]: value } : d));
     handleUpdateField('deals', updatedDeals);
+  };
+
+  const handleAddDeal = () => {
+    const newDeal: DealCard & { enabled?: boolean } = {
+      id: `d-${Date.now()}`,
+      categoryName: 'New Department Deal',
+      discountBadge: 'MIN. 30% OFF',
+      image: '/cat_dals.jpg',
+      brands: [
+        { name: 'Fortune', logo: '/logo_fortune.png' },
+        { name: 'Amul', logo: '/logo_amul.png' }
+      ],
+      enabled: true,
+    };
+    const updatedDeals = [...formData.deals, newDeal];
+    handleUpdateField('deals', updatedDeals);
+  };
+
+  const handleDeleteDeal = (id: string, name: string) => {
+    if (confirm(`Are you sure you want to delete the deal card for "${name}"?`)) {
+      const updatedDeals = formData.deals.filter((d) => d.id !== id);
+      handleUpdateField('deals', updatedDeals);
+    }
   };
 
   const notifySaved = () => {
@@ -103,54 +127,81 @@ export const EpicDealsManager: React.FC = () => {
 
       {/* Deal Cards List */}
       <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-2xs space-y-4">
-        <h2 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">
-          2. Category Deal Cards ({formData.deals.length})
-        </h2>
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h2 className="text-sm font-bold text-slate-900">
+            2. Category Deal Cards ({formData.deals.length})
+          </h2>
+          <button
+            onClick={handleAddDeal}
+            className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-2xs"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Deal Card</span>
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {formData.deals.map((deal) => (
-            <div
-              key={deal.id}
-              className="p-4 rounded-2xl border border-slate-200 bg-white shadow-2xs space-y-3"
-            >
-              <div className="w-full h-32 rounded-xl overflow-hidden bg-slate-950 relative">
-                <img src={deal.image} alt={deal.categoryName} className="w-full h-full object-cover opacity-80" />
-                <div className="absolute top-2 left-2 px-2 py-0.5 bg-yellow-400 text-slate-950 font-black text-[10px] rounded-md">
-                  {deal.discountBadge}
+          {formData.deals.map((deal) => {
+            const isEnabled = (deal as any).enabled !== false;
+            return (
+              <div
+                key={deal.id}
+                className={`p-4 rounded-2xl border bg-white shadow-2xs space-y-3 flex flex-col justify-between transition-all ${
+                  isEnabled ? 'border-slate-200' : 'border-slate-200/50 opacity-60 bg-slate-50'
+                }`}
+              >
+                <div className="space-y-3">
+                  <AdminImageUpload
+                    value={deal.image}
+                    onChange={(val) => handleUpdateDeal(deal.id, 'image', val)}
+                    label="Deal Banner Image"
+                    aspectRatio="video"
+                  />
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase">Category Title</label>
+                    <input
+                      type="text"
+                      value={deal.categoryName}
+                      onChange={(e) => handleUpdateDeal(deal.id, 'categoryName', e.target.value)}
+                      className="w-full h-8 px-2.5 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase">Discount Badge Text</label>
+                    <input
+                      type="text"
+                      value={deal.discountBadge}
+                      onChange={(e) => handleUpdateDeal(deal.id, 'discountBadge', e.target.value)}
+                      className="w-full h-8 px-2.5 text-xs font-bold text-yellow-600 bg-yellow-50/50 border border-yellow-200 rounded-lg"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2.5 border-t border-slate-100">
+                  <button
+                    onClick={() => handleUpdateDeal(deal.id, 'enabled', !isEnabled)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                      isEnabled
+                        ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    }`}
+                  >
+                    {isEnabled ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                    <span>{isEnabled ? 'Visible' : 'Hidden'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleDeleteDeal(deal.id, deal.categoryName)}
+                    className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase">Category Title</label>
-                <input
-                  type="text"
-                  value={deal.categoryName}
-                  onChange={(e) => handleUpdateDeal(deal.id, 'categoryName', e.target.value)}
-                  className="w-full h-8 px-2.5 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase">Discount Badge Text</label>
-                <input
-                  type="text"
-                  value={deal.discountBadge}
-                  onChange={(e) => handleUpdateDeal(deal.id, 'discountBadge', e.target.value)}
-                  className="w-full h-8 px-2.5 text-xs font-bold text-yellow-600 bg-yellow-50/50 border border-yellow-200 rounded-lg"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase">Banner Image URL</label>
-                <input
-                  type="text"
-                  value={deal.image}
-                  onChange={(e) => handleUpdateDeal(deal.id, 'image', e.target.value)}
-                  className="w-full h-8 px-2.5 text-[11px] font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded-lg"
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

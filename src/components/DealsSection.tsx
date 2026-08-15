@@ -5,9 +5,9 @@ import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const DealsSection: React.FC = () => {
   const { navigate } = useApp();
-  const { config } = useAdminConfig();
+  const { publishedConfig } = useAdminConfig();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const epicDealsConfig = config.epicDeals;
+  const epicDealsConfig = publishedConfig.epicDeals;
 
   if (!epicDealsConfig.enabled) return null;
 
@@ -69,7 +69,7 @@ export const DealsSection: React.FC = () => {
           ref={scrollRef}
           className="flex items-center gap-5 overflow-x-auto no-scrollbar scroll-smooth py-3 px-1"
         >
-          {epicDealsConfig.deals.map((deal) => (
+          {epicDealsConfig.deals.filter(d => d.enabled !== false).map((deal) => (
             <div
               key={deal.id}
               onClick={() => {

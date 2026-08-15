@@ -5,8 +5,8 @@ import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const FeatureStrip: React.FC = () => {
   const { setIsSupportOpen } = useApp();
-  const { config } = useAdminConfig();
-  const strip = config.featureStrip;
+  const { publishedConfig } = useAdminConfig();
+  const strip = publishedConfig.featureStrip;
 
   if (!strip.enabled) return null;
 

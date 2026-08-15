@@ -2,8 +2,8 @@ import React from 'react';
 import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const FutureArrivals: React.FC = () => {
-  const { config } = useAdminConfig();
-  const futureConfig = config.futureArrivals;
+  const { publishedConfig } = useAdminConfig();
+  const futureConfig = publishedConfig.futureArrivals;
 
   if (!futureConfig.enabled) return null;
 

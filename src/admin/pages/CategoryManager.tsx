@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid, Plus, Trash2, Check, Eye, EyeOff } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { Category } from '../../types';
 
 export const CategoryManager: React.FC = () => {
@@ -34,6 +35,7 @@ export const CategoryManager: React.FC = () => {
       name: newCatName.trim(),
       image: newCatImage.trim() || '/cat_dals.jpg',
       itemCount: Number(newCatItemCount) || 1,
+      enabled: true, // Enabled by default
     };
     const updated = [...categoriesList, newCategory];
     setCategoriesList(updated);
@@ -44,11 +46,13 @@ export const CategoryManager: React.FC = () => {
     notifySaved();
   };
 
-  const handleDeleteCategory = (id: string) => {
-    const updated = categoriesList.filter((c) => c.id !== id);
-    setCategoriesList(updated);
-    updateCategories(updated);
-    notifySaved();
+  const handleDeleteCategory = (id: string, name: string) => {
+    if (confirm(`Are you sure you want to delete category "${name}"?`)) {
+      const updated = categoriesList.filter((c) => c.id !== id);
+      setCategoriesList(updated);
+      updateCategories(updated);
+      notifySaved();
+    }
   };
 
   const handleEditCategory = (id: string, field: keyof Category, value: any) => {
@@ -139,25 +143,23 @@ export const CategoryManager: React.FC = () => {
           2. Add New Category
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Category Name</label>
-            <input
-              type="text"
-              value={newCatName}
-              onChange={(e) => setNewCatName(e.target.value)}
-              placeholder="E.g., Organic Honey &amp; Spreads"
-              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
-            />
-          </div>
+          <div className="space-y-4 sm:col-span-2">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">Category Name</label>
+              <input
+                type="text"
+                value={newCatName}
+                onChange={(e) => setNewCatName(e.target.value)}
+                placeholder="E.g., Organic Honey &amp; Spreads"
+                className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+              />
+            </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Image URL or Path</label>
-            <input
-              type="text"
+            <AdminImageUpload
               value={newCatImage}
-              onChange={(e) => setNewCatImage(e.target.value)}
-              placeholder="/cat_dals.jpg or https://..."
-              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+              onChange={setNewCatImage}
+              label="Category Image"
+              aspectRatio="square"
             />
           </div>
 
@@ -172,7 +174,7 @@ export const CategoryManager: React.FC = () => {
               />
               <button
                 onClick={handleAddCategory}
-                className="h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                className="h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 animate-pulse"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Category</span>
@@ -188,47 +190,68 @@ export const CategoryManager: React.FC = () => {
           3. Active Categories ({categoriesList.length})
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {categoriesList.map((cat) => (
-            <div
-              key={cat.id}
-              className="p-4 rounded-2xl border border-slate-200 bg-white shadow-2xs space-y-3 flex flex-col justify-between"
-            >
-              <div className="space-y-2">
-                <div className="w-full aspect-video rounded-xl overflow-hidden bg-slate-100 border border-slate-100">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase">Category Name</label>
-                  <input
-                    type="text"
-                    value={cat.name}
-                    onChange={(e) => handleEditCategory(cat.id, 'name', e.target.value)}
-                    className="w-full h-8 px-2.5 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase">Image URL</label>
-                  <input
-                    type="text"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoriesList.map((cat) => {
+            const isEnabled = cat.enabled !== false;
+            return (
+              <div
+                key={cat.id}
+                className={`p-4 rounded-2xl border bg-white shadow-2xs space-y-3 flex flex-col justify-between transition-all ${
+                  isEnabled ? 'border-slate-200 opacity-100' : 'border-slate-200/50 opacity-60 bg-slate-50'
+                }`}
+              >
+                <div className="space-y-3">
+                  <AdminImageUpload
                     value={cat.image}
-                    onChange={(e) => handleEditCategory(cat.id, 'image', e.target.value)}
-                    className="w-full h-8 px-2.5 text-[11px] font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded-lg"
+                    onChange={(val) => handleEditCategory(cat.id, 'image', val)}
+                    label="Category Image"
+                    aspectRatio="square"
                   />
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase">Category Name</label>
+                    <input
+                      type="text"
+                      value={cat.name}
+                      onChange={(e) => handleEditCategory(cat.id, 'name', e.target.value)}
+                      className="w-full h-9 px-3 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase">Estimated Item Count</label>
+                    <input
+                      type="number"
+                      value={cat.itemCount}
+                      onChange={(e) => handleEditCategory(cat.id, 'itemCount', Number(e.target.value))}
+                      className="w-full h-9 px-3 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                  <button
+                    onClick={() => handleEditCategory(cat.id, 'enabled', !isEnabled)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                      isEnabled
+                        ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                        : 'bg-slate-200 text-slate-700 hover:bg-slate-350'
+                    }`}
+                  >
+                    {isEnabled ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                    <span>{isEnabled ? 'Visible' : 'Hidden'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleDeleteCategory(cat.id, cat.name)}
+                    className="p-2 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-
-              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                <span className="text-[11px] text-slate-500 font-semibold">{cat.itemCount} Items</span>
-                <button
-                  onClick={() => handleDeleteCategory(cat.id)}
-                  className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

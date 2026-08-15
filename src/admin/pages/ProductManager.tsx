@@ -7,8 +7,11 @@ import {
   Trash2,
   Check,
   X,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { Product } from '../../types';
 
 export const ProductManager: React.FC = () => {
@@ -235,6 +238,20 @@ export const ProductManager: React.FC = () => {
                   <td className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
+                        onClick={() => {
+                          const isVisible = product.enabled !== false;
+                          editProduct({ ...product, enabled: !isVisible });
+                        }}
+                        className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                          product.enabled !== false 
+                            ? 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50' 
+                            : 'text-slate-400 hover:text-slate-650 hover:bg-slate-100'
+                        }`}
+                        title={product.enabled !== false ? 'Visible (Click to Hide)' : 'Hidden (Click to Show)'}
+                      >
+                        {product.enabled !== false ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                      </button>
+                      <button
                         onClick={() => handleOpenEditModal(product)}
                         className="p-1.5 text-slate-400 hover:text-purple-600 rounded-lg hover:bg-purple-50 transition-colors cursor-pointer"
                         title="Edit"
@@ -242,7 +259,11 @@ export const ProductManager: React.FC = () => {
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => deleteProduct(product.id)}
+                        onClick={() => {
+                          if (confirm(`Are you sure you want to delete product "${product.name}"?`)) {
+                            deleteProduct(product.id);
+                          }
+                        }}
                         className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                         title="Delete"
                       >
@@ -386,13 +407,12 @@ export const ProductManager: React.FC = () => {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Image URL</label>
-                      <input
-                        type="text"
+                    <div className="col-span-2">
+                      <AdminImageUpload
                         value={formData.image}
-                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                        className="w-full h-10 px-3 text-xs font-mono text-slate-700 bg-slate-50 border border-slate-200 rounded-xl"
+                        onChange={(val) => setFormData({ ...formData, image: val })}
+                        label="Product Thumbnail Image"
+                        aspectRatio="square"
                       />
                     </div>
                   </div>

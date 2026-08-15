@@ -4,8 +4,8 @@ import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const HeroBanner: React.FC = () => {
   const { navigate } = useApp();
-  const { config } = useAdminConfig();
-  const hero = config.hero;
+  const { publishedConfig } = useAdminConfig();
+  const hero = publishedConfig.hero;
 
   if (!hero.enabled) return null;
 

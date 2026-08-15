@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { Product, CartItem, UserAddress, User, Order } from '../types';
-import { popularProducts, allProducts as defaultAllProducts } from '../data/products';
+import type { Product, Category, CartItem, UserAddress, User, Order } from '../types';
+import { popularProducts, allProducts as defaultAllProducts, categories as defaultCategories } from '../data/products';
 import { detectUserLocation } from '../utils/location';
 import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 interface AppContextType {
   // Products & Search
   products: Product[];
+  categories: Category[]; // Expose categories to store
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   selectedCategory: string | null;
@@ -65,9 +66,17 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { config, updateOrders } = useAdminConfig();
-  const allProducts = config.products && config.products.length > 0 ? config.products : defaultAllProducts;
+  const { publishedConfig, updateOrders } = useAdminConfig();
+  
+  // Filter out products and categories where enabled is explicitly set to false
+  const allProducts = (publishedConfig.products && publishedConfig.products.length > 0 
+    ? publishedConfig.products 
+    : defaultAllProducts).filter(p => p.enabled !== false);
   const products = allProducts;
+  
+  const categories = (publishedConfig.categories && publishedConfig.categories.length > 0 
+    ? publishedConfig.categories 
+    : defaultCategories).filter(c => c.enabled !== false);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -241,8 +250,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const applyCoupon = (code: string) => {
     const validCodes = [
       'FARM10',
-      (config.topOfferBar?.promoCode || '').toUpperCase(),
-      (config.offersPage?.promoCode || '').toUpperCase(),
+      (publishedConfig.topOfferBar?.promoCode || '').toUpperCase(),
+      (publishedConfig.offersPage?.promoCode || '').toUpperCase(),
     ].filter(Boolean);
 
     if (validCodes.includes(code.toUpperCase())) {
@@ -281,7 +290,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     setOrders(prev => [newOrder, ...prev]);
-    updateOrders([newOrder, ...config.orders]);
+    updateOrders([newOrder, ...publishedConfig.orders]);
     clearCart();
     return newOrder;
   };
@@ -290,6 +299,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider
       value={{
         products,
+        categories,
         allProducts,
         searchQuery,
         setSearchQuery,

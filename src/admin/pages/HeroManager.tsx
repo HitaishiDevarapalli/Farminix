@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Check, Eye, EyeOff } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { HeroConfig } from '../types';
 
 export const HeroManager: React.FC = () => {
@@ -76,13 +77,12 @@ export const HeroManager: React.FC = () => {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Hero Image Path or URL</label>
-            <input
-              type="text"
+          <div className="md:col-span-2">
+            <AdminImageUpload
               value={formData.bannerImage}
-              onChange={(e) => handleChange('bannerImage', e.target.value)}
-              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+              onChange={(val) => handleChange('bannerImage', val)}
+              label="Hero Banner Image"
+              aspectRatio="video"
             />
           </div>
 

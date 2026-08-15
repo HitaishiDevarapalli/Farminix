@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Clock, Plus, Trash2, Check, Eye, EyeOff } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { FutureItemConfig } from '../types';
 
 export const FutureArrivalsManager: React.FC = () => {
@@ -8,6 +9,7 @@ export const FutureArrivalsManager: React.FC = () => {
   const [formData, setFormData] = useState(config.futureArrivals);
   const [newItemName, setNewItemName] = useState('');
   const [newItemImage, setNewItemImage] = useState('');
+  const [newItemBadge, setNewItemBadge] = useState('Coming Soon');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleUpdateField = (field: string, value: any) => {
@@ -22,9 +24,11 @@ export const FutureArrivalsManager: React.FC = () => {
     handleUpdateField('items', updatedItems);
   };
 
-  const handleDeleteItem = (id: number) => {
-    const updatedItems = formData.items.filter((it) => it.id !== id);
-    handleUpdateField('items', updatedItems);
+  const handleDeleteItem = (id: number, name: string) => {
+    if (confirm(`Are you sure you want to delete upcoming item "${name}"?`)) {
+      const updatedItems = formData.items.filter((it) => it.id !== id);
+      handleUpdateField('items', updatedItems);
+    }
   };
 
   const handleAddItem = () => {
@@ -33,7 +37,7 @@ export const FutureArrivalsManager: React.FC = () => {
       id: Date.now(),
       name: newItemName.trim(),
       image: newItemImage.trim() || 'https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?auto=format&fit=crop&q=80&w=300',
-      badgeText: 'Coming Soon',
+      badgeText: newItemBadge.trim() || 'Coming Soon',
       enabled: true,
       order: formData.items.length + 1,
     };
@@ -41,6 +45,12 @@ export const FutureArrivalsManager: React.FC = () => {
     handleUpdateField('items', updatedItems);
     setNewItemName('');
     setNewItemImage('');
+    setNewItemBadge('Coming Soon');
+  };
+
+  const handleEditItem = (id: number, field: keyof FutureItemConfig, value: any) => {
+    const updatedItems = formData.items.map((it) => (it.id === id ? { ...it, [field]: value } : it));
+    handleUpdateField('items', updatedItems);
   };
 
   const notifySaved = () => {
@@ -118,36 +128,44 @@ export const FutureArrivalsManager: React.FC = () => {
         <h2 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3">
           2. Add Upcoming Item
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Item Name</label>
-            <input
-              type="text"
-              value={newItemName}
-              onChange={(e) => setNewItemName(e.target.value)}
-              placeholder="E.g., Artisanal Breads"
-              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-2 space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">Item Name</label>
+              <input
+                type="text"
+                value={newItemName}
+                onChange={(e) => setNewItemName(e.target.value)}
+                placeholder="E.g., Artisanal Breads"
+                className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+              />
+            </div>
+
+            <AdminImageUpload
+              value={newItemImage}
+              onChange={setNewItemImage}
+              label="Item Thumbnail Image"
+              aspectRatio="square"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Image URL</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={newItemImage}
-                onChange={(e) => setNewItemImage(e.target.value)}
-                placeholder="https://images.unsplash.com/..."
-                className="flex-1 h-10 px-3.5 text-xs font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
-              />
-              <button
-                onClick={handleAddItem}
-                className="h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Item</span>
-              </button>
-            </div>
+            <label className="block text-xs font-bold text-slate-700 mb-1.5">Badge Text</label>
+            <input
+              type="text"
+              value={newItemBadge}
+              onChange={(e) => setNewItemBadge(e.target.value)}
+              placeholder="E.g., Coming Soon, Fresh Arrival..."
+              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500 mb-3"
+            />
+
+            <button
+              onClick={handleAddItem}
+              className="w-full h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Item</span>
+            </button>
           </div>
         </div>
       </div>
@@ -158,7 +176,7 @@ export const FutureArrivalsManager: React.FC = () => {
           3. Upcoming Items in Carousel ({formData.items.length})
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {formData.items.map((item) => (
             <div
               key={item.id}
@@ -166,27 +184,50 @@ export const FutureArrivalsManager: React.FC = () => {
                 item.enabled ? 'bg-white border-slate-200 shadow-2xs' : 'bg-slate-50 border-slate-200/50 opacity-60'
               }`}
             >
-              <div className="w-full aspect-square rounded-xl overflow-hidden bg-slate-100 relative">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[9px] font-extrabold uppercase">
-                  {item.badgeText}
-                </span>
+              <div className="space-y-3">
+                <AdminImageUpload
+                  value={item.image}
+                  onChange={(val) => handleEditItem(item.id, 'image', val)}
+                  label="Thumbnail Image"
+                  aspectRatio="square"
+                />
+
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase">Item Name</label>
+                  <input
+                    type="text"
+                    value={item.name}
+                    onChange={(e) => handleEditItem(item.id, 'name', e.target.value)}
+                    className="w-full h-8 px-2.5 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase">Badge Label</label>
+                  <input
+                    type="text"
+                    value={item.badgeText}
+                    onChange={(e) => handleEditItem(item.id, 'badgeText', e.target.value)}
+                    className="w-full h-8 px-2.5 text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 rounded-lg"
+                  />
+                </div>
               </div>
 
-              <div className="text-xs font-bold text-slate-900">{item.name}</div>
-
-              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+              <div className="flex items-center justify-between pt-2.5 border-t border-slate-100">
                 <button
                   onClick={() => handleToggleItem(item.id)}
-                  className={`px-2.5 py-1 rounded text-xs font-bold cursor-pointer ${
-                    item.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    item.enabled
+                      ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-250'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-350'
                   }`}
                 >
-                  {item.enabled ? 'Active' : 'Hidden'}
+                  {item.enabled ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                  <span>{item.enabled ? 'Visible' : 'Hidden'}</span>
                 </button>
                 <button
-                  onClick={() => handleDeleteItem(item.id)}
-                  className="p-1.5 text-slate-400 hover:text-red-500 cursor-pointer"
+                  onClick={() => handleDeleteItem(item.id, item.name)}
+                  className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

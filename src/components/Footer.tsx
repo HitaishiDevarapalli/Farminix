@@ -5,8 +5,8 @@ import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const Footer: React.FC = () => {
   const { setIsSupportOpen } = useApp();
-  const { config } = useAdminConfig();
-  const footerConfig = config.footer;
+  const { publishedConfig } = useAdminConfig();
+  const footerConfig = publishedConfig.footer;
 
   if (!footerConfig.enabled) return null;
 

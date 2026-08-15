@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Layers, Check } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { FooterConfig } from '../types';
 
 export const FooterManager: React.FC = () => {
@@ -8,10 +9,11 @@ export const FooterManager: React.FC = () => {
   const [formData, setFormData] = useState<FooterConfig>(config.footer);
   const [savedSuccess, setSavedSuccess] = useState(false);
 
-  const handleUpdateField = (field: keyof FooterConfig, value: any) => {
-    const updated = { ...formData, [field]: value };
+  const handleUpdateField = (keyofFooter: keyof FooterConfig, value: any) => {
+    // Wait, let's keep name handleUpdateField signature but fix typescript if needed:
+    const updated = { ...formData, [keyofFooter]: value };
     setFormData(updated);
-    updateFooter({ [field]: value });
+    updateFooter({ [keyofFooter]: value });
     notifySaved();
   };
 
@@ -55,7 +57,7 @@ export const FooterManager: React.FC = () => {
         </div>
 
         {savedSuccess && (
-          <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+          <span className="text-xs font-bold text-emerald-650 flex items-center gap-1">
             <Check className="w-4 h-4" />
             <span>Live Saved</span>
           </span>
@@ -90,12 +92,11 @@ export const FooterManager: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Footer Logo URL</label>
-            <input
-              type="text"
+            <AdminImageUpload
               value={formData.logoUrl}
-              onChange={(e) => handleUpdateField('logoUrl', e.target.value)}
-              className="w-full h-10 px-3.5 text-xs font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
+              onChange={(val) => handleUpdateField('logoUrl', val)}
+              label="Footer Logo Image"
+              aspectRatio="auto"
             />
           </div>
         </div>

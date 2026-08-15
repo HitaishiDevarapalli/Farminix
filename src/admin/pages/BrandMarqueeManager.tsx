@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Award, Plus, Trash2, Check, Eye, EyeOff } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
+import { AdminImageUpload } from '../components/AdminImageUpload';
 import type { PartnerBrand } from '../types';
 
 export const BrandMarqueeManager: React.FC = () => {
@@ -22,9 +23,11 @@ export const BrandMarqueeManager: React.FC = () => {
     handleUpdateField('brands', updatedBrands);
   };
 
-  const handleDeleteBrand = (id: string) => {
-    const updatedBrands = formData.brands.filter((b) => b.id !== id);
-    handleUpdateField('brands', updatedBrands);
+  const handleDeleteBrand = (id: string, name: string) => {
+    if (confirm(`Are you sure you want to delete brand partner "${name}"?`)) {
+      const updatedBrands = formData.brands.filter((b) => b.id !== id);
+      handleUpdateField('brands', updatedBrands);
+    }
   };
 
   const handleAddBrand = () => {
@@ -142,24 +145,20 @@ export const BrandMarqueeManager: React.FC = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Logo SVG or Image URL</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={newBrandLogo}
-                onChange={(e) => setNewBrandLogo(e.target.value)}
-                placeholder="data:image/svg+xml... or /image.png"
-                className="flex-1 h-10 px-3.5 text-xs font-mono text-slate-800 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-purple-500"
-              />
-              <button
-                onClick={handleAddBrand}
-                className="h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add Brand</span>
-              </button>
-            </div>
+          <div className="flex flex-col gap-2">
+            <AdminImageUpload
+              value={newBrandLogo}
+              onChange={setNewBrandLogo}
+              label="Brand Logo Upload"
+              aspectRatio="auto"
+            />
+            <button
+              onClick={handleAddBrand}
+              className="w-full h-10 px-4 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer mt-2"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Brand Partner</span>
+            </button>
           </div>
         </div>
       </div>
@@ -170,32 +169,54 @@ export const BrandMarqueeManager: React.FC = () => {
           3. Existing Brands in Marquee ({formData.brands.length})
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in duration-200">
           {formData.brands.map((brand) => (
             <div
               key={brand.id}
-              className={`p-3 rounded-2xl border flex flex-col items-center justify-between text-center gap-2 transition-all ${
-                brand.enabled ? 'bg-white border-slate-200 shadow-2xs' : 'bg-slate-50 border-slate-200/50 opacity-60'
+              className={`p-4 rounded-2xl border flex flex-col justify-between gap-3 transition-all ${
+                brand.enabled ? 'bg-white border-slate-200 shadow-2xs' : 'bg-slate-50 border-slate-250 opacity-60'
               }`}
             >
-              <div className="w-full h-12 bg-slate-50 rounded-xl flex items-center justify-center p-1 border border-slate-100">
-                <img src={brand.logo} alt={brand.name} className="max-h-full max-w-full object-contain" />
+              <AdminImageUpload
+                value={brand.logo}
+                onChange={(val) => {
+                  const updated = formData.brands.map((b) => (b.id === brand.id ? { ...b, logo: val } : b));
+                  handleUpdateField('brands', updated);
+                }}
+                label={`${brand.name} Logo`}
+                aspectRatio="auto"
+              />
+
+              <div className="space-y-2">
+                <label className="block text-[10px] font-bold text-slate-400 uppercase">Partner Name</label>
+                <input
+                  type="text"
+                  value={brand.name}
+                  onChange={(e) => {
+                    const updated = formData.brands.map((b) => (b.id === brand.id ? { ...b, name: e.target.value } : b));
+                    handleUpdateField('brands', updated);
+                  }}
+                  className="w-full h-8 px-2.5 text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg"
+                />
               </div>
-              <div className="text-xs font-bold text-slate-900 truncate w-full">{brand.name}</div>
-              <div className="flex items-center gap-1 w-full justify-center">
+
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                 <button
                   onClick={() => handleToggleBrand(brand.id)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                    brand.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    brand.enabled
+                      ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                   }`}
                 >
-                  {brand.enabled ? 'Visible' : 'Hidden'}
+                  {brand.enabled ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                  <span>{brand.enabled ? 'Visible' : 'Hidden'}</span>
                 </button>
                 <button
-                  onClick={() => handleDeleteBrand(brand.id)}
-                  className="p-1 text-slate-400 hover:text-red-500 cursor-pointer"
+                  onClick={() => handleDeleteBrand(brand.id, brand.name)}
+                  className="p-1.5 text-slate-450 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>

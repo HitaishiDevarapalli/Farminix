@@ -4,12 +4,12 @@ import { useApp } from '../context/AppContext';
 import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const Navbar: React.FC = () => {
-  const { selectedCategory, navigate } = useApp();
-  const { config } = useAdminConfig();
+  const { categories, selectedCategory, navigate } = useApp();
+  const { publishedConfig } = useAdminConfig();
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
 
-  const activeNavItems = config.navItems.filter((i) => i.enabled);
-  const activeCategories = config.categories;
+  const activeNavItems = publishedConfig.navItems.filter((i) => i.enabled);
+  const activeCategories = categories;
 
   return (
     <nav className="w-full h-[60px] bg-[#EDE9FE] border-b border-[#DDD6FE]/60 select-none relative z-20 shadow-xs">

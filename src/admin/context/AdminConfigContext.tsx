@@ -22,10 +22,14 @@ import type { Product, Category, Order } from '../../types';
 import { defaultSiteConfig, defaultThemeTokens } from '../defaultConfig';
 
 interface AdminContextType {
-  config: AdminSiteConfig;
+  config: AdminSiteConfig; // Represents draft config in editor
+  publishedConfig: AdminSiteConfig; // Represents published config on store
+  hasChanges: boolean;
   isAdminLoggedIn: boolean;
   adminLogin: (email: string, pass: string) => boolean;
   adminLogout: () => void;
+  publishConfig: () => void;
+  discardDraft: () => void;
   updateTheme: (tokens: Partial<ThemeTokens>) => void;
   updateSectionOrder: (newOrder: SectionOrderItem[]) => void;
   toggleSection: (id: string, enabled: boolean) => void;
@@ -54,15 +58,17 @@ interface AdminContextType {
   resetToDefaults: () => void;
 }
 
-const STORAGE_KEY = 'farminix_admin_site_config_v1';
-const AUTH_KEY = 'farminix_admin_auth_v1';
+const DRAFT_KEY = 'farminix_admin_draft_config_v2';
+const PUBLISHED_KEY = 'farminix_admin_published_config_v2';
+const AUTH_KEY = 'farminix_admin_auth_v2';
 
 const AdminConfigContext = createContext<AdminContextType | undefined>(undefined);
 
 export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [config, setConfig] = useState<AdminSiteConfig>(() => {
+  // Published config (loaded by the storefront)
+  const [publishedConfig, setPublishedConfig] = useState<AdminSiteConfig>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(PUBLISHED_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         return {
@@ -72,7 +78,31 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
         };
       }
     } catch (e) {
-      console.warn('Failed to parse admin config from localStorage, using defaults', e);
+      console.warn('Failed to parse published admin config, using defaults', e);
+    }
+    return defaultSiteConfig;
+  });
+
+  // Draft config (loaded and modified in the admin crm)
+  const [config, setConfig] = useState<AdminSiteConfig>(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultSiteConfig,
+          ...parsed,
+          theme: { ...defaultThemeTokens, ...(parsed.theme || {}) },
+        };
+      }
+      
+      // Fallback to published if no draft exists
+      const publishedSaved = localStorage.getItem(PUBLISHED_KEY);
+      if (publishedSaved) {
+        return JSON.parse(publishedSaved);
+      }
+    } catch (e) {
+      console.warn('Failed to parse draft admin config, using defaults', e);
     }
     return defaultSiteConfig;
   });
@@ -85,10 +115,19 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   });
 
+  const [hasChanges, setHasChanges] = useState<boolean>(() => {
+    const draft = localStorage.getItem(DRAFT_KEY);
+    const pub = localStorage.getItem(PUBLISHED_KEY);
+    if (!draft) return false;
+    if (!pub) return true;
+    return draft !== pub;
+  });
+
   // Apply theme tokens as CSS custom properties
   useEffect(() => {
     const root = document.documentElement;
-    const t = config.theme;
+    // Storefront uses theme from publishedConfig
+    const t = publishedConfig.theme;
     
     root.style.setProperty('--color-primary', t.colorPrimary);
     root.style.setProperty('--color-primary-hover', t.colorPrimaryHover);
@@ -113,20 +152,40 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
     root.style.setProperty('--card-border', t.cardBorder);
     root.style.setProperty('--footer-bg', t.footerBg);
     root.style.setProperty('--footer-text', t.footerTextColor);
-  }, [config.theme]);
+  }, [publishedConfig.theme]);
 
-  // Persist config on every update
+  // Save changes to draft
   const saveConfig = (newConfig: AdminSiteConfig) => {
     setConfig(newConfig);
+    setHasChanges(true);
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newConfig));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(newConfig));
     } catch (e) {
-      console.error('Failed to save admin config to localStorage', e);
+      console.error('Failed to save draft admin config', e);
+    }
+  };
+
+  const publishConfig = () => {
+    try {
+      localStorage.setItem(PUBLISHED_KEY, JSON.stringify(config));
+      setPublishedConfig(config);
+      setHasChanges(false);
+    } catch (e) {
+      console.error('Failed to publish admin config', e);
+    }
+  };
+
+  const discardDraft = () => {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(publishedConfig));
+      setConfig(publishedConfig);
+      setHasChanges(false);
+    } catch (e) {
+      console.error('Failed to discard draft config', e);
     }
   };
 
   const adminLogin = (email: string, pass: string): boolean => {
-    // Admin credentials
     if ((email.trim().toLowerCase() === 'admin@farminix.com' || email.trim().toLowerCase() === 'admin') && (pass === 'admin123' || pass === 'farminix2026')) {
       setIsAdminLoggedIn(true);
       try {
@@ -259,9 +318,13 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
     <AdminConfigContext.Provider
       value={{
         config,
+        publishedConfig,
+        hasChanges,
         isAdminLoggedIn,
         adminLogin,
         adminLogout,
+        publishConfig,
+        discardDraft,
         updateTheme,
         updateSectionOrder,
         toggleSection,

@@ -4,10 +4,9 @@ import { useApp } from '../context/AppContext';
 import { useAdminConfig } from '../admin/context/AdminConfigContext';
 
 export const CategorySection: React.FC = () => {
-  const { navigate } = useApp();
-  const { config } = useAdminConfig();
-  const catSection = config.categorySection;
-  const categoriesList = config.categories;
+  const { categories, navigate } = useApp();
+  const { publishedConfig } = useAdminConfig();
+  const catSection = publishedConfig.categorySection;
 
   if (!catSection.enabled) return null;
 
@@ -30,7 +29,7 @@ export const CategorySection: React.FC = () => {
 
         {/* Grid of Category Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3.5">
-          {categoriesList.map((cat) => (
+          {categories.map((cat) => (
             <div
               key={cat.id}
               onClick={() => navigate('/products', `category=${encodeURIComponent(cat.name)}`)}

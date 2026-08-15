@@ -16,20 +16,20 @@ export const PopularProducts: React.FC = () => {
     setIsCartOpen,
     navigate,
   } = useApp();
-  const { config } = useAdminConfig();
-  const popularConfig = config.popularProducts;
+  const { publishedConfig } = useAdminConfig();
+  const popularConfig = publishedConfig.popularProducts;
 
   if (!popularConfig.enabled) return null;
 
   // Filter products if a category is selected or use featured IDs
   const featuredList = popularConfig.featuredProductIds
-    .map((id) => config.products.find((p) => p.id === id))
-    .filter(Boolean) as typeof config.products;
+    .map((id) => publishedConfig.products.find((p) => p.id === id))
+    .filter(Boolean) as typeof publishedConfig.products;
 
   const baseList = featuredList.length > 0 ? featuredList : products;
 
   const displayedProducts = selectedCategory
-    ? config.products.filter((p) => {
+    ? publishedConfig.products.filter((p) => {
         if (selectedCategory === 'dals') return p.category === 'Dals & Pulses';
         if (selectedCategory === 'rice') return p.category === 'Rice & Grains';
         if (selectedCategory === 'atta') return p.category === 'Atta & Flours';

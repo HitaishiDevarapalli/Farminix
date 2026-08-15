@@ -41,6 +41,7 @@ export interface Product {
   stockCount: number;
   brand: string;
   description: string;
+  enabled?: boolean; // Add support for Hide/Show
   ingredients?: string[];
   nutritionalInfo?: {
     energy: string;
@@ -76,6 +77,7 @@ export interface Category {
   name: string;
   image: string;
   itemCount: number;
+  enabled?: boolean; // Add support for Hide/Show
 }
 
 export interface DealCard {
@@ -84,6 +86,7 @@ export interface DealCard {
   discountBadge: string;
   image: string;
   brands: { name: string; logo: string }[];
+  enabled?: boolean;
 }
 
 export interface UserAddress {

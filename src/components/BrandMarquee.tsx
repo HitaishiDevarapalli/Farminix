@@ -21,8 +21,8 @@ const LogoCard: React.FC<{ brand: { name: string; logo: string } }> = ({ brand }
 );
 
 export const BrandMarquee: React.FC = () => {
-  const { config } = useAdminConfig();
-  const marquee = config.brandMarquee;
+  const { publishedConfig } = useAdminConfig();
+  const marquee = publishedConfig.brandMarquee;
 
   if (!marquee.enabled) return null;
 

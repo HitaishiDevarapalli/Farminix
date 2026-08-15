@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ArrowLeft, Plus, Minus, Heart, SlidersHorizontal, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { categories, SUB_CATEGORIES, SUBCATEGORY_KEYWORDS } from '../data/products';
+import { SUB_CATEGORIES, SUBCATEGORY_KEYWORDS } from '../data/products';
 import { getProductSlug } from './ProductListingPage';
 import {
   PriceRangeFilter,
@@ -28,6 +28,7 @@ export const CategoryPage: React.FC = () => {
   const {
     activeCategoryPage,
     setActiveCategoryPage,
+    categories,
     allProducts,
     cart,
     addToCart,
