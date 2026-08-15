@@ -222,12 +222,12 @@ export const CheckoutPage: React.FC = () => {
       </div>
 
       {/* ── MAIN CHECKOUT LAYOUT ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
         
         {/* Title */}
-        <div className="flex items-center justify-between mb-8 text-left">
+        <div className="flex items-center justify-between mb-5 sm:mb-8 text-left">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Secure Checkout
             </h1>
           </div>
@@ -240,39 +240,40 @@ export const CheckoutPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           
-          {/* LEFT COLUMN: Steps 1 to 4 (8 cols on lg) */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          {/* LEFT COLUMN: Steps 1 to 4 (7 cols on lg) */}
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
             
             {/* STEP 1: DELIVERY ADDRESS SELECTION */}
-            <div className="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-2xs space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
+            <div className="p-4 sm:p-6 bg-white border border-slate-200/80 rounded-2xl sm:rounded-3xl shadow-2xs space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
                     1
                   </div>
-                  <h2 className="text-base font-black text-slate-900">Delivery Address</h2>
+                  <h2 className="text-sm sm:text-base font-black text-slate-900">Delivery Address</h2>
                 </div>
 
                 {/* GPS Detect & Add Buttons */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={handleDetectGpsForAddress}
                     disabled={isDetectingGps}
-                    className="px-3 py-1.5 bg-purple-50 border border-purple-200 text-[#7C3AED] hover:bg-purple-100 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5"
+                    className="px-2.5 sm:px-3 py-1.5 bg-purple-50 border border-purple-200 text-[#7C3AED] hover:bg-purple-100 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1"
                   >
                     {isDetectingGps ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     ) : (
                       <Navigation className="w-3.5 h-3.5 fill-[#7C3AED]" />
                     )}
-                    <span className="hidden sm:inline">🎯 Use Current Location</span>
+                    <span className="hidden sm:inline">🎯 Current Location</span>
+                    <span className="inline sm:hidden">GPS</span>
                   </button>
 
                   <button
                     onClick={() => setIsAddAddressOpen(true)}
-                    className="px-3 py-1.5 bg-[#7C3AED] text-white hover:bg-[#6D28D9] text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1"
+                    className="px-2.5 sm:px-3 py-1.5 bg-[#7C3AED] text-white hover:bg-[#6D28D9] text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add New</span>
@@ -288,7 +289,7 @@ export const CheckoutPage: React.FC = () => {
               )}
 
               {/* Saved Addresses List */}
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {addresses.map((addr) => {
                   const isSelected = selectedAddressId === addr.id;
                   return (
@@ -298,39 +299,39 @@ export const CheckoutPage: React.FC = () => {
                         setSelectedAddressId(addr.id);
                         setLocation(`${addr.city}, ${addr.state} - ${addr.pincode}`);
                       }}
-                      className={`p-4 rounded-2xl border text-left flex items-start justify-between gap-3 cursor-pointer transition-all ${
+                      className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border text-left flex items-start justify-between gap-2.5 sm:gap-3 cursor-pointer transition-all ${
                         isSelected
                           ? 'border-[#7C3AED] bg-purple-50/70 ring-2 ring-purple-200 shadow-xs'
                           : 'border-slate-200 hover:border-slate-300 bg-white'
                       }`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-start gap-2.5 sm:gap-3 min-w-0">
                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 ${
                           isSelected ? 'border-[#7C3AED] bg-[#7C3AED]' : 'border-slate-300'
                         }`}>
                           {isSelected && <Check className="w-3 h-3 text-white stroke-[3]" />}
                         </div>
 
-                        <div>
+                        <div className="min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-black text-slate-900">{addr.name}</span>
                             {addr.isDefault && (
-                              <span className="text-[9px] font-black text-[#7C3AED] bg-white px-2 py-0.5 rounded-md border border-purple-200">
+                              <span className="text-[9px] font-black text-[#7C3AED] bg-white px-1.5 py-0.5 rounded-md border border-purple-200">
                                 DEFAULT
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-600 mt-1 leading-normal font-medium">
+                          <p className="text-xs text-slate-600 mt-1 leading-normal font-medium break-words">
                             {addr.street}, {addr.city}, {addr.state} - {addr.pincode}
                           </p>
                           <div className="text-[11px] font-bold text-slate-500 mt-1 flex items-center gap-1">
-                            <Phone className="w-3 h-3 text-slate-400" />
+                            <Phone className="w-3 h-3 text-slate-400 shrink-0" />
                             <span>Phone: {addr.phone}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="text-[11px] font-bold text-[#7C3AED]">
+                      <div className="text-[11px] font-bold text-[#7C3AED] shrink-0">
                         {isSelected ? 'Selected' : 'Select'}
                       </div>
                     </div>
@@ -340,26 +341,26 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* STEP 2: DELIVERY SLOT SELECTION */}
-            <div className="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-2xs space-y-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
+            <div className="p-4 sm:p-6 bg-white border border-slate-200/80 rounded-2xl sm:rounded-3xl shadow-2xs space-y-3 sm:space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
                   2
                 </div>
-                <h2 className="text-base font-black text-slate-900">Select Delivery Slot</h2>
+                <h2 className="text-sm sm:text-base font-black text-slate-900">Select Delivery Slot</h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => setSelectedSlot('10 Min Instant Express')}
-                  className={`p-4 rounded-2xl border text-left flex items-start gap-3.5 transition-all cursor-pointer ${
+                  className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
                     selectedSlot === '10 Min Instant Express'
                       ? 'border-[#7C3AED] bg-purple-50/80 ring-2 ring-purple-200 shadow-xs'
                       : 'border-slate-200 hover:border-slate-300 bg-white'
                   }`}
                 >
-                  <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
-                    <Zap className="w-5 h-5 fill-amber-500" />
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-500" />
                   </div>
                   <div>
                     <div className="text-xs font-black text-slate-900">10-20 Min Express</div>
@@ -370,14 +371,14 @@ export const CheckoutPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedSlot('Scheduled Evening Slot (6 PM - 8 PM)')}
-                  className={`p-4 rounded-2xl border text-left flex items-start gap-3.5 transition-all cursor-pointer ${
+                  className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
                     selectedSlot.includes('Scheduled')
                       ? 'border-[#7C3AED] bg-purple-50/80 ring-2 ring-purple-200 shadow-xs'
                       : 'border-slate-200 hover:border-slate-300 bg-white'
                   }`}
                 >
-                  <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
-                    <Truck className="w-5 h-5" />
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+                    <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
                     <div className="text-xs font-black text-slate-900">Scheduled Slot</div>
@@ -388,25 +389,25 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* STEP 3: PAYMENT METHOD SELECTION */}
-            <div className="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-2xs space-y-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
+            <div className="p-4 sm:p-6 bg-white border border-slate-200/80 rounded-2xl sm:rounded-3xl shadow-2xs space-y-3 sm:space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
                   3
                 </div>
-                <h2 className="text-base font-black text-slate-900">Select Payment Method</h2>
+                <h2 className="text-sm sm:text-base font-black text-slate-900">Select Payment Method</h2>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 {/* 1. UPI */}
-                <div className={`p-4 rounded-2xl border transition-all ${
+                <div className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all ${
                   paymentMethod === 'UPI' ? 'border-[#7C3AED] bg-purple-50/60 ring-2 ring-purple-200' : 'border-slate-200 hover:border-slate-300'
                 }`}>
                   <label className="flex items-center justify-between cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">📱</span>
-                      <div>
-                        <div className="text-xs font-black text-slate-900">Google Pay / PhonePe / Paytm UPI</div>
-                        <div className="text-[11px] font-medium text-slate-500">Pay instantly using any UPI app</div>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <span className="text-xl shrink-0">📱</span>
+                      <div className="min-w-0">
+                        <div className="text-xs font-black text-slate-900 truncate">Google Pay / PhonePe / Paytm UPI</div>
+                        <div className="text-[11px] font-medium text-slate-500 truncate">Pay instantly using any UPI app</div>
                       </div>
                     </div>
                     <input
@@ -414,20 +415,20 @@ export const CheckoutPage: React.FC = () => {
                       name="payment"
                       checked={paymentMethod === 'UPI'}
                       onChange={() => setPaymentMethod('UPI')}
-                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500"
+                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500 shrink-0 ml-2"
                     />
                   </label>
 
                   {paymentMethod === 'UPI' && (
-                    <div className="mt-3 pt-3 border-t border-purple-200/60 flex flex-col sm:flex-row items-center gap-3">
+                    <div className="mt-3 pt-3 border-t border-purple-200/60 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                       <input
                         type="text"
-                        placeholder="Enter your UPI ID (e.g. 9876543210@paytm)"
+                        placeholder="Enter UPI ID (e.g. name@okhdfcbank)"
                         value={upiId}
                         onChange={(e) => setUpiId(e.target.value)}
                         className="flex-1 px-3.5 py-2.5 bg-white border border-purple-200 rounded-xl text-xs font-bold focus:outline-none focus:border-[#7C3AED]"
                       />
-                      <span className="text-xs font-bold text-purple-700 bg-white px-3 py-2 rounded-xl border border-purple-200">
+                      <span className="text-[11px] font-bold text-purple-700 bg-white px-3 py-2 rounded-xl border border-purple-200 text-center">
                         ✓ Instant Auto-Verification
                       </span>
                     </div>
@@ -435,15 +436,15 @@ export const CheckoutPage: React.FC = () => {
                 </div>
 
                 {/* 2. Credit / Debit Card */}
-                <div className={`p-4 rounded-2xl border transition-all ${
+                <div className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all ${
                   paymentMethod === 'CARD' ? 'border-[#7C3AED] bg-purple-50/60 ring-2 ring-purple-200' : 'border-slate-200 hover:border-slate-300'
                 }`}>
                   <label className="flex items-center justify-between cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">💳</span>
-                      <div>
-                        <div className="text-xs font-black text-slate-900">Credit / Debit Card</div>
-                        <div className="text-[11px] font-medium text-slate-500">Visa, Mastercard, RuPay, Maestro</div>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <span className="text-xl shrink-0">💳</span>
+                      <div className="min-w-0">
+                        <div className="text-xs font-black text-slate-900 truncate">Credit / Debit Card</div>
+                        <div className="text-[11px] font-medium text-slate-500 truncate">Visa, Mastercard, RuPay, Maestro</div>
                       </div>
                     </div>
                     <input
@@ -451,12 +452,12 @@ export const CheckoutPage: React.FC = () => {
                       name="payment"
                       checked={paymentMethod === 'CARD'}
                       onChange={() => setPaymentMethod('CARD')}
-                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500"
+                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500 shrink-0 ml-2"
                     />
                   </label>
 
                   {paymentMethod === 'CARD' && (
-                    <div className="mt-3 pt-3 border-t border-purple-200/60 space-y-3">
+                    <div className="mt-3 pt-3 border-t border-purple-200/60 space-y-2.5">
                       <input
                         type="text"
                         maxLength={16}
@@ -465,7 +466,7 @@ export const CheckoutPage: React.FC = () => {
                         onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, ''))}
                         className="w-full px-3.5 py-2.5 bg-white border border-purple-200 rounded-xl text-xs font-bold focus:outline-none focus:border-[#7C3AED]"
                       />
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-2 gap-2.5">
                         <input
                           type="text"
                           placeholder="Expiry (MM/YY)"
@@ -487,15 +488,15 @@ export const CheckoutPage: React.FC = () => {
                 </div>
 
                 {/* 3. Net Banking */}
-                <div className={`p-4 rounded-2xl border transition-all ${
+                <div className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all ${
                   paymentMethod === 'NETBANKING' ? 'border-[#7C3AED] bg-purple-50/60 ring-2 ring-purple-200' : 'border-slate-200 hover:border-slate-300'
                 }`}>
                   <label className="flex items-center justify-between cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">🏦</span>
-                      <div>
-                        <div className="text-xs font-black text-slate-900">Net Banking</div>
-                        <div className="text-[11px] font-medium text-slate-500">All major Indian banks supported</div>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <span className="text-xl shrink-0">🏦</span>
+                      <div className="min-w-0">
+                        <div className="text-xs font-black text-slate-900 truncate">Net Banking</div>
+                        <div className="text-[11px] font-medium text-slate-500 truncate">All major Indian banks supported</div>
                       </div>
                     </div>
                     <input
@@ -503,7 +504,7 @@ export const CheckoutPage: React.FC = () => {
                       name="payment"
                       checked={paymentMethod === 'NETBANKING'}
                       onChange={() => setPaymentMethod('NETBANKING')}
-                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500"
+                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500 shrink-0 ml-2"
                     />
                   </label>
 
@@ -525,15 +526,15 @@ export const CheckoutPage: React.FC = () => {
                 </div>
 
                 {/* 4. Cash on Delivery */}
-                <div className={`p-4 rounded-2xl border transition-all ${
+                <div className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all ${
                   paymentMethod === 'COD' ? 'border-[#7C3AED] bg-purple-50/60 ring-2 ring-purple-200' : 'border-slate-200 hover:border-slate-300'
                 }`}>
                   <label className="flex items-center justify-between cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">💵</span>
-                      <div>
-                        <div className="text-xs font-black text-slate-900">Cash on Delivery (COD)</div>
-                        <div className="text-[11px] font-medium text-slate-500">Pay cash or UPI at the time of 10-minute delivery</div>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <span className="text-xl shrink-0">💵</span>
+                      <div className="min-w-0">
+                        <div className="text-xs font-black text-slate-900 truncate">Cash on Delivery (COD)</div>
+                        <div className="text-[11px] font-medium text-slate-500 truncate">Pay cash or UPI on delivery</div>
                       </div>
                     </div>
                     <input
@@ -541,7 +542,7 @@ export const CheckoutPage: React.FC = () => {
                       name="payment"
                       checked={paymentMethod === 'COD'}
                       onChange={() => setPaymentMethod('COD')}
-                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500"
+                      className="w-4 h-4 text-[#7C3AED] focus:ring-purple-500 shrink-0 ml-2"
                     />
                   </label>
                 </div>
@@ -550,12 +551,12 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* STEP 4: DELIVERY NOTES */}
-            <div className="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-2xs space-y-3">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
+            <div className="p-4 sm:p-6 bg-white border border-slate-200/80 rounded-2xl sm:rounded-3xl shadow-2xs space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center">
                   4
                 </div>
-                <h2 className="text-base font-black text-slate-900">Delivery Instructions (Optional)</h2>
+                <h2 className="text-sm sm:text-base font-black text-slate-900">Delivery Instructions (Optional)</h2>
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -566,7 +567,7 @@ export const CheckoutPage: React.FC = () => {
                       key={note}
                       type="button"
                       onClick={() => toggleNote(note)}
-                      className={`px-3 py-2 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+                      className={`px-3 py-1.5 sm:py-2 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
                         isSelected
                           ? 'border-[#7C3AED] bg-purple-50 text-[#7C3AED] font-black'
                           : 'border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -582,10 +583,10 @@ export const CheckoutPage: React.FC = () => {
           </div>
 
           {/* RIGHT COLUMN: Order Summary & Pay Action (5 cols on lg) */}
-          <div className="lg:col-span-5 space-y-6 sticky top-24">
+          <div className="lg:col-span-5 space-y-4 sm:space-y-6 lg:sticky lg:top-24">
             
-            <div className="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-sm text-left space-y-5">
-              <h2 className="text-base font-black text-slate-900 border-b border-slate-100 pb-3 flex items-center justify-between">
+            <div className="p-4 sm:p-6 bg-white border border-slate-200/80 rounded-2xl sm:rounded-3xl shadow-sm text-left space-y-4 sm:space-y-5">
+              <h2 className="text-sm sm:text-base font-black text-slate-900 border-b border-slate-100 pb-3 flex items-center justify-between">
                 <span>Order Items ({cart.reduce((s, i) => s + i.quantity, 0)})</span>
                 <span className="text-xs text-[#7C3AED] font-bold">Farminix Express</span>
               </h2>
@@ -594,14 +595,14 @@ export const CheckoutPage: React.FC = () => {
               <div className="divide-y divide-slate-100 max-h-60 overflow-y-auto pr-1 space-y-2">
                 {cart.map((item) => (
                   <div key={`${item.product.id}-${item.selectedWeight}`} className="pt-2 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <img src={item.product.image} alt={item.product.name} className="w-12 h-12 object-contain bg-slate-50 p-1 rounded-xl border border-slate-100" />
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 truncate max-w-[170px]">{item.product.name}</div>
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <img src={item.product.image} alt={item.product.name} className="w-10 h-10 sm:w-12 sm:h-12 object-contain bg-slate-50 p-1 rounded-xl border border-slate-100 shrink-0" />
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold text-slate-900 truncate max-w-[140px] xs:max-w-[180px] sm:max-w-[200px]">{item.product.name}</div>
                         <div className="text-[10px] text-slate-500 font-semibold">{item.selectedWeight} • Qty: {item.quantity}</div>
                       </div>
                     </div>
-                    <div className="text-xs font-black text-slate-900">
+                    <div className="text-xs font-black text-slate-900 shrink-0">
                       ₹{item.product.price * item.quantity}
                     </div>
                   </div>
