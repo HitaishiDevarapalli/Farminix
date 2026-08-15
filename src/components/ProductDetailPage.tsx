@@ -316,14 +316,14 @@ export const ProductDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-white text-slate-900 font-sans pb-16">
+    <div className="w-full bg-white text-slate-900 font-sans pb-28 md:pb-16">
       
       {/* ── BREADCRUMBS & TOP BAR ── */}
-      <div className="border-b border-slate-100 bg-slate-50/60 py-3.5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div className="border-b border-slate-100 bg-slate-50/60 py-3 sm:py-3.5">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2 text-xs">
           
           {/* Breadcrumb Path */}
-          <nav className="flex items-center gap-2 text-slate-500 font-medium overflow-x-auto no-scrollbar whitespace-nowrap">
+          <nav className="flex items-center gap-1.5 sm:gap-2 text-slate-500 font-medium overflow-x-auto no-scrollbar whitespace-nowrap">
             <button onClick={() => navigate('/')} className="hover:text-[#7C3AED] transition-colors cursor-pointer">Home</button>
             <span>/</span>
             <button
@@ -333,7 +333,7 @@ export const ProductDetailPage: React.FC = () => {
               {product.category}
             </button>
             <span>/</span>
-            <span className="text-slate-900 font-bold truncate max-w-[200px]">{product.name}</span>
+            <span className="text-slate-900 font-bold truncate max-w-[150px] sm:max-w-[200px]">{product.name}</span>
           </nav>
 
           {/* Back Button */}
@@ -342,35 +342,35 @@ export const ProductDetailPage: React.FC = () => {
             className="inline-flex items-center gap-1.5 font-bold text-slate-600 hover:text-[#7C3AED] transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Products</span>
+            <span>Back</span>
           </button>
 
         </div>
       </div>
 
       {/* ── MAIN PRODUCT SECTION (2-Column Desktop Grid) ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start">
           
           {/* LEFT COLUMN: Gallery & Product Image (5 cols on lg) */}
-          <div className="lg:col-span-5 flex flex-col gap-4 sticky top-24">
+          <div className="lg:col-span-5 flex flex-col gap-4 lg:sticky lg:top-24">
             
             {/* Main Stage Image Container */}
-            <div className="relative w-full aspect-square bg-slate-50 rounded-3xl border border-slate-200/80 overflow-hidden flex items-center justify-center p-6 group shadow-xs">
+            <div className="relative w-full aspect-square bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-200/80 overflow-hidden flex items-center justify-center p-4 sm:p-6 group shadow-xs">
               
               {/* Badges Overlay */}
-              <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+              <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex flex-col gap-1.5 sm:gap-2 z-10">
                 {discountPct > 0 && (
-                  <span className="bg-[#EA580C] text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm tracking-wide">
+                  <span className="bg-[#EA580C] text-white text-[11px] sm:text-xs font-black px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg shadow-sm tracking-wide">
                     {discountPct}% OFF
                   </span>
                 )}
                 {product.rating >= 4.7 && (
-                  <span className="bg-[#7C3AED] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm tracking-wider uppercase">
+                  <span className="bg-[#7C3AED] text-white text-[9px] sm:text-[10px] font-extrabold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg shadow-sm tracking-wider uppercase">
                     Bestseller
                   </span>
                 )}
-                <span className="bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm tracking-wider uppercase">
+                <span className="bg-emerald-600 text-white text-[9px] sm:text-[10px] font-extrabold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg shadow-sm tracking-wider uppercase">
                   100% Genuine
                 </span>
               </div>
@@ -378,27 +378,27 @@ export const ProductDetailPage: React.FC = () => {
               {/* Wishlist Button */}
               <button
                 onClick={() => toggleWishlist(product.id)}
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md shadow-md border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-red-500 hover:scale-110 active:scale-95 transition-all cursor-pointer z-10"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/90 backdrop-blur-md shadow-md border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-red-500 hover:scale-110 active:scale-95 transition-all cursor-pointer z-10"
                 title={isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
               >
-                <Heart className={`w-5 h-5 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : ''}`} />
+                <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : ''}`} />
               </button>
 
               {/* Zoomable Main Image */}
               <img
                 src={selectedImage || product.image}
                 alt={product.name}
-                className="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500 ease-out"
+                className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500 ease-out"
               />
             </div>
 
             {/* Thumbnail Gallery Row */}
-            <div className="flex items-center gap-3 overflow-x-auto py-1">
+            <div className="flex items-center gap-2.5 sm:gap-3 overflow-x-auto py-1">
               {gallery.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-16 h-16 rounded-xl border-2 bg-slate-50 p-1.5 transition-all cursor-pointer shrink-0 overflow-hidden ${
+                  className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl border-2 bg-slate-50 p-1 transition-all cursor-pointer shrink-0 overflow-hidden ${
                     (selectedImage || product.image) === img
                       ? 'border-[#7C3AED] ring-2 ring-purple-200'
                       : 'border-slate-200 opacity-70 hover:opacity-100'
@@ -410,9 +410,9 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Express Delivery Badge Box */}
-            <div className="p-4 bg-purple-50/70 border border-purple-200/80 rounded-2xl flex items-center gap-3.5 mt-2">
-              <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0">
-                <Truck className="w-5 h-5" />
+            <div className="p-3.5 sm:p-4 bg-purple-50/70 border border-purple-200/80 rounded-2xl flex items-center gap-3 sm:gap-3.5 mt-1 sm:mt-2">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0">
+                <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="text-left">
                 <div className="text-xs font-black text-slate-900 flex items-center gap-1.5">
@@ -428,24 +428,24 @@ export const ProductDetailPage: React.FC = () => {
           </div>
 
           {/* RIGHT COLUMN: Product Information & Purchase Area (7 cols on lg) */}
-          <div className="lg:col-span-7 flex flex-col text-left space-y-6">
+          <div className="lg:col-span-7 flex flex-col text-left space-y-4 sm:space-y-6">
             
             {/* Category & Brand Header */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100/80 border border-purple-200 text-[#7C3AED] text-[11px] font-black uppercase tracking-wider rounded-lg mb-2">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 bg-purple-100/80 border border-purple-200 text-[#7C3AED] text-[10px] sm:text-[11px] font-black uppercase tracking-wider rounded-lg mb-2">
                 <span>{product.brand}</span>
                 <span>•</span>
                 <span>{product.category}</span>
               </div>
               
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight tracking-tight">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight tracking-tight break-words">
                 {product.name}
               </h1>
 
               {/* Rating & Verified Reviews */}
-              <div className="flex items-center gap-3 mt-3">
-                <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-black text-amber-800">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2 sm:mt-3">
+                <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2 sm:px-2.5 py-1 rounded-lg text-xs font-black text-amber-800">
+                  <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-400 text-amber-400" />
                   <span>{product.rating}</span>
                 </div>
                 <span className="text-xs font-bold text-slate-500">
@@ -459,24 +459,24 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Price Section */}
-            <div className="p-4 bg-slate-50/80 border border-slate-200/80 rounded-2xl flex flex-wrap items-baseline justify-between gap-4">
+            <div className="p-3.5 sm:p-4 bg-slate-50/80 border border-slate-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
               <div>
-                <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-black text-[#7C3AED]">
+                <div className="flex items-baseline gap-2.5 flex-wrap">
+                  <span className="text-2xl sm:text-3xl font-black text-[#7C3AED]">
                     ₹{currentPrice}
                   </span>
                   {currentOldPrice && (
-                    <span className="text-lg font-bold text-slate-400 line-through">
+                    <span className="text-base sm:text-lg font-bold text-slate-400 line-through">
                       ₹{currentOldPrice}
                     </span>
                   )}
                   {discountPct > 0 && (
-                    <span className="bg-orange-100 text-[#EA580C] text-xs font-black px-2.5 py-0.5 rounded-md">
+                    <span className="bg-orange-100 text-[#EA580C] text-xs font-black px-2 py-0.5 rounded-md">
                       SAVE {discountPct}%
                     </span>
                   )}
                 </div>
-                <div className="text-[11px] font-semibold text-slate-500 mt-1">
+                <div className="text-[10px] sm:text-[11px] font-semibold text-slate-500 mt-1">
                   Inclusive of all taxes • Unit Price: ₹{(currentPrice / (currentWeight.includes('kg') ? parseFloat(currentWeight) * 10 : 1)).toFixed(2)}/100g
                 </div>
               </div>
@@ -484,12 +484,12 @@ export const ProductDetailPage: React.FC = () => {
               {/* Stock availability tag */}
               <div>
                 {product.inStock ? (
-                  <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-xl text-xs font-extrabold">
+                  <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-xl text-xs font-extrabold">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>In Stock ({product.stockCount} units remaining)</span>
+                    <span>In Stock ({product.stockCount} units)</span>
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 bg-red-50 text-red-700 border border-red-200 px-3 py-1 rounded-xl text-xs font-extrabold">
+                  <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 border border-red-200 px-2.5 py-1 rounded-xl text-xs font-extrabold">
                     <AlertCircle className="w-3.5 h-3.5 text-red-600" />
                     <span>Currently Out of Stock</span>
                   </span>

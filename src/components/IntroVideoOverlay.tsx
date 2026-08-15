@@ -6,10 +6,23 @@ interface IntroVideoOverlayProps {
 }
 
 export const IntroVideoOverlay: React.FC<IntroVideoOverlayProps> = ({ onFinish }) => {
+  const [isDesktop, setIsDesktop] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth >= 768;
+  });
   const [isOpen, setIsOpen] = useState(true);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isPlayBlocked, setIsPlayBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleClose = () => {
     setIsFadingOut(true);
@@ -45,7 +58,7 @@ export const IntroVideoOverlay: React.FC<IntroVideoOverlayProps> = ({ onFinish }
     };
   }, []);
 
-  if (!isOpen) return null;
+  if (!isDesktop || !isOpen) return null;
 
   return (
     <div
