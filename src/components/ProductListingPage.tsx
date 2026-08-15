@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, Heart, ShieldCheck, Minus, Plus, ShoppingBag, SlidersHorizontal } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAdminConfig } from '../admin/context/AdminConfigContext';
 import {
   PriceRangeFilter,
   ActiveFilterChip,
@@ -40,6 +41,7 @@ export const ProductListingPage: React.FC = () => {
     toggleWishlist,
     setIsCartOpen,
   } = useApp();
+  const { publishedConfig } = useAdminConfig();
 
   // Read search & category query params
   const searchQuery = currentRoute.searchParams.get('search') || '';
@@ -95,14 +97,20 @@ export const ProductListingPage: React.FC = () => {
   }, [allProducts, searchQuery, categoryQuery, filterQuery]);
 
   const absoluteMin = useMemo(() => {
+    if (publishedConfig.shopNowConfig?.minPriceLimit !== undefined) {
+      return publishedConfig.shopNowConfig.minPriceLimit;
+    }
     if (baseList.length === 0) return 0;
     return Math.floor(Math.min(...baseList.map(p => p.price)));
-  }, [baseList]);
+  }, [baseList, publishedConfig.shopNowConfig?.minPriceLimit]);
 
   const absoluteMax = useMemo(() => {
+    if (publishedConfig.shopNowConfig?.maxPriceLimit !== undefined) {
+      return publishedConfig.shopNowConfig.maxPriceLimit;
+    }
     if (baseList.length === 0) return 1000;
     return Math.ceil(Math.max(...baseList.map(p => p.price)));
-  }, [baseList]);
+  }, [baseList, publishedConfig.shopNowConfig?.maxPriceLimit]);
 
   // Initialise priceRange from sessionStorage or full range
   const [priceRange, setPriceRange] = useState<PriceRange>(() =>
@@ -185,7 +193,7 @@ export const ProductListingPage: React.FC = () => {
           </button>
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              {filterQuery === 'popular' ? 'Popular Products' : searchQuery ? `Search Results for "${searchQuery}"` : categoryQuery ? categoryQuery : 'Browse Products'}
+              {filterQuery === 'popular' ? 'Popular Products' : searchQuery ? `Search Results for "${searchQuery}"` : categoryQuery ? categoryQuery : (publishedConfig.shopNowConfig?.pageTitle || 'Browse Products')}
             </h2>
             <p className="text-xs text-slate-500 font-semibold mt-0.5">
               {filteredProducts.length} items found

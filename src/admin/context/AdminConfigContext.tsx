@@ -17,6 +17,7 @@ import type {
   OffersPageConfig,
   SectionOrderItem,
   MediaItem,
+  ShopNowPageConfig,
 } from '../types';
 import type { Product, Category, Order, User } from '../../types';
 import { defaultSiteConfig, defaultThemeTokens } from '../defaultConfig';
@@ -47,6 +48,7 @@ interface AdminContextType {
   updateBottomFeatureStrip: (cfg: Partial<BottomFeatureStripConfig>) => void;
   updateFooter: (cfg: Partial<FooterConfig>) => void;
   updateOffersPage: (cfg: Partial<OffersPageConfig>) => void;
+  updateShopNowConfig: (cfg: Partial<ShopNowPageConfig>) => void;
   updateProducts: (products: Product[]) => void;
   addProduct: (product: Product) => void;
   editProduct: (product: Product) => void;
@@ -106,6 +108,7 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
           categorySection: { ...defaultSiteConfig.categorySection, ...(parsed.categorySection || {}) },
           featureStrip: { ...defaultSiteConfig.featureStrip, ...(parsed.featureStrip || {}) },
           bottomFeatureStrip: { ...defaultSiteConfig.bottomFeatureStrip, ...(parsed.bottomFeatureStrip || {}) },
+          shopNowConfig: { ...defaultSiteConfig.shopNowConfig, ...(parsed.shopNowConfig || {}) },
         };
       }
       
@@ -123,6 +126,7 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
           categorySection: { ...defaultSiteConfig.categorySection, ...(parsed.categorySection || {}) },
           featureStrip: { ...defaultSiteConfig.featureStrip, ...(parsed.featureStrip || {}) },
           bottomFeatureStrip: { ...defaultSiteConfig.bottomFeatureStrip, ...(parsed.bottomFeatureStrip || {}) },
+          shopNowConfig: { ...defaultSiteConfig.shopNowConfig, ...(parsed.shopNowConfig || {}) },
         };
       }
     } catch (e) {
@@ -299,6 +303,10 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
     saveConfig({ ...config, offersPage: { ...config.offersPage, ...cfg } });
   };
 
+  const updateShopNowConfig = (cfg: Partial<ShopNowPageConfig>) => {
+    saveConfig({ ...config, shopNowConfig: { ...config.shopNowConfig, ...cfg } });
+  };
+
   const updateProducts = (products: Product[]) => {
     saveConfig({ ...config, products });
   };
@@ -370,6 +378,7 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
         updateBottomFeatureStrip,
         updateFooter,
         updateOffersPage,
+        updateShopNowConfig,
         updateProducts,
         addProduct,
         editProduct,

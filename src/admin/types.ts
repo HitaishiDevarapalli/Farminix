@@ -237,6 +237,14 @@ export interface OffersPageConfig {
   promoCode: string;
 }
 
+export interface ShopNowPageConfig {
+  enabled: boolean;
+  pageTitle: string;
+  minPriceLimit: number;
+  maxPriceLimit: number;
+  itemsPerPage: number;
+}
+
 export interface MediaItem {
   id: string;
   name: string;
@@ -263,6 +271,7 @@ export interface AdminSiteConfig {
   bottomFeatureStrip: BottomFeatureStripConfig;
   footer: FooterConfig;
   offersPage: OffersPageConfig;
+  shopNowConfig: ShopNowPageConfig;
   products: Product[];
   orders: Order[];
   users: User[];

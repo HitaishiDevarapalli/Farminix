@@ -231,6 +231,13 @@ export const defaultSiteConfig: AdminSiteConfig = {
     countdownHours: 18,
     promoCode: 'FARM10',
   },
+  shopNowConfig: {
+    enabled: true,
+    pageTitle: 'Browse Products',
+    minPriceLimit: 10,
+    maxPriceLimit: 320,
+    itemsPerPage: 12,
+  },
   products: allProducts,
   orders: [
     {

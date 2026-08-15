@@ -47,6 +47,7 @@ import { CustomerManager } from './pages/CustomerManager';
 import { OffersManager } from './pages/OffersManager';
 import { SupportManager } from './pages/SupportManager';
 import { MediaLibrary } from './pages/MediaLibrary';
+import { ShopNowConfigManager } from './pages/ShopNowConfigManager';
 
 interface NavSection {
   title: string;
@@ -103,6 +104,7 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
         { id: 'categoriesCrud', label: 'Category Department CRUD', icon: <Grid className="w-4 h-4" /> },
         { id: 'orders', label: 'Orders & Fulfillment', icon: <ShoppingBag className="w-4 h-4" /> },
         { id: 'customers', label: 'Customer Wallets & Pts', icon: <Users className="w-4 h-4" /> },
+        { id: 'shopNowConfig', label: 'Browse Products Page', icon: <Sliders className="w-4 h-4" /> },
       ],
     },
     {
@@ -154,6 +156,8 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
         return <OrderManager />;
       case 'customers':
         return <CustomerManager />;
+      case 'shopNowConfig':
+        return <ShopNowConfigManager />;
       case 'offers':
         return <OffersManager />;
       case 'support':
