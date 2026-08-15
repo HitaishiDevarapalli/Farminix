@@ -117,6 +117,13 @@ export const ProductListingPage: React.FC = () => {
     loadSavedPriceRange(0, 99999)
   );
 
+  // Reset scroll to top on mount or when category/search query changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [categoryQuery, searchQuery, filterQuery]);
+
   // Re-clamp price range when absoluteMin/Max changes (e.g. different category)
   useEffect(() => {
     setPriceRange(loadSavedPriceRange(absoluteMin, absoluteMax));

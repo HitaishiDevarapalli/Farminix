@@ -51,15 +51,17 @@ export const ProductDetailPage: React.FC = () => {
 
   // Dynamic document title update
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     if (product) {
       document.title = `${product.name} — Farminix Fresh Groceries`;
-      window.scrollTo(0, 0);
       setSelectedWeight(product.weight);
       setSelectedImage(product.image);
     } else {
       document.title = 'Product Not Found — Farminix';
     }
-  }, [product]);
+  }, [product, productIdentifier]);
 
   // Recently Viewed LocalStorage Persistence
   useEffect(() => {

@@ -93,6 +93,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         pathname: window.location.pathname,
         searchParams: new URLSearchParams(window.location.search),
       });
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -105,6 +108,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       pathname,
       searchParams: new URLSearchParams(search),
     });
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   const [cart, setCart] = useState<CartItem[]>([

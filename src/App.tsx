@@ -53,6 +53,13 @@ export function AppContent() {
     }
   }, []);
 
+  // Ensure scroll is at the top on every page/route change
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [currentRoute.pathname, currentRoute.searchParams.toString()]);
+
   // Handle Admin CRM Route
   if (currentRoute.pathname === '/admin') {
     if (!isAdminLoggedIn) {

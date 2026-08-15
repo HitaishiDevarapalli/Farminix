@@ -20,14 +20,35 @@ export const HeroBanner: React.FC = () => {
           draggable="false"
         />
 
-        {/* Real interactive HTML SHOP NOW button */}
-        <div className="absolute left-[3.1%] bottom-[12.3%] w-[18.9%] h-[15.9%] flex items-center justify-center">
+        {/* Seamless background cover to completely conceal any background printed button */}
+        <div 
+          className="absolute pointer-events-none rounded-full"
+          style={{
+            left: '4.0%',
+            top: '73.0%',
+            width: '15.2%',
+            height: '9.0%',
+            background: 'linear-gradient(180deg, #FAF8F5 0%, #F5EDE0 28%, #E4CEB2 62%, #D5B995 100%)',
+            boxShadow: '0 0 3px rgba(220, 190, 155, 0.4)',
+          }}
+        />
+
+        {/* Sleek, Reduced-Size, Interactive HTML SHOP NOW button */}
+        <div 
+          className="absolute flex items-center justify-center z-10"
+          style={{
+            left: '4.8%',
+            top: '74.0%',
+            width: '13.4%',
+            height: '7.0%',
+          }}
+        >
           <button
             onClick={() => navigate(hero.shopNowUrl || '/products')}
-            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-black tracking-wider text-[1.35vw] uppercase rounded-full shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer transform hover:scale-[1.03] active:scale-[0.97] border-0 focus:outline-hidden"
+            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] active:bg-[#5B21B6] text-white font-bold tracking-wider text-[0.88vw] uppercase rounded-full shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 md:gap-2 transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] border-0 focus:outline-hidden"
           >
             <span>SHOP NOW</span>
-            <svg className="w-[1.6vw] h-[1.6vw] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="w-[1.05vw] h-[1.05vw] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
@@ -44,4 +65,5 @@ export const HeroBanner: React.FC = () => {
     </section>
   );
 };
+
 

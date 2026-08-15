@@ -289,6 +289,9 @@ export const OffersPage: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(endDateRef.current));
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     const id = setInterval(() => setTimeLeft(getTimeLeft(endDateRef.current)), 1000);
     return () => clearInterval(id);
   }, []);
