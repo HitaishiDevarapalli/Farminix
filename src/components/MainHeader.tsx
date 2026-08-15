@@ -168,39 +168,172 @@ export const MainHeader: React.FC = () => {
   };
 
   return (
-    <header className="w-full h-20 bg-white border-b border-slate-100 sticky top-0 z-30 select-none shadow-xs">
-      <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 w-full">
+    <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-30 select-none shadow-xs">
+      <div className="max-w-7xl mx-auto h-16 sm:h-20 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 w-full">
         {/* Left: Farminix Logo & Location Selector */}
-      <div className="flex items-center gap-6 shrink-0">
-        {/* Logo */}
-        <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer shrink-0 group">
-          <img
-            src={headerCfg.logoUrl || '/farminix_logo.png'}
-            alt={headerCfg.logoAlt || 'Farminix Logo'}
-            className="h-16 sm:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-          />
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0 min-w-0">
+          {/* Logo */}
+          <div onClick={() => navigate('/')} className="flex items-center cursor-pointer shrink-0 group">
+            <img
+              src={headerCfg.logoUrl || '/farminix_logo.png'}
+              alt={headerCfg.logoAlt || 'Farminix Logo'}
+              className="h-10 sm:h-14 md:h-18 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+            />
+          </div>
+
+          {/* Location Selector */}
+          <button
+            onClick={() => setIsLocationOpen(true)}
+            className="flex items-center gap-1.5 sm:gap-2 px-1.5 sm:px-2.5 py-1 rounded-xl hover:bg-slate-50 border border-transparent hover:border-gray-200 transition-all text-left cursor-pointer shrink-0 max-w-[140px] xs:max-w-[170px] sm:max-w-[220px]"
+          >
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 flex items-center justify-center shrink-0 text-[#5B21B6]">
+              <MapPin className="w-4 h-4 fill-purple-100" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[9px] sm:text-[10px] text-gray-500 font-medium leading-none mb-0.5">{headerCfg.deliveryLabel || 'Deliver to'}</div>
+              <div className="text-[11px] sm:text-xs font-bold text-gray-900 flex items-center gap-0.5 truncate">
+                <span className="truncate">{location}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              </div>
+            </div>
+          </button>
         </div>
 
-        {/* Location Selector */}
-        <button
-          onClick={() => setIsLocationOpen(true)}
-          className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-gray-200 transition-all text-left cursor-pointer shrink-0"
-        >
-          <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center shrink-0 text-[#5B21B6]">
-            <MapPin className="w-5 h-5 fill-purple-100" />
-          </div>
-          <div>
-            <div className="text-[10px] text-gray-500 font-medium leading-none mb-0.5">{headerCfg.deliveryLabel || 'Deliver to'}</div>
-            <div className="text-xs font-bold text-gray-900 flex items-center gap-1 max-w-[200px] truncate">
-              {location}
-              <ChevronDown className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+        {/* Center: Premium Smart Search Bar (Desktop) */}
+        <div className="hidden md:flex flex-1 max-w-2xl mx-2 relative" ref={dropdownRef}>
+          <div className="relative flex items-center w-full">
+            <Search className="absolute left-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
+            
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                setShowDropdown(true);
+                setActiveIndex(-1);
+              }}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setShowDropdown(true)}
+              placeholder={placeholderSuggestions[placeholderIndex]}
+              className={`w-full h-11 pl-10 pr-24 text-xs font-semibold text-gray-900 bg-white border border-gray-200 rounded-[12px] focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-purple-50 transition-all placeholder-transition ${placeholderVisible ? 'placeholder-visible' : 'placeholder-hidden'}`}
+            />
+
+            {/* Indicators: Loading / Clear */}
+            <div className="absolute right-20 flex items-center gap-2">
+              {isLoading && (
+                <Loader2 className="w-4 h-4 text-purple-600 animate-spin" />
+              )}
+              {inputValue && (
+                <button
+                  onClick={() => {
+                    setInputValue('');
+                    setSuggestions([]);
+                    navigate('/');
+                  }}
+                  className="w-5 h-5 rounded-full hover:bg-slate-100 flex items-center justify-center text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              )}
             </div>
+
+            <button
+              onClick={handleSubmitSearch}
+              className="absolute right-1 h-9 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-[10px] transition-colors flex items-center justify-center shadow-xs cursor-pointer"
+            >
+              Search
+            </button>
           </div>
-        </button>
+
+          {/* Suggestions Dropdown Card */}
+          {showDropdown && (suggestions.length > 0 || (inputValue && !isLoading)) && (
+            <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-150 shadow-[0_12px_32px_rgba(0,0,0,0.08)] overflow-hidden z-50 text-left">
+              {suggestions.length > 0 ? (
+                <div className="py-2">
+                  <div className="px-4 py-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                    Suggestions
+                  </div>
+                  
+                  {suggestions.map((product, index) => (
+                    <button
+                      key={product.id}
+                      onClick={() => handleSelectProduct(product)}
+                      onMouseEnter={() => setActiveIndex(index)}
+                      className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors text-left border-none focus:outline-none cursor-pointer ${
+                        index === activeIndex ? 'bg-slate-50' : 'bg-white'
+                      }`}
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-9 h-9 rounded-lg object-cover bg-slate-50 border border-slate-100 shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-bold text-slate-800 truncate">
+                          {renderHighlight(product.name, inputValue)}
+                        </div>
+                        <div className="text-[10px] font-semibold text-slate-400 mt-0.5">
+                          {product.brand} • <span className="text-slate-500 font-bold">{product.weight}</span>
+                        </div>
+                      </div>
+                      
+                      <span className="text-xs font-bold text-[#7C3AED] shrink-0 bg-purple-50 px-2 py-0.5 rounded-md">
+                        ₹{product.price}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                inputValue && !isLoading && (
+                  <div className="p-4 text-center text-xs font-bold text-slate-400">
+                    No suggestions matching "{inputValue}"
+                  </div>
+                )
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Right: Actions (Login/Sign Up & Cart) */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* User Login/Account */}
+          <button
+            onClick={() => {
+              if (user) {
+                navigate('/account');
+              } else {
+                setIsAuthOpen(true);
+              }
+            }}
+            className="flex items-center gap-2 px-2.5 sm:px-4 py-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] border border-transparent rounded-xl sm:rounded-[10px] transition-all shadow-2xs cursor-pointer"
+            title={user ? `Account: ${user.name}` : 'Login / Sign up'}
+          >
+            <UserIcon className="w-4 h-4 text-white shrink-0" />
+            <span className="hidden sm:inline">
+              {user ? `Hi, ${user.name.split(' ')[0]}` : (headerCfg.loginButtonText || 'Login / Sign up')}
+            </span>
+          </button>
+
+          {/* Cart Button */}
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] border border-transparent rounded-xl sm:rounded-[10px] transition-all shadow-2xs cursor-pointer"
+            title="Open Shopping Cart"
+          >
+            <ShoppingCart className="w-4 h-4 text-white shrink-0" />
+            <span className="hidden sm:inline">{headerCfg.cartButtonText || 'Cart'} ({totalCartItems})</span>
+            <span className="inline sm:hidden font-black text-xs">{totalCartItems}</span>
+            {totalCartItems > 0 && (
+              <span className="hidden sm:flex absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#EA580C] text-white text-[10px] font-bold rounded-full items-center justify-center border-2 border-white shadow-xs">
+                {totalCartItems}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Center: Premium Smart Search Bar */}
-      <div className="flex-1 max-w-2xl mx-2 relative" ref={dropdownRef}>
+      {/* Mobile Search Bar Row (Visible on small screens) */}
+      <div className="block md:hidden px-3 pb-2.5 pt-0 relative" ref={dropdownRef}>
         <div className="relative flex items-center w-full">
           <Search className="absolute left-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
           
@@ -215,13 +348,13 @@ export const MainHeader: React.FC = () => {
             onKeyDown={handleKeyDown}
             onFocus={() => setShowDropdown(true)}
             placeholder={placeholderSuggestions[placeholderIndex]}
-            className={`w-full h-11 pl-10 pr-24 text-xs font-semibold text-gray-900 bg-white border border-gray-200 rounded-[12px] focus:outline-none focus:border-[#8B5CF6] focus:ring-4 focus:ring-purple-50 transition-all placeholder-transition ${placeholderVisible ? 'placeholder-visible' : 'placeholder-hidden'}`}
+            className={`w-full h-10 pl-10 pr-20 text-xs font-semibold text-gray-900 bg-slate-50 border border-gray-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#8B5CF6] focus:ring-3 focus:ring-purple-50 transition-all placeholder-transition ${placeholderVisible ? 'placeholder-visible' : 'placeholder-hidden'}`}
           />
 
           {/* Indicators: Loading / Clear */}
-          <div className="absolute right-20 flex items-center gap-2">
+          <div className="absolute right-16 flex items-center gap-1.5">
             {isLoading && (
-              <Loader2 className="w-4 h-4 text-purple-600 animate-spin" />
+              <Loader2 className="w-3.5 h-3.5 text-purple-600 animate-spin" />
             )}
             {inputValue && (
               <button
@@ -239,18 +372,18 @@ export const MainHeader: React.FC = () => {
 
           <button
             onClick={handleSubmitSearch}
-            className="absolute right-1 h-9 px-5 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold rounded-[10px] transition-colors flex items-center justify-center shadow-xs cursor-pointer"
+            className="absolute right-1 h-8 px-3 bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center shadow-xs cursor-pointer"
           >
             Search
           </button>
         </div>
 
-        {/* Suggestions Dropdown Card */}
+        {/* Mobile Suggestions Dropdown Card */}
         {showDropdown && (suggestions.length > 0 || (inputValue && !isLoading)) && (
-          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-150 shadow-[0_12px_32px_rgba(0,0,0,0.08)] overflow-hidden z-50 text-left">
+          <div className="absolute top-full left-3 right-3 mt-1 bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden z-50 text-left">
             {suggestions.length > 0 ? (
               <div className="py-2">
-                <div className="px-4 py-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                <div className="px-4 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                   Suggestions
                 </div>
                 
@@ -258,21 +391,20 @@ export const MainHeader: React.FC = () => {
                   <button
                     key={product.id}
                     onClick={() => handleSelectProduct(product)}
-                    onMouseEnter={() => setActiveIndex(index)}
-                    className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors text-left border-none focus:outline-none cursor-pointer ${
+                    className={`w-full px-4 py-2 flex items-center gap-3 transition-colors text-left border-none focus:outline-none cursor-pointer ${
                       index === activeIndex ? 'bg-slate-50' : 'bg-white'
                     }`}
                   >
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-9 h-9 rounded-lg object-cover bg-slate-50 border border-slate-100 shrink-0"
+                      className="w-8 h-8 rounded-lg object-cover bg-slate-50 border border-slate-100 shrink-0"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-bold text-slate-800 truncate">
                         {renderHighlight(product.name, inputValue)}
                       </div>
-                      <div className="text-[10px] font-semibold text-slate-400 mt-0.5">
+                      <div className="text-[10px] font-semibold text-slate-400">
                         {product.brand} • <span className="text-slate-500 font-bold">{product.weight}</span>
                       </div>
                     </div>
@@ -293,41 +425,6 @@ export const MainHeader: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* Right: Actions (Login/Sign Up & Cart) */}
-      <div className="flex items-center gap-3 shrink-0">
-        {/* User Login/Account */}
-        <button
-          onClick={() => {
-            if (user) {
-              navigate('/account');
-            } else {
-              setIsAuthOpen(true);
-            }
-          }}
-          className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] border border-transparent rounded-[10px] transition-all shadow-2xs cursor-pointer"
-        >
-          <UserIcon className="w-4 h-4 text-white" />
-          <span className="hidden sm:inline">
-            {user ? `Hi, ${user.name.split(' ')[0]}` : (headerCfg.loginButtonText || 'Login / Sign up')}
-          </span>
-        </button>
-
-        {/* Cart Button */}
-        <button
-          onClick={() => setIsCartOpen(true)}
-          className="relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] border border-transparent rounded-[10px] transition-all shadow-2xs cursor-pointer"
-        >
-          <ShoppingCart className="w-4 h-4 text-white" />
-          <span>{headerCfg.cartButtonText || 'Cart'} ({totalCartItems})</span>
-          {totalCartItems > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#EA580C] text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-xs">
-              {totalCartItems}
-            </span>
-          )}
-        </button>
-      </div>
-    </div>
-  </header>
+    </header>
   );
 };
