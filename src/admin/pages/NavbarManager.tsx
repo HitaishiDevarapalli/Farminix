@@ -34,18 +34,20 @@ export const NavbarManager: React.FC = () => {
     notifySaved();
   };
 
-  const handleRemove = (id: string) => {
-    const updated = navItems.filter((i) => i.id !== id);
-    setNavItems(updated);
-    updateNavItems(updated);
-    notifySaved();
+  const handleRemove = (id: string, label: string) => {
+    if (confirm(`Are you sure you want to delete navigation link "${label}"?`)) {
+      const updated = navItems.filter((i) => i.id !== id);
+      setNavItems(updated);
+      updateNavItems(updated);
+      notifySaved();
+    }
   };
 
   const handleAdd = () => {
-    if (!newLabel.trim()) return;
+    const finalLabel = newLabel.trim() || `New Tab ${navItems.length + 1}`;
     const newItem: NavItemConfig = {
       id: `nav-${Date.now()}`,
-      label: newLabel.trim(),
+      label: finalLabel,
       catId: newCatId.trim() || null,
       badge: newBadge.trim() || undefined,
       enabled: true,
@@ -194,7 +196,7 @@ export const NavbarManager: React.FC = () => {
                   {item.enabled ? 'Visible' : 'Hidden'}
                 </button>
                 <button
-                  onClick={() => handleRemove(item.id)}
+                  onClick={() => handleRemove(item.id, item.label)}
                   className="p-1 text-slate-400 hover:text-red-500 cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4" />

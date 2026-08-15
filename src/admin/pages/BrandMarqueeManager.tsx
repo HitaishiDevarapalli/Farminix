@@ -31,10 +31,10 @@ export const BrandMarqueeManager: React.FC = () => {
   };
 
   const handleAddBrand = () => {
-    if (!newBrandName.trim()) return;
+    const finalName = newBrandName.trim() || `New Brand Partner ${formData.brands.length + 1}`;
     const newBrand: PartnerBrand = {
       id: `b-${Date.now()}`,
-      name: newBrandName.trim(),
+      name: finalName,
       logo: newBrandLogo.trim() || '/farminix_logo.png',
       enabled: true,
       order: formData.brands.length + 1,

@@ -32,10 +32,10 @@ export const FutureArrivalsManager: React.FC = () => {
   };
 
   const handleAddItem = () => {
-    if (!newItemName.trim()) return;
+    const finalName = newItemName.trim() || `New Upcoming Item ${formData.items.length + 1}`;
     const newItem: FutureItemConfig = {
       id: Date.now(),
-      name: newItemName.trim(),
+      name: finalName,
       image: newItemImage.trim() || 'https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?auto=format&fit=crop&q=80&w=300',
       badgeText: newItemBadge.trim() || 'Coming Soon',
       enabled: true,

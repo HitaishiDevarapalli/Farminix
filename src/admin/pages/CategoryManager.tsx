@@ -29,10 +29,10 @@ export const CategoryManager: React.FC = () => {
   };
 
   const handleAddCategory = () => {
-    if (!newCatName.trim()) return;
+    const finalName = newCatName.trim() || `New Category ${categoriesList.length + 1}`;
     const newCategory: Category = {
-      id: newCatName.toLowerCase().replace(/[^a-z0-9]/g, ''),
-      name: newCatName.trim(),
+      id: finalName.toLowerCase().replace(/[^a-z0-9]/g, ''),
+      name: finalName,
       image: newCatImage.trim() || '/cat_dals.jpg',
       itemCount: Number(newCatItemCount) || 1,
       enabled: true, // Enabled by default

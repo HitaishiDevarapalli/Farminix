@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, Check, Eye, EyeOff } from 'lucide-react';
+import { Zap, Check, Eye, EyeOff, Plus, Trash2 } from 'lucide-react';
 import { useAdminConfig } from '../context/AdminConfigContext';
 import type { FeatureCard } from '../types';
 
@@ -21,6 +21,33 @@ export const FeatureStripManager: React.FC = () => {
     setFormData(updated);
     updateFeatureStrip({ features: updatedFeatures });
     notifySaved();
+  };
+
+  const handleAddFeature = () => {
+    const newFeature: FeatureCard = {
+      id: Date.now(),
+      iconName: 'Zap',
+      title: `New Feature Card ${formData.features.length + 1}`,
+      subtitle: 'Premium Choice',
+      bgColor: 'bg-purple-100',
+      enabled: true,
+      order: formData.features.length + 1,
+    };
+    const updatedFeatures = [...formData.features, newFeature];
+    const updated = { ...formData, features: updatedFeatures };
+    setFormData(updated);
+    updateFeatureStrip({ features: updatedFeatures });
+    notifySaved();
+  };
+
+  const handleDeleteFeature = (id: number, title: string) => {
+    if (confirm(`Are you sure you want to delete feature card "${title}"?`)) {
+      const updatedFeatures = formData.features.filter((f) => f.id !== id);
+      const updated = { ...formData, features: updatedFeatures };
+      setFormData(updated);
+      updateFeatureStrip({ features: updatedFeatures });
+      notifySaved();
+    }
   };
 
   const notifySaved = () => {
@@ -66,7 +93,21 @@ export const FeatureStripManager: React.FC = () => {
         </div>
       </div>
 
-      {/* 5 Cards List */}
+      {/* Cards List Header */}
+      <div className="flex items-center justify-between bg-white p-5 rounded-3xl border border-slate-200 shadow-2xs">
+        <h2 className="text-sm font-black text-slate-900">
+          Feature Cards List ({formData.features.length})
+        </h2>
+        <button
+          onClick={handleAddFeature}
+          className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-2xs animate-pulse"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add Feature Card</span>
+        </button>
+      </div>
+
+      {/* Cards List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {formData.features.map((feature, idx) => (
           <div
@@ -77,14 +118,22 @@ export const FeatureStripManager: React.FC = () => {
           >
             <div className="flex items-center justify-between border-b border-slate-100 pb-2">
               <span className="text-xs font-bold text-purple-700">Card #{idx + 1}</span>
-              <button
-                onClick={() => handleCardChange(feature.id, 'enabled', !feature.enabled)}
-                className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer ${
-                  feature.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'
-                }`}
-              >
-                {feature.enabled ? 'Active' : 'Hidden'}
-              </button>
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => handleCardChange(feature.id, 'enabled', !feature.enabled)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer ${
+                    feature.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'
+                  }`}
+                >
+                  {feature.enabled ? 'Active' : 'Hidden'}
+                </button>
+                <button
+                  onClick={() => handleDeleteFeature(feature.id, feature.title)}
+                  className="p-1 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 cursor-pointer transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
 
             <div>

@@ -181,7 +181,7 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
       </div>
 
       {/* Nav List */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 text-left no-scrollbar">
+      <div className="flex-1 overflow-y-auto p-4 space-y-6 text-left">
         {navigationSections.map((sec) => (
           <div key={sec.title} className="space-y-1">
             <div className="text-[10px] uppercase font-extrabold text-slate-500 tracking-wider px-3 mb-1">
