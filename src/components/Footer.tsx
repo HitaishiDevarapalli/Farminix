@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
             <div className="flex items-center gap-3">
               {/* Instagram */}
               <a
-                href={footerConfig.socialLinks.instagram || 'https://instagram.com'}
+                href={footerConfig.socialLinks?.instagram && footerConfig.socialLinks.instagram !== '#' ? footerConfig.socialLinks.instagram : 'https://www.instagram.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-350 hover:text-white flex items-center justify-center transition-all cursor-pointer"
@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
               </a>
               {/* Facebook */}
               <a
-                href={footerConfig.socialLinks.facebook || 'https://facebook.com'}
+                href={footerConfig.socialLinks?.facebook && footerConfig.socialLinks.facebook !== '#' ? footerConfig.socialLinks.facebook : 'https://www.facebook.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-350 hover:text-white flex items-center justify-center transition-all cursor-pointer"
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
               </a>
               {/* Twitter */}
               <a
-                href={footerConfig.socialLinks.twitter || 'https://twitter.com'}
+                href={footerConfig.socialLinks?.twitter && footerConfig.socialLinks.twitter !== '#' ? footerConfig.socialLinks.twitter : 'https://twitter.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-350 hover:text-white flex items-center justify-center transition-all cursor-pointer"
@@ -64,7 +64,7 @@ export const Footer: React.FC = () => {
               </a>
               {/* YouTube */}
               <a
-                href={footerConfig.socialLinks.youtube || 'https://youtube.com'}
+                href={footerConfig.socialLinks?.youtube && footerConfig.socialLinks.youtube !== '#' ? footerConfig.socialLinks.youtube : 'https://www.youtube.com'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700/80 hover:bg-[#7C3AED] text-slate-350 hover:text-white flex items-center justify-center transition-all cursor-pointer"

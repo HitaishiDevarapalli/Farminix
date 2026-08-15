@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ArrowLeft, CheckCircle2, ShieldCheck, Truck, Zap,
+  ArrowLeft, CheckCircle2, Truck, Zap,
   Plus, Navigation, Loader2, Check, Phone
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -227,10 +227,6 @@ export const CheckoutPage: React.FC = () => {
         {/* Title */}
         <div className="flex items-center justify-between mb-8 text-left">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#7C3AED] uppercase tracking-wider bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200 mb-1">
-              <ShieldCheck className="w-4 h-4 text-[#7C3AED]" />
-              <span>256-Bit SSL Encrypted</span>
-            </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Secure Checkout
             </h1>

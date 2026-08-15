@@ -194,10 +194,10 @@ export const defaultSiteConfig: AdminSiteConfig = {
     logoUrl: '/farminix_logo.png',
     bioText: 'Your trusted partner for quality groceries. Fresh produce, authentic staples, and instant 10-minute home delivery.',
     socialLinks: {
-      instagram: '#',
-      facebook: '#',
-      twitter: '#',
-      youtube: '#',
+      instagram: 'https://www.instagram.com',
+      facebook: 'https://www.facebook.com',
+      twitter: 'https://twitter.com',
+      youtube: 'https://www.youtube.com',
     },
     companyLinks: [
       { id: 'c1', label: 'About Us', url: '#' },

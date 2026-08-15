@@ -440,7 +440,7 @@ export const OffersPage: React.FC = () => {
           {/* CTA */}
           <div className="offers-fade-up offers-delay-4 mt-8">
             <button
-              onClick={() => document.getElementById('offer-zone')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => document.getElementById('weekly-mega-deals')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-8 py-3.5 bg-white text-purple-700 rounded-full font-black text-sm hover:bg-yellow-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-purple-900/40 cursor-pointer"
             >
               Explore All Offers ↓
@@ -517,36 +517,9 @@ export const OffersPage: React.FC = () => {
       </div>
 
       {/* ════════════════════════════════════════════════════════════════════
-          OFFER ZONE CHIPS
-          ════════════════════════════════════════════════════════════════════ */}
-      <div id="offer-zone" className="bg-white px-4 sm:px-8 py-6 border-b border-slate-100">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-base font-black text-slate-900">🎯 Offer Zone</span>
-            <span className="text-xs font-semibold text-slate-400">— Pick your savings level</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {OFFER_CHIPS.map(chip => (
-              <button
-                key={chip.id}
-                onClick={() => setActiveChip(chip.id)}
-                className={`offers-chip px-4 py-2 rounded-full text-xs font-extrabold border cursor-pointer whitespace-nowrap ${
-                  activeChip === chip.id
-                    ? 'offers-chip-active'
-                    : 'bg-white text-slate-700 border-slate-200'
-                }`}
-              >
-                {chip.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ════════════════════════════════════════════════════════════════════
           WEEKLY MEGA DEALS
           ════════════════════════════════════════════════════════════════════ */}
-      <div className="bg-white px-4 sm:px-8 py-8">
+      <div id="weekly-mega-deals" className="bg-white px-4 sm:px-8 py-8">
         <div className="max-w-[1440px] mx-auto">
           <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
             <Gift className="w-5 h-5 text-purple-600" />

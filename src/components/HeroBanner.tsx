@@ -20,35 +20,22 @@ export const HeroBanner: React.FC = () => {
           draggable="false"
         />
 
-        {/* Seamless background cover to completely conceal any background printed button */}
+        {/* Real interactive HTML SHOP NOW button perfectly sized to cover the background shadow pill */}
         <div 
-          className="absolute pointer-events-none rounded-full"
+          className="absolute flex items-center justify-center z-10"
           style={{
             left: '4.0%',
             top: '73.0%',
             width: '15.2%',
-            height: '9.0%',
-            background: 'linear-gradient(180deg, #FAF8F5 0%, #F5EDE0 28%, #E4CEB2 62%, #D5B995 100%)',
-            boxShadow: '0 0 3px rgba(220, 190, 155, 0.4)',
-          }}
-        />
-
-        {/* Sleek, Reduced-Size, Interactive HTML SHOP NOW button */}
-        <div 
-          className="absolute flex items-center justify-center z-10"
-          style={{
-            left: '4.8%',
-            top: '74.0%',
-            width: '13.4%',
-            height: '7.0%',
+            height: '8.8%',
           }}
         >
           <button
             onClick={() => navigate(hero.shopNowUrl || '/products')}
-            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] active:bg-[#5B21B6] text-white font-bold tracking-wider text-[0.88vw] uppercase rounded-full shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 md:gap-2 transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] border-0 focus:outline-hidden"
+            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] active:bg-[#5B21B6] text-white font-black tracking-wider text-[1.05vw] uppercase rounded-full shadow-lg flex items-center justify-center gap-1.5 md:gap-2 transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] border-0 focus:outline-hidden"
           >
             <span>SHOP NOW</span>
-            <svg className="w-[1.05vw] h-[1.05vw] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="w-[1.25vw] h-[1.25vw] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
