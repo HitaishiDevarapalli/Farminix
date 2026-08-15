@@ -75,6 +75,12 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
           ...defaultSiteConfig,
           ...parsed,
           theme: { ...defaultThemeTokens, ...(parsed.theme || {}) },
+          footer: { ...defaultSiteConfig.footer, ...(parsed.footer || {}) },
+          header: { ...defaultSiteConfig.header, ...(parsed.header || {}) },
+          futureArrivals: { ...defaultSiteConfig.futureArrivals, ...(parsed.futureArrivals || {}) },
+          categorySection: { ...defaultSiteConfig.categorySection, ...(parsed.categorySection || {}) },
+          featureStrip: { ...defaultSiteConfig.featureStrip, ...(parsed.featureStrip || {}) },
+          bottomFeatureStrip: { ...defaultSiteConfig.bottomFeatureStrip, ...(parsed.bottomFeatureStrip || {}) },
         };
       }
     } catch (e) {
@@ -93,13 +99,30 @@ export const AdminConfigProvider: React.FC<{ children: React.ReactNode }> = ({ c
           ...defaultSiteConfig,
           ...parsed,
           theme: { ...defaultThemeTokens, ...(parsed.theme || {}) },
+          footer: { ...defaultSiteConfig.footer, ...(parsed.footer || {}) },
+          header: { ...defaultSiteConfig.header, ...(parsed.header || {}) },
+          futureArrivals: { ...defaultSiteConfig.futureArrivals, ...(parsed.futureArrivals || {}) },
+          categorySection: { ...defaultSiteConfig.categorySection, ...(parsed.categorySection || {}) },
+          featureStrip: { ...defaultSiteConfig.featureStrip, ...(parsed.featureStrip || {}) },
+          bottomFeatureStrip: { ...defaultSiteConfig.bottomFeatureStrip, ...(parsed.bottomFeatureStrip || {}) },
         };
       }
       
       // Fallback to published if no draft exists
       const publishedSaved = localStorage.getItem(PUBLISHED_KEY);
       if (publishedSaved) {
-        return JSON.parse(publishedSaved);
+        const parsed = JSON.parse(publishedSaved);
+        return {
+          ...defaultSiteConfig,
+          ...parsed,
+          theme: { ...defaultThemeTokens, ...(parsed.theme || {}) },
+          footer: { ...defaultSiteConfig.footer, ...(parsed.footer || {}) },
+          header: { ...defaultSiteConfig.header, ...(parsed.header || {}) },
+          futureArrivals: { ...defaultSiteConfig.futureArrivals, ...(parsed.futureArrivals || {}) },
+          categorySection: { ...defaultSiteConfig.categorySection, ...(parsed.categorySection || {}) },
+          featureStrip: { ...defaultSiteConfig.featureStrip, ...(parsed.featureStrip || {}) },
+          bottomFeatureStrip: { ...defaultSiteConfig.bottomFeatureStrip, ...(parsed.bottomFeatureStrip || {}) },
+        };
       }
     } catch (e) {
       console.warn('Failed to parse draft admin config, using defaults', e);

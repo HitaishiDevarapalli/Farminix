@@ -156,7 +156,7 @@ export const FooterManager: React.FC = () => {
             3. Company Column Links
           </h2>
           <div className="space-y-3">
-            {formData.companyLinks.map((link, idx) => (
+            {(formData.companyLinks || []).map((link, idx) => (
               <div key={link.id} className="flex items-center gap-2">
                 <input
                   type="text"
@@ -181,7 +181,7 @@ export const FooterManager: React.FC = () => {
             4. Help Column Links
           </h2>
           <div className="space-y-3">
-            {formData.helpLinks.map((link, idx) => (
+            {(formData.helpLinks || []).map((link, idx) => (
               <div key={link.id} className="flex items-center gap-2">
                 <input
                   type="text"

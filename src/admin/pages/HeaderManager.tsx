@@ -19,8 +19,8 @@ export const HeaderManager: React.FC = () => {
   };
 
   const handleAddPlaceholder = () => {
-    if (!newPlaceholder.trim()) return;
-    const updatedList = [...formData.searchPlaceholders, newPlaceholder.trim()];
+    const finalVal = newPlaceholder.trim() || `New Keyword ${formData.searchPlaceholders.length + 1}`;
+    const updatedList = [...formData.searchPlaceholders, finalVal];
     handleChange('searchPlaceholders', updatedList);
     setNewPlaceholder('');
   };
