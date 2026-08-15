@@ -28,10 +28,10 @@ export const CustomerManager: React.FC = () => {
             <span>Store Membership</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-            Customer Directory &amp; Wallets
+            Customer Directory
           </h1>
           <p className="text-xs text-slate-500 font-medium mt-0.5">
-            View registered shopper profiles, reward point balances, wallet funds, and saved delivery addresses.
+            View registered shopper profiles, contact information, and saved delivery addresses.
           </p>
         </div>
       </div>

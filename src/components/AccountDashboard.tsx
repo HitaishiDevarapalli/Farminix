@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ShoppingBag, MapPin, Heart, Shield, Wallet, Tag, CreditCard,
-  Bell, Share2, HelpCircle, Lock, Settings as SettingsIcon, LogOut,
-  ChevronRight, Plus, Trash2, Edit2, Download, Copy,
+  ShoppingBag, MapPin, Heart, Shield,
+  HelpCircle, Lock, Settings as SettingsIcon, LogOut,
+  ChevronRight, Plus, Trash2, Edit2, Download,
   Phone, MessageSquare, ChevronDown, ChevronUp, Sun, Moon, Compass, CheckCircle2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -90,23 +90,8 @@ export const AccountDashboard: React.FC = () => {
     localStorage.setItem('farminix_addresses', JSON.stringify(addresses));
   }, [addresses]);
 
-
-
-  // Payment methods state
-  const [paymentMethods] = useState([
-    { id: 'pm-1', type: 'card', brand: 'Visa', last4: '4242', expiry: '12/28', name: 'Hitaishi D', isDefault: true },
-    { id: 'pm-2', type: 'upi', upiId: 'hitaishi@okaxis', provider: 'Google Pay', isDefault: false },
-    { id: 'pm-3', type: 'upi', upiId: '9876543210@ybl', provider: 'PhonePe', isDefault: false },
-  ]);
-
-  // Wallet & Rewards
-  const [walletBalance, setWalletBalance] = useState<number>(user?.walletBalance || 250);
-  const [rewardPoints, setRewardPoints] = useState<number>(user?.rewardPoints || 350);
-
   useEffect(() => {
     if (user) {
-      setWalletBalance(user.walletBalance);
-      setRewardPoints(user.rewardPoints);
       setUserProfile({
         name: user.name,
         email: user.email,
@@ -116,42 +101,23 @@ export const AccountDashboard: React.FC = () => {
       });
     }
   }, [user]);
-  const [transactions] = useState([
-    { id: 'txn-1', title: 'Cashback Received (Order #89241)', amount: '+ ₹50', date: '04 Aug 2026', type: 'credit' },
-    { id: 'txn-2', title: 'Paid for Grocery Order #89110', amount: '- ₹188', date: '01 Aug 2026', type: 'debit' },
-    { id: 'txn-3', title: 'Wallet Top-up via UPI', amount: '+ ₹388', date: '25 Jul 2026', type: 'credit' },
-  ]);
-
-  // Coupons
-  const [coupons] = useState([
-    { code: 'FARM10', title: '10% OFF Entire Order', desc: 'Min spend ₹200. Max discount ₹100.', status: 'available', expiry: 'Ends in 3 days' },
-    { code: 'FRESH50', title: 'Flat ₹50 OFF on Dals & Grains', desc: 'Valid on orders above ₹350.', status: 'available', expiry: 'Ends in 5 days' },
-    { code: 'SAVER200', title: '₹200 Cashback on Household Essentials', desc: 'Valid on orders above ₹999.', status: 'available', expiry: 'Ends in 12 days' },
-    { code: 'WELCOME100', title: '₹100 First Order Discount', desc: 'Used on 15 Jul 2026', status: 'used', expiry: 'Used' },
-  ]);
-
-  // Notifications
-  const [notifications, setNotifications] = useState([
-    { id: 'n-1', title: 'Order #ORD-89241 is Out for Delivery! 🚚', time: '10 mins ago', type: 'order', read: false },
-    { id: 'n-2', title: 'You earned 50 Farminix Reward Points! 🎉', time: '2 hours ago', type: 'promo', read: false },
-    { id: 'n-3', title: 'Security Alert: New login from Mac OS Chrome.', time: '1 day ago', type: 'security', read: true },
-    { id: 'n-4', title: 'Weekend Mega Sale: Up to 50% OFF on Spices!', time: '2 days ago', type: 'promo', read: true },
-  ]);
 
   // Settings
   const [settings, setSettings] = useState({
     darkMode: false,
     language: 'English',
     orderUpdatesEmail: true,
-    promoSMS: true,
-    currency: '₹ INR',
-    accentColor: 'Purple',
+    orderUpdatesSms: true,
+    orderUpdatesWhatsapp: true,
+    promotionalOffers: true,
+    shareLocationWithRider: true,
   });
 
-  // Modal Controls
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  // Modal States
   const [isAddAddressOpen, setIsAddAddressOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
+  const [orderFilter, setOrderFilter] = useState<string>('all');
 
   // Address Form State
   const [newAddressForm, setNewAddressForm] = useState({
@@ -163,9 +129,6 @@ export const AccountDashboard: React.FC = () => {
     phone: '',
     isDefault: false,
   });
-
-  // Filter for Orders
-  const [orderFilter, setOrderFilter] = useState<string>('all');
 
   // FAQ Accordion State
   const [openFaqId, setOpenFaqId] = useState<number | null>(1);
@@ -183,11 +146,6 @@ export const AccountDashboard: React.FC = () => {
     { id: 'tracking', label: 'Order Tracking', icon: Compass, badge: 'LIVE' },
     { id: 'addresses', label: 'Saved Addresses', icon: MapPin, badge: addresses.length.toString() },
     { id: 'wishlist', label: 'Wishlist', icon: Heart, badge: wishlist.length > 0 ? wishlist.length.toString() : null },
-    { id: 'wallet', label: 'Wallet & Rewards', icon: Wallet, badge: `₹${walletBalance}` },
-    { id: 'coupons', label: 'Coupons & Offers', icon: Tag, badge: 'HOT' },
-    { id: 'payments', label: 'Payment Methods', icon: CreditCard, badge: null },
-    { id: 'notifications', label: 'Notifications', icon: Bell, badge: notifications.filter(n => !n.read).length.toString() },
-    { id: 'refer', label: 'Refer & Earn', icon: Share2, badge: '₹200' },
     { id: 'support', label: 'Help & Support', icon: HelpCircle, badge: null },
     { id: 'faqs', label: 'FAQs', icon: HelpCircle, badge: null },
     { id: 'privacy', label: 'Account Privacy', icon: Lock, badge: null },
@@ -457,11 +415,11 @@ export const AccountDashboard: React.FC = () => {
                     </div>
                   </div>
 
-                  <div onClick={() => setActiveTab('wallet')} className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 hover:border-indigo-300 transition-all cursor-pointer group">
-                    <div className="text-[11px] font-extrabold text-indigo-800 uppercase tracking-wider">Wallet Balance</div>
-                    <div className="text-2xl font-black text-indigo-900 mt-1">₹{walletBalance}</div>
-                    <div className="text-[10px] font-bold text-indigo-700 mt-1 group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
-                      {rewardPoints} Pts <ChevronRight className="w-3 h-3" />
+                  <div onClick={() => setActiveTab('wishlist')} className="p-4 rounded-2xl bg-rose-50 border border-rose-100 hover:border-rose-300 transition-all cursor-pointer group">
+                    <div className="text-[11px] font-extrabold text-rose-800 uppercase tracking-wider">Saved Items</div>
+                    <div className="text-2xl font-black text-rose-950 mt-1">{wishlist.length}</div>
+                    <div className="text-[10px] font-bold text-rose-700 mt-1 group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                      Wishlist <ChevronRight className="w-3 h-3" />
                     </div>
                   </div>
                 </div>
@@ -478,9 +436,9 @@ export const AccountDashboard: React.FC = () => {
                       <Heart className="w-5 h-5 text-rose-500" />
                       <span className="text-xs font-bold text-slate-800">My Wishlist ({wishlist.length})</span>
                     </button>
-                    <button onClick={() => setActiveTab('wallet')} className="p-3.5 rounded-2xl border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 transition-all text-left flex flex-col justify-between h-24 cursor-pointer">
-                      <Wallet className="w-5 h-5 text-indigo-600" />
-                      <span className="text-xs font-bold text-slate-800">My Wallet (₹{walletBalance})</span>
+                    <button onClick={() => setActiveTab('orders')} className="p-3.5 rounded-2xl border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 transition-all text-left flex flex-col justify-between h-24 cursor-pointer">
+                      <ShoppingBag className="w-5 h-5 text-indigo-600" />
+                      <span className="text-xs font-bold text-slate-800">My Orders ({orders.length})</span>
                     </button>
                     <button onClick={() => setActiveTab('support')} className="p-3.5 rounded-2xl border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 transition-all text-left flex flex-col justify-between h-24 cursor-pointer">
                       <HelpCircle className="w-5 h-5 text-emerald-600" />
@@ -758,35 +716,42 @@ export const AccountDashboard: React.FC = () => {
               <div className="space-y-5 animate-in fade-in duration-200">
                 <div>
                   <h2 className="text-xl font-extrabold text-slate-900">My Wishlist</h2>
-                  <p className="text-xs text-slate-500">{wishlist.length} saved products</p>
+                  <p className="text-xs text-slate-500">
+                    {allProducts.filter((p) => wishlist.some(id => String(id) === String(p.id) || String(id) === String(p.name))).length} saved products
+                  </p>
                 </div>
 
-                {wishlist.length === 0 ? (
+                {allProducts.filter((p) => wishlist.some(id => String(id) === String(p.id) || String(id) === String(p.name))).length === 0 ? (
                   <div className="text-center py-16 bg-slate-50 rounded-3xl border border-slate-100">
                     <Heart className="w-12 h-12 text-slate-300 mx-auto mb-3" />
                     <h3 className="text-sm font-bold text-slate-700">Your wishlist is empty</h3>
                     <p className="text-xs text-slate-400 mt-1">Explore items and click the heart icon to save for later.</p>
-                    <button onClick={() => navigate('/products')} className="mt-4 px-5 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold">
+                    <button onClick={() => navigate('/products')} className="mt-4 px-5 py-2 bg-purple-600 hover:bg-purple-700 transition-colors text-white rounded-xl text-xs font-bold cursor-pointer">
                       Explore Products
                     </button>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {allProducts
-                      .filter((p) => wishlist.includes(p.id))
+                      .filter((p) => wishlist.some(id => String(id) === String(p.id) || String(id) === String(p.name)))
                       .map((product) => (
-                        <div key={product.id} className="p-3.5 rounded-2xl border border-slate-200 bg-white flex flex-col justify-between">
+                        <div key={product.id} className="p-3.5 rounded-2xl border border-slate-200 bg-white flex flex-col justify-between hover:shadow-md transition-shadow">
                           <div className="relative mb-2">
                             <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-xl" />
                             <button
-                              onClick={() => toggleWishlist(product.id)}
-                              className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 backdrop-blur-xs text-red-500 cursor-pointer"
+                              onClick={() => {
+                                toggleWishlist(product.id);
+                                showToast(`Removed ${product.name} from wishlist`, 'info');
+                              }}
+                              className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 backdrop-blur-xs text-rose-500 hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-xs"
+                              title="Remove from wishlist"
                             >
-                              <Heart className="w-4 h-4 fill-red-500" />
+                              <Heart className="w-4 h-4 fill-rose-500" />
                             </button>
                           </div>
                           <div>
                             <div className="text-xs font-bold text-slate-900 line-clamp-1">{product.name}</div>
+                            <div className="text-[10px] text-slate-500 font-semibold">{product.weight}</div>
                             <div className="text-xs font-black text-purple-700 mt-1">₹{product.price}</div>
                           </div>
                           <button
@@ -794,9 +759,10 @@ export const AccountDashboard: React.FC = () => {
                               addToCart(product);
                               showToast(`Added ${product.name} to cart`);
                             }}
-                            className="mt-3 w-full py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold cursor-pointer transition-colors"
+                            className="mt-3 w-full py-2 bg-purple-600 hover:bg-purple-700 active:scale-98 text-white rounded-xl text-xs font-bold cursor-pointer transition-all flex items-center justify-center gap-1.5"
                           >
-                            + Move to Cart
+                            <ShoppingBag className="w-3.5 h-3.5" />
+                            <span>Add to Cart</span>
                           </button>
                         </div>
                       ))}
@@ -805,222 +771,8 @@ export const AccountDashboard: React.FC = () => {
               </div>
             )}
 
-
-
-            {/* 7. WALLET & REWARDS */}
-            {activeTab === 'wallet' && (
-              <div className="space-y-6 animate-in fade-in duration-200">
-                <div>
-                  <h2 className="text-xl font-extrabold text-slate-900">Wallet & Rewards</h2>
-                  <p className="text-xs text-slate-500">Your Farminix cash balance and reward points.</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-6 rounded-3xl bg-gradient-to-br from-purple-900 to-indigo-800 text-white shadow-md">
-                    <div className="text-xs font-bold text-purple-200">Farminix Wallet</div>
-                    <div className="text-3xl font-black text-white mt-1">₹{walletBalance}</div>
-                    <button
-                      onClick={() => {
-                        setWalletBalance(prev => prev + 500);
-                        showToast('₹500 added to your Farminix Wallet!');
-                      }}
-                      className="mt-4 px-4 py-2 bg-white text-purple-900 rounded-xl text-xs font-bold hover:bg-yellow-300 transition-colors cursor-pointer"
-                    >
-                      + Add ₹500 Cash
-                    </button>
-                  </div>
-
-                  <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-md">
-                    <div className="text-xs font-bold text-amber-100">Reward Points</div>
-                    <div className="text-3xl font-black text-white mt-1">{rewardPoints} Pts</div>
-                    <button
-                      onClick={() => {
-                        if (rewardPoints >= 100) {
-                          setRewardPoints(prev => prev - 100);
-                          setWalletBalance(prev => prev + 50);
-                          showToast('Redeemed 100 Pts for ₹50 Wallet Cash!');
-                        } else {
-                          showToast('Minimum 100 points required to redeem', 'warning');
-                        }
-                      }}
-                      className="mt-4 px-4 py-2 bg-white text-amber-900 rounded-xl text-xs font-bold hover:bg-yellow-100 transition-colors cursor-pointer"
-                    >
-                      Redeem 100 Pts (₹50)
-                    </button>
-                  </div>
-                </div>
-
-                {/* Transactions History */}
-                <div>
-                  <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-3">Recent Wallet Transactions</h3>
-                  <div className="space-y-2">
-                    {transactions.map((t) => (
-                      <div key={t.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                        <div>
-                          <div className="text-xs font-bold text-slate-800">{t.title}</div>
-                          <div className="text-[10px] text-slate-400">{t.date}</div>
-                        </div>
-                        <div className={`text-xs font-black ${t.type === 'credit' ? 'text-emerald-600' : 'text-slate-800'}`}>
-                          {t.amount}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 8. COUPONS & OFFERS */}
-            {activeTab === 'coupons' && (
-              <div className="space-y-5 animate-in fade-in duration-200">
-                <div>
-                  <h2 className="text-xl font-extrabold text-slate-900">Coupons & Offers</h2>
-                  <p className="text-xs text-slate-500">Exclusive promo codes for extra savings.</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {coupons.map((c) => (
-                    <div key={c.code} className="p-5 rounded-3xl border border-dashed border-purple-300 bg-purple-50/50 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="px-3 py-1 bg-purple-700 text-white rounded-xl text-xs font-black tracking-widest">{c.code}</span>
-                          <span className="text-[10px] font-bold text-purple-600">{c.expiry}</span>
-                        </div>
-                        <div className="text-xs font-extrabold text-slate-900 mt-2">{c.title}</div>
-                        <div className="text-[11px] text-slate-500 mt-1">{c.desc}</div>
-                      </div>
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(c.code);
-                          showToast(`Coupon code ${c.code} copied!`);
-                        }}
-                        className="mt-4 w-full py-2 bg-white hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                      >
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>Copy Code</span>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* 9. PAYMENT METHODS */}
+            {/* 6. PAYMENT METHODS */}
             {activeTab === 'payments' && (
-              <div className="space-y-5 animate-in fade-in duration-200">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-xl font-extrabold text-slate-900">Saved Payment Methods</h2>
-                    <p className="text-xs text-slate-500">Manage your cards and UPI IDs.</p>
-                  </div>
-                  <button
-                    onClick={() => showToast('Add payment method form ready.')}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Add New</span>
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {paymentMethods.map((pm) => (
-                    <div key={pm.id} className="p-4 rounded-2xl border border-slate-200 bg-white flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <CreditCard className="w-6 h-6 text-purple-600" />
-                        <div>
-                          <div className="text-xs font-bold text-slate-900">
-                            {pm.type === 'card' ? `${pm.brand} ending in •••• ${pm.last4}` : pm.upiId}
-                          </div>
-                          <div className="text-[10px] text-slate-400">{pm.type === 'card' ? `Expires ${pm.expiry}` : pm.provider}</div>
-                        </div>
-                      </div>
-
-                      {pm.isDefault && (
-                        <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 text-[10px] font-bold">DEFAULT</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* 10. NOTIFICATIONS */}
-            {activeTab === 'notifications' && (
-              <div className="space-y-5 animate-in fade-in duration-200">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-xl font-extrabold text-slate-900">Notifications</h2>
-                    <p className="text-xs text-slate-500">Stay updated on order status and promos.</p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-                      showToast('All notifications marked as read');
-                    }}
-                    className="text-xs font-bold text-purple-600 hover:underline cursor-pointer"
-                  >
-                    Mark all read
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {notifications.map((n) => (
-                    <div key={n.id} className={`p-4 rounded-2xl border ${n.read ? 'bg-white border-slate-100' : 'bg-purple-50/50 border-purple-200'} flex items-start justify-between gap-3`}>
-                      <div className="flex items-start gap-3">
-                        <Bell className="w-4 h-4 text-purple-600 mt-0.5 shrink-0" />
-                        <div>
-                          <div className="text-xs font-bold text-slate-900">{n.title}</div>
-                          <div className="text-[10px] text-slate-400 mt-1">{n.time}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* 11. REFER & EARN */}
-            {activeTab === 'refer' && (
-              <div className="space-y-6 animate-in fade-in duration-200">
-                <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-800 to-teal-700 text-white shadow-md text-center">
-                  <h2 className="text-2xl font-black">Invite Friends, Earn ₹200 Each!</h2>
-                  <p className="text-emerald-100 text-xs mt-1 max-w-md mx-auto">
-                    Share your unique referral code with friends. They get ₹100 off their 1st order, and you get ₹200 in your Farminix Wallet!
-                  </p>
-
-                  <div className="mt-5 inline-flex items-center gap-3 bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20">
-                    <span className="text-sm font-black text-amber-300 tracking-widest pl-2">FARMINIX-HITAISHI78</span>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText('FARMINIX-HITAISHI78');
-                        showToast('Referral code copied to clipboard!');
-                      }}
-                      className="px-3 py-1.5 bg-white text-emerald-900 rounded-xl text-xs font-bold cursor-pointer"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                    <div className="text-xl font-black text-slate-900">12</div>
-                    <div className="text-[10px] font-bold text-slate-500">Friends Invited</div>
-                  </div>
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                    <div className="text-xl font-black text-emerald-600">₹1,200</div>
-                    <div className="text-[10px] font-bold text-slate-500">Total Earned</div>
-                  </div>
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                    <div className="text-xl font-black text-amber-600">₹300</div>
-                    <div className="text-[10px] font-bold text-slate-500">Pending Rewards</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 12. HELP & SUPPORT */}
-            {activeTab === 'support' && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div>
                   <h2 className="text-xl font-extrabold text-slate-900">Help & Support</h2>

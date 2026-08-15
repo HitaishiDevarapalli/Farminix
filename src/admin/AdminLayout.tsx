@@ -103,7 +103,7 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
         { id: 'products', label: 'Product Inventory', icon: <Package className="w-4 h-4" /> },
         { id: 'categoriesCrud', label: 'Category Department CRUD', icon: <Grid className="w-4 h-4" /> },
         { id: 'orders', label: 'Orders & Fulfillment', icon: <ShoppingBag className="w-4 h-4" /> },
-        { id: 'customers', label: 'Customer Wallets & Pts', icon: <Users className="w-4 h-4" /> },
+        { id: 'customers', label: 'Customer Directory', icon: <Users className="w-4 h-4" /> },
         { id: 'shopNowConfig', label: 'Browse Products Page', icon: <Sliders className="w-4 h-4" /> },
       ],
     },

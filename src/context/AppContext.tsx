@@ -120,7 +120,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>('FARM10');
 
 
-  const [wishlist, setWishlist] = useState<string[]>([]);
+  const [wishlist, setWishlist] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('farminix_user_wishlist');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [location, setLocationState] = useState<string>(() => {
     try {
       const saved = localStorage.getItem('farminix_user_location');
@@ -287,9 +294,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Wishlist toggle
   const toggleWishlist = (productId: string) => {
-    setWishlist(prev =>
-      prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]
-    );
+    setWishlist(prev => {
+      const next = prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId];
+      try {
+        localStorage.setItem('farminix_user_wishlist', JSON.stringify(next));
+      } catch {}
+      return next;
+    });
   };
 
   // Order creation
