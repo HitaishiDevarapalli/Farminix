@@ -12,7 +12,7 @@ export const HeroBanner: React.FC = () => {
   return (
     <section className="w-full relative select-none bg-gradient-to-b from-[#F3E8FF]/40 to-white border-b border-purple-100/60">
       {/* ── Full-Width Hero Image Container ── */}
-      <div className="max-w-7xl mx-auto relative w-full overflow-hidden group">
+      <div className="relative w-full overflow-hidden group">
         <img 
           src={hero.bannerImage || '/hero_banner_original.jpg'} 
           alt={hero.altText || 'Farminix Fresh Groceries'} 
@@ -20,12 +20,19 @@ export const HeroBanner: React.FC = () => {
           draggable="false"
         />
 
-        {/* Transparent absolute overlay for SHOP NOW button */}
-        <button
-          onClick={() => navigate(hero.shopNowUrl || '/products')}
-          className="absolute left-[3%] bottom-[20%] w-[18%] h-[13%] cursor-pointer bg-transparent border-0 focus:outline-hidden"
-          title="Shop Now"
-        />
+        {/* Real interactive HTML SHOP NOW button */}
+        <div className="absolute left-[3.5%] bottom-[11.5%] w-[17%] h-[15%] flex items-center justify-center">
+          <button
+            onClick={() => navigate(hero.shopNowUrl || '/products')}
+            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-extrabold text-[1.1vw] rounded-full shadow-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer transform hover:scale-105 active:scale-95 border-0 focus:outline-hidden"
+          >
+            <span>SHOP NOW</span>
+            <svg className="w-[1.2vw] h-[1.2vw]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
 
         {/* Transparent absolute overlay for logo home navigation */}
         <button
