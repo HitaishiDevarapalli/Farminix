@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
   Palette,
@@ -57,6 +57,10 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
   const { adminLogout, resetToDefaults, hasChanges, publishConfig, discardDraft } = useAdminConfig();
   const [activePage, setActivePage] = useState<string>('dashboard');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activePage]);
 
   const navigationSections: NavSection[] = [
     {
@@ -162,19 +166,19 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
   };
 
   const renderSidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white text-slate-800 border-r border-purple-100">
       {/* Admin Header / Logo */}
-      <div className="p-5 border-b border-slate-800/80 flex items-center justify-between shrink-0">
+      <div className="p-5 border-b border-purple-50 flex items-center justify-between shrink-0 bg-white">
         <div className="flex items-center gap-3">
-          <img src="/farminix_logo.png" alt="Farminix" className="h-8 w-auto object-contain brightness-110" />
+          <img src="/farminix_logo.png" alt="Farminix" className="h-8 w-auto object-contain" />
           <div>
-            <div className="text-xs font-black text-white tracking-wide">FARMINIX CRM</div>
-            <div className="text-[10px] text-purple-400 font-bold uppercase tracking-wider">Control Panel</div>
+            <div className="text-xs font-black text-purple-950 tracking-wide">FARMINIX CRM</div>
+            <div className="text-[10px] text-purple-600 font-bold uppercase tracking-wider">Control Panel</div>
           </div>
         </div>
         <button
           onClick={() => setMobileSidebarOpen(false)}
-          className="lg:hidden p-1 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg"
+          className="lg:hidden p-1.5 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg cursor-pointer transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -184,7 +188,7 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
       <div className="flex-1 overflow-y-auto p-4 space-y-6 text-left">
         {navigationSections.map((sec) => (
           <div key={sec.title} className="space-y-1">
-            <div className="text-[10px] uppercase font-extrabold text-slate-500 tracking-wider px-3 mb-1">
+            <div className="text-[10px] uppercase font-bold text-purple-400 tracking-wider px-3 mb-1">
               {sec.title}
             </div>
             {sec.items.map((item) => {
@@ -198,8 +202,8 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
                   }}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                      ? 'bg-purple-600 text-white shadow-md shadow-purple-600/20'
+                      : 'text-slate-600 hover:text-purple-700 hover:bg-purple-50/50'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -207,7 +211,11 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
                     <span>{item.label}</span>
                   </div>
                   {item.badge && (
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                    <span className={`px-1.5 py-0.5 rounded text-[9px] font-extrabold border ${
+                      isActive 
+                        ? 'bg-white/20 text-white border-white/30' 
+                        : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    }`}>
                       {item.badge}
                     </span>
                   )}
@@ -219,20 +227,20 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
       </div>
 
       {/* User Profile & Actions Footer */}
-      <div className="p-4 border-t border-slate-800/80 bg-slate-900/40 shrink-0">
+      <div className="p-4 border-t border-purple-50 bg-purple-50/10 shrink-0">
         <div className="flex items-center justify-between px-2 py-1">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-purple-600 text-white text-xs font-black flex items-center justify-center">
               A
             </div>
             <div className="text-left">
-              <div className="text-xs font-bold text-white leading-none">Admin Storekeeper</div>
-              <div className="text-[10px] text-slate-400 mt-0.5 font-medium">admin@farminix.com</div>
+              <div className="text-xs font-bold text-slate-800 leading-none">Admin Storekeeper</div>
+              <div className="text-[10px] text-slate-500 mt-0.5 font-medium">admin@farminix.com</div>
             </div>
           </div>
           <button
             onClick={adminLogout}
-            className="text-slate-400 hover:text-red-400 p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="text-slate-500 hover:text-red-650 p-1.5 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
             title="Logout"
           >
             <LogOut className="w-4 h-4" />
@@ -245,7 +253,7 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
   return (
     <div className="min-h-screen w-full bg-slate-100 flex font-sans select-none antialiased text-slate-900 overflow-x-hidden">
       {/* ── Desktop Fixed Sidebar ── */}
-      <aside className="hidden lg:flex w-72 bg-slate-950 text-slate-300 flex-col justify-between shrink-0 border-r border-slate-800 h-screen sticky top-0 overflow-hidden">
+      <aside className="hidden lg:flex w-72 bg-white text-slate-700 flex-col justify-between shrink-0 border-r border-purple-100 h-screen sticky top-0 overflow-hidden">
         {renderSidebarContent()}
       </aside>
 
@@ -257,7 +265,7 @@ export const AdminLayout: React.FC<{ onReturnToStore: () => void }> = ({ onRetur
         />
       )}
       <aside
-        className={`lg:hidden fixed top-0 bottom-0 left-0 z-50 w-72 bg-slate-950 text-slate-300 flex flex-col justify-between border-r border-slate-800 transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden fixed top-0 bottom-0 left-0 z-50 w-72 bg-white text-slate-700 flex flex-col justify-between border-r border-purple-100 transition-transform duration-300 ease-in-out ${
           mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

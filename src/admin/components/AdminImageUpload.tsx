@@ -18,10 +18,47 @@ export const AdminImageUpload: React.FC<AdminImageUploadProps> = ({
   const { config } = useAdminConfig();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showMediaModal, setShowMediaModal] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File size exceeds 2MB. Please select a smaller image.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      onChange(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Only image files are allowed!');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File size exceeds 2MB. Please select a smaller image.');
+      return;
+    }
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -40,32 +77,41 @@ export const AdminImageUpload: React.FC<AdminImageUploadProps> = ({
 
   const previewClass = 
     aspectRatio === 'square' 
-      ? 'w-24 h-24 rounded-2xl object-cover border border-slate-200' 
+      ? 'w-24 h-24 rounded-2xl object-cover border border-slate-200 shadow-2xs' 
       : aspectRatio === 'video'
-        ? 'w-full aspect-video max-h-40 rounded-2xl object-cover border border-slate-200'
-        : 'max-h-24 w-auto rounded-xl object-contain border border-slate-200';
+        ? 'w-full aspect-video max-h-40 rounded-2xl object-cover border border-slate-200 shadow-2xs'
+        : 'max-h-24 w-auto rounded-xl object-contain border border-slate-200 shadow-2xs';
 
   return (
     <div className="space-y-2">
       {label && <label className="block text-xs font-bold text-slate-700">{label}</label>}
       
-      <div className="flex flex-wrap items-center gap-4 p-3 bg-slate-50 border border-slate-200 rounded-2xl">
+      <div 
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        className={`flex flex-wrap items-center gap-4 p-4 border rounded-2xl transition-all ${
+          isDragOver 
+            ? 'bg-purple-50 border-purple-500 border-2' 
+            : 'bg-slate-50 border-slate-200'
+        }`}
+      >
         {/* Preview or Icon */}
         {value ? (
           <img src={value} alt="Preview" className={previewClass} />
         ) : (
-          <div className="w-16 h-16 rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center bg-slate-100 text-slate-400">
+          <div className="w-16 h-16 rounded-xl border-2 border-dashed border-slate-350 flex flex-col items-center justify-center bg-slate-100 text-slate-400">
             <ImageIcon className="w-6 h-6" />
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 flex-1 min-w-[200px]">
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handleUploadClick}
-              className="px-3 h-8 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 h-8.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Upload className="w-3.5 h-3.5" />
               <span>{value ? 'Change File' : 'Upload File'}</span>
@@ -74,21 +120,25 @@ export const AdminImageUpload: React.FC<AdminImageUploadProps> = ({
             <button
               type="button"
               onClick={() => setShowMediaModal(true)}
-              className="px-3 h-8 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 h-8.5 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Grid className="w-3.5 h-3.5" />
               <span>Media Library</span>
             </button>
           </div>
 
+          <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+            Drag image here or click to upload (Max 2MB)
+          </div>
+
           {value && (
             <button
               type="button"
               onClick={handleDelete}
-              className="w-fit text-red-500 hover:text-red-600 text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors"
+              className="w-fit text-red-500 hover:text-red-650 text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              <span>Delete image</span>
+              <span>Delete Image</span>
             </button>
           )}
         </div>
