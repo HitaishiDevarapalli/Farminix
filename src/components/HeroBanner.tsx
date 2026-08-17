@@ -24,18 +24,18 @@ export const HeroBanner: React.FC = () => {
         <div 
           className="absolute flex items-center justify-center z-10"
           style={{
-            left: '3.6%',
-            top: '72.0%',
-            width: '16.2%',
-            height: '10.5%',
+            left: '3.9%',
+            top: '82.4%',
+            width: '19.3%',
+            height: '8.4%',
           }}
         >
           <button
             onClick={() => navigate(hero.shopNowUrl || '/products')}
-            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] active:bg-[#5B21B6] text-white font-black tracking-wider text-[1.12vw] uppercase rounded-full shadow-xl flex items-center justify-center gap-1.5 md:gap-2 transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] border-0 focus:outline-hidden"
+            className="w-full h-full bg-[#7C3AED] hover:bg-[#6D28D9] active:bg-[#5B21B6] text-white font-black tracking-wider text-[1.08vw] uppercase rounded-full shadow-lg flex items-center justify-center gap-1.5 md:gap-2 transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] border-0 focus:outline-hidden"
           >
             <span>SHOP NOW</span>
-            <svg className="w-[1.32vw] h-[1.32vw] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="w-[1.2vw] h-[1.2vw] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
